@@ -3,9 +3,20 @@
 
 @import "{{ site.theme }}";
 
+/* Header */
 #site-title {
 	text-transform: uppercase;
 	font: normal 300 1.75em 'Oswald',sans-serif;
+}
+
+#profile-picture {
+	max-width: 70%;
+}
+
+@media screen and (max-width: 960px) {
+	#profile-picture {
+		display: none;
+	}
 }
 
 #site-title a:link,
@@ -21,13 +32,6 @@
 	font-size: 1em;
 }
 
-section header {
-	width: auto;
-	float: none;
-	position: relative;
-	margin-bottom: 1em;
-}
-
 #site-description a:link,
 #site-description a:visited {
 	color: #666;
@@ -37,6 +41,14 @@ section header {
 	color: #069;
 	font-weight: normal;
 	text-decoration: none;
+}
+
+/* Content */
+section header {
+	width: auto;
+	float: none;
+	position: relative;
+	margin-bottom: 1em;
 }
 
 h2 {
