@@ -6,3 +6,4 @@ permalink: pretty
 google_analytics: UA-26805265-3
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
