@@ -9,7 +9,7 @@
 #site-description {
 	text-transform: lowercase;
 	font-variant: small-caps;
-	font-size: 16px;
+	font-size: 18px;
 }
 
 section header {
@@ -17,6 +17,17 @@ section header {
 	float: none;
 	position: relative;
 	margin-bottom: 1em;
+}
+
+#site-description a:link,
+#site-description a:visited {
+	color: #666;
+}
+
+#site-description a:hover {
+	color: #069;
+	font-weight: normal;
+	text-decoration: none;
 }
 
 /* Posts */
