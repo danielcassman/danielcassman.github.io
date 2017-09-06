@@ -5,3 +5,9 @@
 
 #project_title a:link,
 #project_title a:visited { color: #fff; }
+
+#project_tagline {
+	text-transform: lowercase;
+	font-variant: small-caps;
+	font-size: 18px;
+}
