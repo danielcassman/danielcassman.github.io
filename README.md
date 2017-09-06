@@ -1,6 +1,7 @@
 ---
 layout: default
 title: readme
+permalink: readme.html
 ---
 ## Daniel Cassman
 
