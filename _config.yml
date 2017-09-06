@@ -1,7 +1,17 @@
-theme: jekyll-theme-minimal
-timezone: America/New_York
+# Site Information #
 title: Daniel Cassman
 description: Technology | Policy | Law | Photography
+theme: jekyll-theme-minimal
+
+# Author Information #
+author: Daniel Cassman
+author_email: you@example.com
+twitter_username: danielcassman
+github_username: danielcassman
+
+# Functional Information #
+url: "http://danielcassman.github.io"
+timezone: America/New_York
 permalink: pretty
 google_analytics: UA-26805265-3
 plugins:
