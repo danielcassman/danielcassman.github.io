@@ -3,8 +3,17 @@
 
 @import "{{ site.theme }}";
 
+#site-title {
+	text-transform: uppercase;
+	font: normal normal 1.75em 'Oswald',sans-serif;
+}
+
 #site-title a:link,
 #site-title a:visited { color: #000; }
+
+#site-title a:hover {
+	font-weight: normal;
+}
 
 #site-description {
 	text-transform: uppercase;
@@ -27,6 +36,11 @@ section header {
 	color: #069;
 	font-weight: normal;
 	text-decoration: none;
+}
+
+h2 {
+	font: normal normal 2em 'Oswald',sans-serif;
+	text-transform: uppercase;
 }
 
 /* Posts */
