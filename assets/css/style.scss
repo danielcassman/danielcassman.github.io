@@ -3,11 +3,11 @@
 
 @import "{{ site.theme }}";
 
-#project_title a:link,
-#project_title a:visited { color: #fff; }
+#site-title a:link,
+#site-title a:visited { color: #000; }
 
-#project_tagline {
+#site-description {
 	text-transform: lowercase;
 	font-variant: small-caps;
-	font-size: 18px;
+	font-size: 16px;
 }
