@@ -4,4 +4,4 @@ title: Hello
 
 ## Hello
 
-This is my home page on GitHub and running on [Jekyll](https://jekyllrb.com/). I'm planning on using this space to blog about my various interests, like technology, web development, music, and photography. At the moment, I'm still learning the ropes of Jekyll, so this will change a lot as I learn.
+I'm a national security attorney based in Washington, D.C. I enjoy reading and writing about technology, law, and policy. I've written articles on topics like [the state secrets privilege](http://www.stanfordlawreview.org/print/article/keep-it-secret-keep-it-safe) and [nuclear security in Pakistan](http://yaleglobal.yale.edu/content/nuclear-challenge-pakistan-and-iran-part1.). I love reading novels&mdash;including a lot of epic fantasy&mdash;and [going on adventures](http://danielcassman.com/expeditions).
