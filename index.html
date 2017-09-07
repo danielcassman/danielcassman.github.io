@@ -1,0 +1,51 @@
+---
+title: Hello
+layout: default
+---
+
+<style type="text/css">
+	#instagram-gallery img {
+		float: left;
+		width: 33%;
+	}
+</style>
+
+<h2>Hello</h2>
+
+<p>I'm a national security attorney based in Washington, D.C. I enjoy reading and writing about technology, law, and policy. I've written articles on topics like <a href="http://www.stanfordlawreview.org/print/article/keep-it-secret-keep-it-safe">the state secrets privilege</a> and <a href="http://yaleglobal.yale.edu/content/nuclear-challenge-pakistan-and-iran-part1">nuclear security in Pakistan</a>. I love reading novels&mdash;including a lot of epic fantasy&mdash;and <a href="http://danielcassman.com/expeditions">going on adventures</a>.</p>
+
+<h3>Photos</h3>
+<p>I love taking photos. Here are some of my latest shots from <a href="http://instagram.com/danielcassman">Instagram.</p>
+<div id="instagram-gallery">
+</div>
+
+<script type="text/javascript">
+	var request = new XMLHttpRequest();
+	request.open('GET', '/assets/json/instagram.json', true);
+
+	request.onload = function() {
+	if (request.status >= 200 && request.status < 400) {
+		// Success!
+		var data = JSON.parse(request.responseText);
+		for( var i = 0; i < 6 && i < data.items.length; i++) {
+			var url = data.items[i].images.low_resolution.url;
+			var img = document.createElement('img');
+			img.setAttribute('src', url);
+			if(data.items[i].caption)
+				img.setAttribute('alt', data.items[i].caption.text);
+			else
+				img.setAttribute('alt', 'Instagram Image');
+			document.getElementById('instagram-gallery').appendChild(img);
+		}
+	} else {
+		// We reached our target server, but it returned an error
+
+	}
+	};
+
+	request.onerror = function() {
+	// There was a connection error of some sort
+	};
+
+	request.send();
+</script>
