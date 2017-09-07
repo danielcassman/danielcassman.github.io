@@ -1,7 +1,32 @@
 ---
 layout: default
 ---
+<h2>Posts related to: {{ page.title }}</h2>
 
-<h2>{{ page.title }}</h2>
+{% unless page.content == '' %}
+  <p>{{ page.content }}</p>
+{% endunless %}
 
-{{ content }}
+{% for post in site.categories[page.category] %}
+<div class="post-preview">
+
+	<h2 class="post-title">
+	  <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+	</h2>
+	{% if post.excerpt %}
+	<p class="post-subtitle">
+	    {{ post.excerpt }}
+	</p>
+	{% endif %}
+  <p class="post-meta">
+    Posted by
+    {% if post.author %}
+      {{ post.author }}
+    {% else %}
+      {{ site.title }}
+    {% endif %}
+    on {{ post.date | date: "%B %-d, %Y" }}
+  </p>
+</div>
+<hr>
+{% endfor %}
