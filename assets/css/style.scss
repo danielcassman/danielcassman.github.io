@@ -83,3 +83,13 @@ h3.post-title {
 	float: left;
 	width: 33%;
 }
+
+/* Resume */
+span.resume-employer {
+	color: #069;
+}
+
+span.resume-job-title:before,
+span.resume-location:before {
+	content: "\2014\00a0"
+}
