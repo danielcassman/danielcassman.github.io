@@ -14,7 +14,7 @@ layout: default
 
 <script type="text/javascript">
 	var request = new XMLHttpRequest();
-	request.open('GET', 'https://www.instagram.com/danielcassman/media/', true);
+	request.open('GET', '/assets/json/instagram.json', true);
 
 	request.onload = function() {
 	if (request.status >= 200 && request.status < 400) {
