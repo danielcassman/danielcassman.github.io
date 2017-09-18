@@ -13,20 +13,22 @@ layout: default
 	<h2 class="post-title">
 	  <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
 	</h2>
+
+	  <p class="post-meta">
+	    Posted by
+	    {% if post.author %}
+	      {{ post.author }}
+	    {% else %}
+	      {{ site.title }}
+	    {% endif %}
+	    on {{ post.date | date: "%B %-d, %Y" }}
+	  </p>
+	
 	{% if post.excerpt %}
 	<p class="post-subtitle">
 	    {{ post.excerpt }}
 	</p>
 	{% endif %}
-  <p class="post-meta">
-    Posted by
-    {% if post.author %}
-      {{ post.author }}
-    {% else %}
-      {{ site.title }}
-    {% endif %}
-    on {{ post.date | date: "%B %-d, %Y" }}
-  </p>
 </div>
 <hr>
 {% endfor %}
