@@ -74,6 +74,11 @@ a:hover {
 }
 
 /* Posts */
+div.post-preview:not(:last-child) {
+	border-bottom: 1px solid #999;
+	margin-bottom: 1em;
+}
+
 h2.post-title {
 	margin-bottom: 5px;
 }
@@ -81,6 +86,7 @@ h2.post-title {
 p.post-meta {
 	color: #aaa;
 	margin-bottom: 0;
+	text-transform: lowercase;
 }
 
 /* Post List */
