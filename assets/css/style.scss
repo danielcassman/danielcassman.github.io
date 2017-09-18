@@ -3,6 +3,27 @@
 
 @import "{{ site.theme }}";
 
+body {
+	background: #222;
+	color: #ccc;
+}
+
+a:link, a:visited {
+	color: #76a2b5;
+}
+
+a:hover {
+	color: #97cee5;
+}
+
+h2 {
+	color: #a01212;
+}
+
+h3 {
+	color: #b03f3f;
+}
+
 /* Header */
 #site-title {
 	text-transform: uppercase;
@@ -20,11 +41,13 @@
 }
 
 #site-title a:link,
-#site-title a:visited { color: #666; }
+#site-title a:visited {
+	color: #a01212;
+}
 
 #site-title a:hover {
 	font-weight: 300;
-	color: #000;
+	color: #de0a0a;
 }
 
 #site-description {
@@ -34,11 +57,11 @@
 
 #site-description a:link,
 #site-description a:visited {
-	color: #666;
+	color: #a01212;
 }
 
 #site-description a:hover {
-	color: #069;
+	color: #de0a0a;
 	font-weight: normal;
 	text-decoration: none;
 }
@@ -55,6 +78,7 @@ h1.page-title {
 	font-weight: normal;
 	font-size: 2.5em;
 	text-transform: lowercase;
+	color: #efefef;
 }
 
 h2 {
@@ -71,6 +95,16 @@ h3 {
 a:hover {
 	font-weight: normal;
 	text-decoration: underline;
+}
+
+.highlight {
+	background: #111;
+	color: #ddd;
+	border-color: #333;
+}
+
+code, pre {
+	color: #ddd;
 }
 
 /* Posts */
@@ -103,7 +137,7 @@ h3.post-title {
 
 /* Resume */
 span.resume-employer {
-	color: #069;
+	color: #eee;
 }
 
 span.resume-job-title:before,
@@ -129,4 +163,5 @@ h4.resume-title {
 	font: normal 300 1.5em 'Oswald',sans-serif;
 	text-transform: lowercase;
 	margin: 1em 0 5px;
+	color: #76a2b5;
 }
