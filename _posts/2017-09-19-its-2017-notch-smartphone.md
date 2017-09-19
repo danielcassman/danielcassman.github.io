@@ -1,5 +1,5 @@
 ---
-title: "Join 2017: Add a Notch to Your Smartphone!"
+title: "It's 2017: Add a Notch to Your Smartphone!"
 author: Daniel Cassman
 date: 2017-09-19 09:44:23
 categories: [technology]
