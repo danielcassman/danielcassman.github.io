@@ -3,31 +3,39 @@
 
 @import "{{ site.theme }}";
 
+$accent-color: #c61919;
+$text-color: #ccc;
+$background-color: #222;
+$link-color: #76a2c5;
+$focus-color: #97cef5;
+$accent-hover: #ea0f0f;
+$header-font: 'Oswald','Helvetica Neue',sans-serif;
+
 body {
-	background: #222;
-	color: #ccc;
+	background: $background-color;
+	color: $text-color;
 }
 
 a:link, a:visited {
-	color: #76a2c5;
+	color: $link-color;
 }
 
 a:hover, a:focus {
-	color: #97cef5;
+	color: $focus-color;
 }
 
 h2 {
-	color: #c61919;
+	color: $accent-color;
 }
 
 h3 {
-	color: #c61919;
+	color: $accent-color;
 }
 
 /* Header */
 #site-title {
 	text-transform: uppercase;
-	font: normal 300 1.75em 'Oswald',sans-serif;
+	font: normal 300 1.75em $header-font;
 }
 
 #profile-picture {
@@ -42,12 +50,12 @@ h3 {
 
 #site-title a:link,
 #site-title a:visited {
-	color: #a01212;
+	color: $accent-color;
 }
 
 #site-title a:hover {
 	font-weight: 300;
-	color: #de0a0a;
+	color: $accent-hover;
 }
 
 #site-description {
@@ -57,13 +65,14 @@ h3 {
 
 #site-description a:link,
 #site-description a:visited {
-	color: #a01212;
+	color: $accent-color;
 }
 
 #site-description a:hover {
-	color: #de0a0a;
+	color: $accent-hover;
 	font-weight: normal;
 	text-decoration: none;
+	border-bottom: 1px solid $accent-hover;
 }
 
 /* Content */
@@ -82,12 +91,12 @@ h1.page-title {
 }
 
 h2 {
-	font: normal 300 2em 'Oswald',sans-serif;
+	font: normal 300 2em $header-font;
 	text-transform: uppercase;
 }
 
 h3 {
-	font: normal 300 1.5em 'Oswald',sans-serif;
+	font: normal 300 1.5em $header-font;
 	text-transform: uppercase;
 	margin: 1em 0 5px;
 }
@@ -131,7 +140,7 @@ h2.post-title {
 p.post-meta {
 	color: #aaa;
 	margin-bottom: 0.5em;
-	font-family: 'Oswald',sans-serif;
+	font-family: $header-font;
 	text-transform: uppercase;
 }
 
@@ -158,7 +167,7 @@ span.resume-location:before {
 }
 
 p.resume-meta {
-	font-family: 'Oswald',sans-serif;
+	font-family: $header-font;
 	font-weight: 300;
 	letter-spacing: 0.5px;
 }
@@ -172,10 +181,10 @@ p.resume-meta {
 	}
 
 h4.resume-title {
-	font: normal 300 1.5em 'Oswald',sans-serif;
-	text-transform: lowercase;
+	font: normal 300 1.5em $header-font;
+	text-transform: uppercase;
 	margin: 1em 0 5px;
-	color: #76a2b5;
+	color: #eee;
 }
 
 /* Social Media Icons */
