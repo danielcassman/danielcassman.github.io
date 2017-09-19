@@ -8,21 +8,5 @@ layout: default
 {% endunless %}
 
 {% for post in site.categories[page.category] %}
-<div class="post-preview">
-
-	<h2 class="post-title">
-	  <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-	</h2>
-
-	  <p class="post-meta">
-      <time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">
-        {% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
-        {{ post.date | date: date_format }}
-      </time>
-	  </p>
-
-	{% if post.excerpt %}
-	    {{ post.excerpt }}
-	{% endif %}
-</div>
+	{% include post_list.html %}
 {% endfor %}
