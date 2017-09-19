@@ -10,6 +10,15 @@ layout: default
         {% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
         {{ page.date | date: date_format }}
       </time>
+      {% if post.categories.size > 0 %}
+				•
+				<span class="post-categories">
+				{% for category in post.categories %}
+							{{ category }}
+					{% if forloop.last == false %} | {% endif %}
+					{% endfor %}
+				</span>
+			{% endif %}
      </p>
   </header>
 
