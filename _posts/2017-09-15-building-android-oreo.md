@@ -10,7 +10,9 @@ That last one is particularly important to me. I'm impatient, and it bugs me whe
 
 The problem, of course, was that stock Android (which is how the Android community refers to the unvarnished version of Android released by Google, unmodified by any third party) lacks most of the features I've come to know and love through well-developed custom ROMs. I did have theming, thanks to the incredible [Substratum](https://plus.google.com/communities/102261717366580091389) project, but most of the other tweaks I'd become accustomed to on Nougat were unavailable. The developers of my favorite custom ROMs&mdash;such as [Dirty Unicorns](https://dirtyunicorns.com/) and [PureNexus](https://plus.google.com/communities/103055954354785266764)&mdash; are hard at work getting Oreo versions ready, but it takes a lot of work, and they have pretty high standards for what they release. All that development and testing takes time.
 
-And unfortunately, I'm just not that patient. You don't have to be a developer to build a ROM from someone else's source code, a lesson I learned around this time last year, when Google released Nougat. Thankfully, there's a develper who goes by the handle [ezio84](https://forum.xda-developers.com/member.php?u=2095315) works on a ROM through the [Android Builders' Collective](https://forum.xda-developers.com/custom-roms/android-builders-collective/rom-builders-collective-t2861778) at XDA Developers. He makes his [source code](https://github.com/ezio84) freely available for anyone to build.
+And unfortunately, I'm just not that patient. You don't have to be a developer to build a ROM from someone else's source code, a lesson I learned around this time last year, when Google released Nougat. Thankfully, there'a developer who goes by the handle [ezio84](https://forum.xda-developers.com/member.php?u=2095315) works on a ROM through the [Android Builders' Collective](https://forum.xda-developers.com/custom-roms/android-builders-collective/rom-builders-collective-t2861778) at XDA Developers. He makes his [source code](https://github.com/ezio84) freely available for anyone to build.
+
+### Set Up Your Build Environment
 
 The first thing you need to build an Android ROM is a computer running Linux with a lot of free space, a fast processor, and a lot of memory ([Google recommends](https://source.android.com/source/requirements) 250 GB of hard drive space and 16 GB of memory). Even if your computer meets those standards, you probably won't really be able to use your computer while it's building, as the build will take up most of your processing power. I don't have a spare machine lying around, so I used an [Amazon EC2 instance](https://aws.amazon.com/ec2/). You could also use similar products from a number of companies, including Digital Ocean. Note that you'll probably need more power, RAM, and space than these companies offer through their free products, so you'll likely have to shell out a little money.
 
@@ -28,3 +30,47 @@ That last command will list all the scripts available. Run the one for your dist
 ```
 $ bash setup/<script-name>
 ```
+
+Now we need to set up git:
+```
+$ git config --global user.name "Your Name"
+$ git config --global user.email "you@example.com"
+```
+
+### Get the Source
+
+Finally, we're ready to download the Android source code. Make a new folder on your build machine for the ROM you're building. Then initialize the repository for your source code:
+
+```
+$ repo init -u ssh://git@github.com/[Project]/[Manifest].git -b [Branch]
+```
+
+You'll obviously need to replace [Project] with the GitHub user name of the project you want, [Manifest] with the name of the manifest repository on Github, and [Branch] with the correct branch. Now you're ready to sync the repository and download all of the source code:
+
+```
+$ repo sync --force-sync
+```
+
+This step will take a while, as you have download tens of gigabytes of source code.
+
+### Build the ROM
+
+If you have an extra 50 GB or so of disk space, you may want to set up ccache, a caching system that will really speed up builds after your initial build. You do this like so:
+
+```
+$ nano ~/.bashrc
+- Append export USE_CCACHE=1 to the end of this file
+   then hit ctrl-X, Y, and enter.
+$ source ~/.bashrc
+
+```
+
+This next part can vary a little depending on how the maintainers of your ROM have set things up, but typically you'll run the following three commands:
+
+```
+$ . build/envsetup.sh
+$ breakfast [Device]
+$ mka bacon
+```
+
+The [Device] should be the codename for your device; for example, my Nexus 6P is **angler**. Now, sit back and wait. Building will take a while&mdash;possibly a couple of hours&mdash;depending on how fast your build box is and how much memory it has. Once it's done, it'll produce a flashable zip you can put on your device. You just need to copy it over from your build box, and you're ready to go.
