@@ -10,9 +10,9 @@
 			•
 			<span class="post-categories">
 			{% for category in post.categories %}
-            	{{ region }}
+            			{{ category }}
 				{% if forloop.last == false %} | {% endif %}
-          	{% endfor %}
+          		{% endfor %}
 			</span>
 		{% endif %}
 	</p>
