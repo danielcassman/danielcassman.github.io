@@ -9,19 +9,19 @@ body {
 }
 
 a:link, a:visited {
-	color: #76a2b5;
+	color: #76a2c5;
 }
 
-a:hover {
-	color: #97cee5;
+a:hover, a:focus {
+	color: #97cef5;
 }
 
 h2 {
-	color: #a01212;
+	color: #c61919;
 }
 
 h3 {
-	color: #b03f3f;
+	color: #c61919;
 }
 
 /* Header */
@@ -115,8 +115,14 @@ div.post-preview:not(:last-child) {
 }
 
 h2.post-title {
+	color: #ddd;
+	border-bottom: 1px solid #888;
 	margin-bottom: 5px;
 }
+
+	div.post-preview h2.post-title {
+		border-bottom-width: 0;
+	}
 
 	h2.post-title a:hover {
 		font-weight: 300;
@@ -125,7 +131,8 @@ h2.post-title {
 p.post-meta {
 	color: #aaa;
 	margin-bottom: 0.5em;
-	text-transform: lowercase;
+	font-family: 'Oswald',sans-serif;
+	text-transform: uppercase;
 }
 
 /* Post List */
