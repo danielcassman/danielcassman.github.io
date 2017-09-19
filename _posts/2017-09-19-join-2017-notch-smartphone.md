@@ -9,4 +9,8 @@ categories: [technology]
 
 Well, it really started last year. Chinese manufacturer Xiaomi launched the [Mi Mix](http://www.mi.com/en/mix/) in November 2016. It was hard to get in the United States, but pretty much everyone thought it was beautiful, and a stunning innovation in the stale slab-like smartphone design that's been essentially unchanged since 2007.
 
-![Xiaomi Mi Mix](https://upload.wikimedia.org/wikipedia/commons/c/c2/Xiaomi_mi_mix_front_view.jpg)
+<a href="https://upload.wikimedia.org/wikipedia/commons/c/c2/Xiaomi_mi_mix_front_view.jpg"><img class="wrapped left" src="https://upload.wikimedia.org/wikipedia/commons/c/c2/Xiaomi_mi_mix_front_view.jpg" title="Xiaomi Mi Mix" style="max-height: 300px"></a>
+
+The Mi Mix might have been a breath of fresh air, but the front camera placement was awkward. While the top of the screen curves beautifully into the top corners of the device, the phone has a small chin at the bottom where the front camera is placed. And that's the fundamental problem with the bezel-less design: you have to put a bunch of stuff on the front of the phone&mdash;camera, speaker, microphone, proximity sensor, etc.&mdash;so it's currently impossible to make a phone that is all screen. That hasn't stopped several manufacturers from trying.
+
+LG kicked things off in 2017 with the LG G6.
