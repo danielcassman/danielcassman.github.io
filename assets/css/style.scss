@@ -144,6 +144,20 @@ p.post-meta {
 	text-transform: uppercase;
 }
 
+.post_content img.wrapped {
+	max-width: 250px;
+	max-height: 300px;
+}
+	.post_content img.wrapped.left {
+		float: left;
+		margin-right: 10px;
+	}
+
+	.post_content img.wrapped.right {
+		float: right;
+		margin-left: 10px;
+	}
+
 /* Post List */
 h3.post-title {
 	margin-top: .5em;
