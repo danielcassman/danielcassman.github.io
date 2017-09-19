@@ -1,0 +1,13 @@
+	<h2 class="post-title">
+		<a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+	</h2>
+	<p class="post-meta">
+		<time datetime="{{ post.date | date: "%Y-%m-%dT%H:%M:%S%z" }}" itemprop="datePublished">
+			{% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
+			{{ post.date | date: date_format }}
+		</time>
+	</p>
+	{% if post.excerpt %}
+		{{post.excerpt}}
+	{% endif %}
+</div>
