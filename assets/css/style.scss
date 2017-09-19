@@ -52,6 +52,12 @@ h3 {
 	margin: 1em 0 5px;
 }
 
+h1 a:hover, h1 a:focus,
+h2 a:hover, h3 a:focus,
+h2 a:hover, h3 a:focus {
+	border-bottom-width: 0;
+}
+
 /* Header */
 #site-title {
 	text-transform: uppercase;
