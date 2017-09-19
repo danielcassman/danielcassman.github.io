@@ -1,21 +1,23 @@
-	<h2 class="post-title">
-		<a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-	</h2>
-	<p class="post-meta">
-		<time datetime="{{ post.date | date: "%Y-%m-%dT%H:%M:%S%z" }}" itemprop="datePublished">
-			{% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
-			{{ post.date | date: date_format }}
-		</time>
-		{% if post.categories.size > 0 %}
-			•
-			<span class="post-categories">
-			{% for category in post.categories %}
-            			{{ category }}
-				{% if forloop.last == false %} | {% endif %}
-          		{% endfor %}
-			</span>
+	<div class="post-preview">
+		<h2 class="post-title">
+			<a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+		</h2>
+		<p class="post-meta">
+			<time datetime="{{ post.date | date: "%Y-%m-%dT%H:%M:%S%z" }}" itemprop="datePublished">
+				{% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
+				{{ post.date | date: date_format }}
+			</time>
+			{% if post.categories.size > 0 %}
+				•
+				<span class="post-categories">
+				{% for category in post.categories %}
+							{{ category }}
+					{% if forloop.last == false %} | {% endif %}
+					{% endfor %}
+				</span>
+			{% endif %}
+		</p>
+		{% if post.excerpt %}
+			{{post.excerpt}}
 		{% endif %}
-	</p>
-	{% if post.excerpt %}
-		{{post.excerpt}}
-	{% endif %}
+	</div>
