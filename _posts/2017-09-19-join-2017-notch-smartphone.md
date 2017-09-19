@@ -27,10 +27,10 @@ Samsung was next with the Galaxy S8 and S8 Plus. The phones followed the same ap
 
 ### The Notch
 
-<a href="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Essential_Phone_in_ocean_depths.jpg/800px-Essential_Phone_in_ocean_depths.jpg" title="Essential PH-1"><img class="wrapped right" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Essential_Phone_in_ocean_depths.jpg/800px-Essential_Phone_in_ocean_depths.jpg" title="Essential PH-1"></a>
+<a href="https://boygeniusreport.files.wordpress.com/2017/05/essential-phone-2.jpg?quality=98&strip=all&w=782" title="Essential PH-1"><img class="wrapped right" src="https://boygeniusreport.files.wordpress.com/2017/05/essential-phone-2.jpg?quality=98&strip=all&w=782" title="Essential PH-1"></a>
 
 The first phone&mdash;other than the Mi Mix&mdash;to really depart from the bezel design was the Essential PH-1, which shipped in August. Essential is a new company, founded by Android co-founder Andy Rubin. The Essential PH-1 was the company's first device, and its design raised eyebrows throughout the Android universe. Like the Mi Mix, the PH-1's screen melds beautifully into the top of the frame. Unlike Xaomi, Essential didn't move the front-facing camera to the bottom. Instead, Essential pioneered the "notch" approach to bezel-less smartphone design: let the camera intrude into the screen, and curve the screen around the camera. The PH-1 also has a chin at the bottom where other front-facing necessities reside.
 
 <a href="https://store.storeimages.cdn-apple.com/4974/as-images.apple.com/is/image/AppleInc/aos/published/images/i/ph/iphone/x/iphone-x-select-2017?wid=189&hei=376&fmt=png-alpha&qlt=95&.v=1504378258086" title="Apple iPhone X"><img class="wrapped left" src="https://store.storeimages.cdn-apple.com/4974/as-images.apple.com/is/image/AppleInc/aos/published/images/i/ph/iphone/x/iphone-x-select-2017?wid=189&hei=376&fmt=png-alpha&qlt=95&.v=1504378258086" title="Apple iPhone X"></a>
 
-Apple joined the party when it announced the iPhone X in September, to ship in November.
+Apple joined the party when it announced the iPhone X in September, to ship in November. The iPhone follows the same strategy as the PH-1: make the screen flow around the front camera. Apple has a much bigger notch than Essential, probably because the notch houses a number of sensors 
