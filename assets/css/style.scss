@@ -10,11 +10,13 @@ $background-color: #222;
 $link-color: #76a2c5;
 $focus-color: #97cef5;
 $accent-hover: #ea0f0f;
-$header-font: 'Oswald','Helvetica Neue',sans-serif;
+$header-font: 'Asap Condensed','Helvetica Neue',sans-serif;
+$body-font: 'PT Sans','Helvetica Neue',sans-serif;
 
 body {
 	background: $background-color;
 	color: $text-color;
+	font-family: $body-font;
 }
 
 a:link, a:visited {
