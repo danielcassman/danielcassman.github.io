@@ -1,7 +1,8 @@
 ---
 layout: post
 title: Building Android Oreo
-categories: technology
+categories: [technology]
+date: 2017-09-15 13:43:00
 ---
 
 I'm no Android developer, but since I bought my first Android device, a Motorola Atrix 4G, I've always enjoyed customizing my phones and tablets with aftermarket ROMs, kernels, and themes. To this day, I'm partial to devices that are friendly to custom software, such as Google's Nexus line and OnePlus's phones. I love installing custom ROMs on my phone for a number of reasons: removing bloat, new features, beautiful themes, and fast updates.
