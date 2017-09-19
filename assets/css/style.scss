@@ -92,10 +92,11 @@ h3 {
 	margin: 1em 0 5px;
 }
 
-a:hover {
+a:hover, a:focus {
 	font-weight: normal;
 	text-decoration: underline;
 }
+
 
 .highlight {
 	background: #111;
@@ -116,6 +117,10 @@ div.post-preview:not(:last-child) {
 h2.post-title {
 	margin-bottom: 5px;
 }
+
+	h2.post-title a:hover {
+		font-weight: 300;
+	}
 
 p.post-meta {
 	color: #aaa;
