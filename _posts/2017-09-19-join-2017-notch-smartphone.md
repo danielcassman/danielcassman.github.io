@@ -5,7 +5,7 @@ date: 2017-09-19 09:44:23
 categories: [technology]
 ---
 
-2017 is the year of the bezel-less smartphone. Ever since the [LG Prada](https://en.wikipedia.org/wiki/LG_Prada) was released in May 2007, capacitive touchscreens have become the dominant smartphone interface. Apple popularized them with the [original iPhone](https://en.wikipedia.org/wiki/IPhone_(1st_generation) (November 2007), and now they're ubiquitous. But the touchscreen has typically been borderd by unsightly bezels. That started to change this year.
+2017 is the year of the bezel-less smartphone. Ever since the [LG Prada](https://en.wikipedia.org/wiki/LG_Prada) was released in May 2007, capacitive touchscreens have become the dominant smartphone interface. Apple popularized them with the [original iPhone](https://en.wikipedia.org/wiki/IPhone_(1st_generation) (November 2007)), and now they're ubiquitous. But the touchscreen has typically been borderd by unsightly bezels. That started to change this year.
 
 Well, it really started last year. Chinese manufacturer Xiaomi launched the [Mi Mix](http://www.mi.com/en/mix/) in November 2016. It was hard to get in the United States, but pretty much everyone thought it was beautiful, and a stunning innovation in the stale slab-like smartphone design that's been essentially unchanged since 2007.
 
@@ -43,3 +43,6 @@ Some called this "courageous" and [implied that it was a bold move](https://marc
 
 I think calling the move "bold" or "courageous" is sill. The bottom line is that if there had been _any_ way for Apple's designers engineers to make a phone with all the necessary sensors but no notch, they undoubtedly would have done so.
 
+A couple of Android developers are [poling fun](https://github.com/idoideas/XOutOf10) at all this [embracing the notch" silliness](http://www.androidauthority.com/hilarious-app-transforms-device-essential-phone-iphone-x-801385/). They've created apps to _add_ a notch to your Android device. These apps just [render a black bar](https://play.google.com/store/apps/details?id=pl.damianpiwowarski.iphonexscreen) roughly the shape and size of the iPhone X notch at the top center of your screen, making that part of the screen unusable.
+
+That way those of us who don't have the latest and greatest phones&mdash;like me with my venerable Nexus 6P&mdash;can join the 2017 bezel-less revolution
