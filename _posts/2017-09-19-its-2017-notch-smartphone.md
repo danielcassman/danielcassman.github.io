@@ -43,6 +43,6 @@ Some called this "courageous" and [implied that it was a bold move](https://marc
 
 I think calling the move "bold" or "courageous" is silly. The bottom line is that if there had been _any_ way for Apple's designers engineers to make a phone with all the necessary sensors but no notch, they undoubtedly would have done so.
 
-A couple of Android developers are [poling fun](https://github.com/idoideas/XOutOf10) at all this [embracing the notch" silliness](http://www.androidauthority.com/hilarious-app-transforms-device-essential-phone-iphone-x-801385/). They've created apps to _add_ a notch to your Android device. These apps just [render a black bar](https://play.google.com/store/apps/details?id=pl.damianpiwowarski.iphonexscreen) roughly the shape and size of the iPhone X notch at the top center of your screen, making that part of the screen unusable.
+A couple of Android developers are [poking fun](https://github.com/idoideas/XOutOf10) at all this [embracing the notch" silliness](http://www.androidauthority.com/hilarious-app-transforms-device-essential-phone-iphone-x-801385/). They've created apps to _add_ a notch to your Android device. These apps just [render a black bar](https://play.google.com/store/apps/details?id=pl.damianpiwowarski.iphonexscreen) roughly the shape and size of the iPhone X notch at the top center of your screen, making that part of the screen unusable.
 
 That way those of us who don't have the latest and greatest phones&mdash;like me with my venerable Nexus 6P&mdash;can join the 2017 bezel-less smartphone revolution.
