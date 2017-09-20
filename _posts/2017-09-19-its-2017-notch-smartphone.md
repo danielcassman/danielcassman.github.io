@@ -33,7 +33,7 @@ The first phone&mdash;other than the Mi Mix&mdash;to really depart from the beze
 
 <a href="https://store.storeimages.cdn-apple.com/4974/as-images.apple.com/is/image/AppleInc/aos/published/images/i/ph/iphone/x/iphone-x-select-2017?wid=189&hei=376&fmt=png-alpha&qlt=95&.v=1504378258086" title="Apple iPhone X"><img class="wrapped left" src="https://store.storeimages.cdn-apple.com/4974/as-images.apple.com/is/image/AppleInc/aos/published/images/i/ph/iphone/x/iphone-x-select-2017?wid=189&hei=376&fmt=png-alpha&qlt=95&.v=1504378258086" title="Apple iPhone X"></a>
 
-Apple joined the party when it announced the iPhone X in September, to ship in November. The iPhone follows the same strategy as the PH-1: make the screen flow around the front camera. Apple has a much bigger notch than Essential, probably because the notch houses a number of sensors that the Essential PH-1 doesn't: ambient light, TouchID sensors, speaker, and microphone. But because it has a much larger notch, Apple manages to do away with the chin.
+Apple joined the party when it announced the iPhone X in September, to ship in November. The iPhone follows the same strategy as the PH-1: make the screen flow around the front camera. Apple has a much bigger notch than Essential, probably because the notch houses a number of sensors that the Essential PH-1 doesn't place there: ambient light, TouchID sensors, speaker, and microphone. But because it has a much larger notch, Apple manages to do away with the chin.
 
 ### Embracing the Notch
 
@@ -41,7 +41,7 @@ Apple, of course, got the most attention. When silhouettes of the iPhone X leake
 
 Some called this "courageous" and [implied that it was a bold move](https://marco.org/2017/09/18/courage) on Apple's part, instead of simply embracing the reality that it's currently impossible to engineer a phone that has sensors and cameras on the front without taking _some_ space away from the screen. Others, like John Gruber, were more realistic, pointing out that [_courageous_ doesn't necessarily mean _good_](https://daringfireball.net/linked/2017/09/18/courage-of-the-notch) and suggesting that software might begin to simply render content in the rectangle created if you ignore the "ears" that protude to the left and right of the notch. Some were [flat-out critical](https://www.theverge.com/2017/9/14/16306298/apple-iphone-x-screen-notch).
 
-I think calling the move "bold" or "courageous" is sill. The bottom line is that if there had been _any_ way for Apple's designers engineers to make a phone with all the necessary sensors but no notch, they undoubtedly would have done so.
+I think calling the move "bold" or "courageous" is silly. The bottom line is that if there had been _any_ way for Apple's designers engineers to make a phone with all the necessary sensors but no notch, they undoubtedly would have done so.
 
 A couple of Android developers are [poling fun](https://github.com/idoideas/XOutOf10) at all this [embracing the notch" silliness](http://www.androidauthority.com/hilarious-app-transforms-device-essential-phone-iphone-x-801385/). They've created apps to _add_ a notch to your Android device. These apps just [render a black bar](https://play.google.com/store/apps/details?id=pl.damianpiwowarski.iphonexscreen) roughly the shape and size of the iPhone X notch at the top center of your screen, making that part of the screen unusable.
 
