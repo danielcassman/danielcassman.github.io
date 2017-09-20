@@ -70,16 +70,6 @@ h1#site-title {
 	max-width: 70%;
 }
 
-@media screen and (max-width: 960px) {
-	h1#site-title {
-		font-size: 2.25em;
-	}
-	
-	#site-description {
-		font-size: 1.5em;
-	}
-}
-
 #site-title a:link,
 #site-title a:visited {
 	color: $accent-color;
@@ -105,6 +95,16 @@ h1#site-title {
 	font-weight: normal;
 	text-decoration: none;
 	border-bottom: 1px solid $accent-hover;
+}
+
+@media screen and (max-width: 960px) {
+	h1#site-title {
+		font-size: 2.5em;
+	}
+	
+	#site-description {
+		font-size: 1.5em;
+	}
 }
 
 /* Content */
@@ -144,7 +144,11 @@ h2.post-title {
 
 	div.post-preview h2.post-title a:link,
 	div.post-preview h2.post-title a:visited {
-		color: #ddd;
+		color: #d0d0d0;
+	}
+
+	div.post-preview h2.post-title a:visited {
+		color: #fff;
 	}
 
 	h2.post-title a:hover {
