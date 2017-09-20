@@ -61,7 +61,7 @@ h2 a:hover, h3 a:focus {
 }
 
 /* Header */
-#site-title {
+h1#site-title {
 	text-transform: uppercase;
 	font: normal 300 1.75em $header-font;
 }
@@ -71,8 +71,12 @@ h2 a:hover, h3 a:focus {
 }
 
 @media screen and (max-width: 960px) {
-	#profile-picture {
-		display: none;
+	h1#.site-title {
+		font-size: 2.25em;
+	}
+	
+	#site-description {
+		font-size: 1.5em;
 	}
 }
 
@@ -136,6 +140,11 @@ h2.post-title {
 
 	div.post-preview h2.post-title {
 		border-bottom-width: 0;
+	}
+
+	div.post-preview h2.post-title a:link,
+	div.post-preview h2.post-title a:link {
+		color: #ddd;
 	}
 
 	h2.post-title a:hover {
