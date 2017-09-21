@@ -9,6 +9,7 @@ Just a few days ago, I wrote about [setting up my GNOME desktop on Linux]({{ sit
 
 <div class="image centered">
   <img src="{{ "/assets/images/elementary-os.png" | relative_url }}" title="Elementary OS Desktop">
+  <p class="caption">The Elementary OS desktop</p>
 </div>
 
 I've been a fan of Elementary ever since it was a scattered collection of interface elements&mdash;including an icon pack and some various apps&mdash;on DeviantArt. Since then, it's become a well-supported Linux distribution based on Ubuntu. If you want a Linux desktop that looks polished, Elementary is definitely your best option. Its developers spend an incredible amount of time and effort crafting every part of the user interface. A few years ago, I tried the previous version of Elementary OS, called "Freya." It looked nice, but it had a few major problems on my system (likely related to the fact that it was based on an old version of Ubuntu). Elementary 0.4 "Loki" was released last year, and it's a big improvement on Freya. I downloaded it, flashed it to a USB stick, and installed it on my Lenovo Thinkpad T450s laptop. I'm not going to cover the basics of using Elementary here; if you want to learn more, feel free to peruse [Elementary's getting started guide](https://elementary.io/docs/learning-the-basics#learning-the-basics).
