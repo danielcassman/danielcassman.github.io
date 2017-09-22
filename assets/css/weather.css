@@ -1,5 +1,5 @@
 body {
-	font:normal normal 16px Calibri,Helvetica,sans-serif;
+	font:normal normal 16px 'Open Sans',Calibri,Helvetica,sans-serif;
 	color: #fff;
 }
 
@@ -14,6 +14,7 @@ body {
 	background: #fff url(../images/s2048/day-clear-01.jpg) no-repeat center center;
 	background-size: cover;
 	z-index: 0;
+	overflow: hidden;
 }
 
 	#overlay {
@@ -28,19 +29,37 @@ body {
 		opacity: .4;
 		z-index: 1;
 	}
+	
+	#content-wrap {
+		position:absolute;
+		top:0;
+		left:0;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+		overflow-y: auto;
+	}
 
-div#weather-info {
-	position:absolute;
-	top: 50px;
-	left: 100px;
+div.panel {
+	position: absolute;
 	z-index: 5;
+	opacity: 1;
 }
 
-@media screen and (max-width: 960px) {
-	div#weather-info {
-		top: 15px;
-		left: 15px;
-	}
+div.panel.hidden {
+	opacity: 0;
+	display: none;
+}
+	
+div.panel.topleft {
+	top: 50px;
+	left: 100px;
+}
+
+div#weather-info p {
+	margin: 0;
 }
 
 div#weather-info span#location {
@@ -71,20 +90,27 @@ div#weather-info span#condition {
 }
 
 div#stocks {
-	position: absolute;
-	z-index: 5;
-	bottom:50px;
-	right: 2em;
-	font: normal normal 1.25em 'Oswald',Helvetica,Calibri,sans-serif;
+	font: normal normal 1.25em 'Open Sans',Helvetica,Calibri,sans-serif;
 	text-transform: uppercase;
+	color: #ccc;
 }
 
+div.panel.bottomright {
+	bottom: 75px;
+	right: 10px;
+}
+
+	div#stocks div.stock {
+		font-variant: small-caps;
+		font-size: .75em;
+	}
+
 	div#stocks span.stock-symbol {
-		margin-right: 8px;
+		margin-right: 10px;
 	}
 	
 	div#stocks span.stock-price {
-		margin-right: 2px;
+		margin-right: 4px;
 	}
 	
 		div#stocks span.stock-change.positive {
@@ -94,6 +120,60 @@ div#stocks {
 		div#stocks span.stock-change.negative {
 			color: #f00;
 		}
+
+div.panel.bottomcenter {
+	bottom:75px;
+	width: 60%;
+	margin: 0 20%;
+}
+
+	@media screen and (max-width: 960px) {
+		div.panel, div.panel.topleft,
+		div.panel.bottomcenter, div.panel.bottomright {
+			position: relative;
+			top: 0;
+			left: 0;
+			width: auto;
+			margin: 0;
+			padding: 15px;
+		}
+		
+		div.panel:last-child {
+			margin-bottom: 2.5em;
+		}
+	}
+
+	div#news h3.category-title {
+		font-size: 1.4em;
+		text-transform: lowercase;
+		font-variant: small-caps;
+		font-family: 'Open Sans',Helvetica,Calibri,sans-serif;
+		margin-bottom: .15em;
+		margin-top: 1em;
+	}
+	
+	div#news h3.category-title:first-child {
+		margin-top: 0;
+	}
+
+	div#news a:link, div#news a:visited {
+		color: #ccc;
+	}
+	
+	div#news a:hover {
+		color: #fff;
+	}
+	
+	div#news a.article {
+		display: block;
+		text-decoration: none;
+		font-size: 1.15em;
+		text-transform: lowercase;
+		font-variant: small-caps;
+		font-family: 'Open Sans',Helvetica,Calibri,sans-serif;
+		line-height: 1;
+		margin-bottom: .4em;
+	}
 
 div#bottom-bar {
 	z-index: 6;
