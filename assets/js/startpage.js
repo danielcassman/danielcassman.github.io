@@ -61,7 +61,10 @@ function getLocationAndUpdateWeather() {
  * @param position: A position object, as defined by
  * navigator.geolocation.
  */
-function loadLocalWeather(position = DEFAULT_LOCATION, update = WEATHER_UPDATE)	{
+function loadLocalWeather(position, update)	{
+	position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
+	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
+	
 	var request = new XMLHttpRequest();
 	url = 'https://api.openweathermap.org/data/2.5/weather?lat='
 	 + position.coords.latitude + '&lon=' + position.coords.longitude
@@ -189,7 +192,11 @@ function setUpStocks() {
  * @param wrapper: The DOM element to place the stock
  * information in.
  */
-function loadStocks(symbols = STOCKS, wrapper = '#stocks', update = false) {
+function loadStocks(symbols, wrapper, update) {
+	stocks = (typeof stocks !== 'undefined') ?  stocks : STOCKS;
+	wrapper = (typeof update !== 'undefined') ?  wrapper : '#stocks';
+	update = (typeof update !== 'undefined') ?  update : false;
+	
 	var request = new XMLHttpRequest();
 
 	var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22'
@@ -272,7 +279,9 @@ function createStockItem(stock, wrapper) {
  * -------------------
  * Sets up the news wrapper, click action, and loads the news.
  */
-function setUpNews(source = 'NYT') {
+function setUpNews(source) {
+	update = (typeof source !== 'undefined') ?  source : 'NYT';
+	
 	document.getElementById('news').style.opacity = 0;
 	document.getElementById('news-button').addEventListener('click', function() {
 		fadeToggle(document.getElementById('news'));
@@ -292,7 +301,10 @@ function setUpNews(source = 'NYT') {
  * @param wrapper: The DOM element in which to place the
  * articles from this section.
  */
-function updateNYTHeadlines(wrapper, max_stories = 10, update = false) {
+function updateNYTHeadlines(wrapper, max_stories, update) {
+	max_stories = (typeof max_stories !== 'undefined') ?  max_stories : 10;
+	update = (typeof update !== 'undefined') ?  update : false;
+	
 	var url = "https://api.nytimes.com/svc/topstories/v2/home.json";
 	url += '?api-key=a300a0adf8fa418f903e7cbd2355a805';
 	
@@ -362,7 +374,9 @@ function updateNYTHeadlines(wrapper, max_stories = 10, update = false) {
  * @param wrapper: The DOM element in which to place the
  * articles from this section.
  */
- function updateGuardianHeadlines(section, wrapper, max_headlines = 5) {
+ function updateGuardianHeadlines(section, wrapper, max_headlines) {
+	max_headlines = (typeof max_headlines !== 'undefined') ?  max_headlines : 5;
+	
 	var request = new XMLHttpRequest();
 	request.open('GET', "https://content.guardianapis.com/search?section=" + section + "&api-key=5d33b608-c47b-4f64-99c3-59c8deb3c857", true);
 	request.onload = function() {
@@ -426,7 +440,10 @@ function fadeToggle(el) {
  * @param rate: how quickly to iterate the fade (in ms).
  * @param amount: the amount to change the opacity each iteration (0-1)
  */
-function fadeIn(el, rate = 10, amount = 0.05) {
+function fadeIn(el, rate, amount) {
+	rate = (typeof rate !== 'undefined') ?  rate : 16;
+	amount = (typeof amount !== 'undefined') ?  amount : 0.05;
+	
 	el.style.opacity = 0;
 	el.style.display = 'block';
 
@@ -450,21 +467,24 @@ function fadeIn(el, rate = 10, amount = 0.05) {
  * @param rate: how quickly to iterate the fade (in ms).
  * @param amount: the amount to change the opacity each iteration (0-1)
  */
-function fadeOut(el, rate = 10, amount = 0.05) {
-  el.style.opacity = 1;
+function fadeOut(el, rate, amount) {
+	rate = (typeof rate !== 'undefined') ?  rate : 16;
+	amount = (typeof amount !== 'undefined') ?  amount : 0.05;
 
-  var tick = function() {
-    el.style.opacity = +el.style.opacity - amount;
+	el.style.opacity = 1;
 
-    if (+el.style.opacity > 0) {
-      (window.requestAnimationFrame && requestAnimationFrame(tick))
-	   || setTimeout(tick, rate)
-    } else {
-		el.style.display = 'none';
-	}
-  };
+	var tick = function() {
+		el.style.opacity = +el.style.opacity - amount;
 
-  tick();
+		if (+el.style.opacity > 0) {
+			(window.requestAnimationFrame && requestAnimationFrame(tick))
+			 || setTimeout(tick, rate)
+		} else {
+			el.style.display = 'none';
+		}
+	};
+
+	tick();
 }
 
 /* Function: decimalPlaces
