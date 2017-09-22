@@ -280,7 +280,7 @@ function fadeOut(el) {
  */
  function updateGuardianHeadlines(section, wrapper) {
    var request = new XMLHttpRequest();
-   request.open('GET', "http://content.guardianapis.com/search?section=" + section + "&api-key=5d33b608-c47b-4f64-99c3-59c8deb3c857", true);
+   request.open('GET', "https://content.guardianapis.com/search?section=" + section + "&api-key=5d33b608-c47b-4f64-99c3-59c8deb3c857", true);
    request.onload = function() {
      if(request.status >= 200 && request.status < 400) {
        var data = JSON.parse(request.responseText);
