@@ -109,8 +109,11 @@ function createStockItem(stock, id) {
 	
 	// Change
 	var change = document.createElement('span');
-	change.setAttribute('class', 'stock-change ' + (stock.Change < 0 ? 'negative' : 'positive'));
-	change.textContent = '(' + (stock.Change < 0 ? stock.Change : '+' + stock.Change) + ')';
+	var c = stock.Change;
+	if(stock.Change == null)
+		c = Math.floor((stock.LastTradePriceOnly - stock.Open) * 100) / 100;
+	change.setAttribute('class', 'stock-change ' + (c < 0 ? 'negative' : 'positive'));
+	change.textContent = '(' + (c < 0 ? c : '+' + c) + ')';
 	
 	div.appendChild(sym);
 	div.appendChild(price);
