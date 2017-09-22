@@ -7,10 +7,6 @@ var DEFAULT_LOCATION = {
       }
 	}
 
-var API_KEYS = {
-	openweathermap: 'b2f350cd6c8d249908dd100bba6c6e7c'
-};
-
 /* Function: ready
  * ---------------
  * Launches function when the web page has loaded, so
@@ -27,21 +23,47 @@ function ready(fn) {
 	}
 }
 
-function getLocationAndUpdateWeather() {
+/* Function: setUpWeather
+ * ----------------------
+ * Sets up the click listener for the weather toggle,
+ * then gets the current position and weather and adds
+ * it to the DOM.
+ */
+function setUpWeather() {
 	document.getElementById('weather-button').addEventListener('click', function() {
 		fadeToggle(document.getElementById('weather-info'));
 		return false;
 	});
-  if(navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(loadLocalWeather, noLocationAvailable);
-  } else {
-    loadLocalWeather(DEFAULT_LOCATION);
-  }
+	getLocationAndUpdateWeather();
 }
 
-function loadLocalWeather(position)	{
+/* Function: getLocationAndUpdateWeather
+ * -------------------------------------
+ * Gets the current position, then grabs the weather from
+ * OpenWeatherMap, then adds it to the DOM.
+ */
+function getLocationAndUpdateWeather() {
+	if(navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(loadLocalWeather, noLocationAvailable);
+	} else {
+		loadLocalWeather(DEFAULT_LOCATION);
+	}
+}
+
+/* Function: loadLocalWeather
+ * --------------------------
+ * Gets the current weather from OpenWeatherMap, then
+ * adds it to the DOM.
+ *
+ * @param position: A position object, as defined by
+ * navigator.geolocation.
+ */
+function loadLocalWeather(position = DEFAULT_LOCATION)	{
 	var request = new XMLHttpRequest();
-	request.open('GET', 'https://api.openweathermap.org/data/2.5/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&appid=' + API_KEYS.openweathermap, true);
+	url = 'https://api.openweathermap.org/data/2.5/weather?lat='
+	 + position.coords.latitude + '&lon=' + position.coords.longitude
+	 + '&appid=b2f350cd6c8d249908dd100bba6c6e7c';
+	request.open('GET', url, true);
 
 	request.onload = function() {
 	  if (request.status >= 200 && request.status < 400) {
@@ -60,10 +82,104 @@ function loadLocalWeather(position)	{
 	request.send();
 }
 
-function loadStocks(symbols) {
+/* Function: noLocationAvailable
+ * -----------------------------
+ * Handles an error situation when no location information is
+ * available by loading weather information from the default
+ * location.
+ *
+ * @param error: The error message to display.
+ */
+function noLocationAvailable(error) {
+	logUpdate('Location issue: ' + error.message);
+	loadLocalWeather(DEFAULT_LOCATION);
+}
+
+/* Function: applyWeather
+ * ----------------------
+ * Sets up the weather panel with the given conditions.
+ *
+ * @param data: The data returned by the OpenWeatherMap API.
+ */
+function applyWeather(data) {
+	
+	document.getElementById('condition').textContent = data.weather[0].description;
+	document.getElementById('temperature').innerHTML = Math.round((data.main.temp * 9 / 5) - 459.67, 0) + "&deg;";
+	document.getElementById('icon').setAttribute('class', 'wi wi-owm-' + data.weather[0].id);
+	document.getElementById('location').textContent = data.name;
+	
+	var image = getBackgroundImage(data.weather[0].id);
+	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
+}
+
+/* Function: getBackgroundImage
+ * ----------------------------
+ * Sets the page background image based on the current weather
+ * conditions.
+ *
+ * @param condition: The OpenWeatherMap condition ID. For more,
+ * see: https://openweathermap.org/weather-conditions
+ */
+function getBackgroundImage(condition) {
+	var photo_id = 'clear';
+	
+	if(condition >= 200 && condition < 300) // Thunderstorms
+		photo_id = 'lightning';
+	if(condition >= 300 && condition < 400) // Drizzle
+		photo_id = 'rain';
+	if(condition >= 500 && condition < 600) // Rain
+		photo_id = 'rain';
+	if((condition > 501 && condition < 520) || 
+	 (condition > 521 && condition < 531) || 
+	 (condition >= 958 && condition <= 961)) // Heavy rain
+		photo_id = 'heavyrain';
+	if(condition >= 600 && condition < 700) // Snow
+		photo_id = 'snow';
+	if(condition == 600 || condition == 615 || condition == 620) // Light snow
+		photo_id = 'flurries';
+	if(condition == 711 || condition == 721 || condition == 731) // Smoke, haze, or sand
+		photo_id = 'haze';
+	if(condition == 701 || condition == 741) // Fog
+		photo_id = 'foggy';
+	if(condition == 801 || condition == 802) // Few clouds
+		photo_id = 'fewclouds';
+	if(condition == 803) // Some clouds
+		photo_id = 'partlycloudy';
+	if(condition == 804)
+		photo_id = 'cloudy';
+	
+	return 'day-' + photo_id + '-01.jpg';
+}
+
+/* Function: setUpStocks
+ * ---------------------
+ * Sets up the stocks pane and click listener, then
+ * loads the stock information.
+ *
+ */
+function setUpStocks() {
+	document.getElementById('stocks').style.opacity = 0;
+	document.getElementById('stocks-button').addEventListener('click', function() {
+		fadeToggle(document.getElementById('stocks'));
+		return false;
+	});
+	loadStocks();
+}
+
+/* Function: loadStocks
+ * --------------------
+ * Loads the stock market data and creates DOM elements
+ * in the stocks pane.
+ *
+ * @param symbols: An array of stock symbols to load.
+ * @param wrapper: The DOM element to place the stock
+ * information in.
+ */
+function loadStocks(symbols = STOCKS, wrapper = '#stocks') {
 	var request = new XMLHttpRequest();
 
-	var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22' + symbols.join(',') + '%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback='
+	var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22'
+	 + symbols.join(',') + '%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback='
 
 	request.open('GET', url, true);
 
@@ -72,8 +188,14 @@ function loadStocks(symbols) {
 		var data = JSON.parse(request.responseText);
 		var stocks = data.query.results.quote;
 		if(Array.isArray(stocks)) {
+			// Remove current stocks from the DOM
+			var current_stocks = document.querySelector(wrapper).querySelectorAll("div.stock");
+			for(var i = 0; i < current_stocks.length; i++) {
+				current_stocks[i].parentNode.removeChild(current_stocks[i]);
+			}
+			
 			for(var i = 0; i < stocks.length; i++) {
-				createStockItem(stocks[i], 'stocks');
+				createStockItem(stocks[i], wrapper);
 			}
 		}
 		logUpdate("Stocks updated from Yahoo.");
@@ -87,20 +209,17 @@ function loadStocks(symbols) {
 	};
 
 	request.send();
-	
-	
 }
 
-function setUpStocks() {
-	document.getElementById('stocks').style.opacity = 0;
-	document.getElementById('stocks-button').addEventListener('click', function() {
-		fadeToggle(document.getElementById('stocks'));
-		return false;
-	});
-	loadStocks(STOCKS);
-}
-
-function createStockItem(stock, id) {
+/* Function: createStockItem
+ * -------------------------
+ * Handles an error situation when no location information is
+ * available by loading weather information from the default
+ * location.
+ *
+ * @param error: The error message to display.
+ */
+function createStockItem(stock, wrapper) {
 	var div = document.createElement('div');
 	div.setAttribute('class', 'stock');
 
@@ -126,152 +245,24 @@ function createStockItem(stock, id) {
 	div.appendChild(sym);
 	div.appendChild(price);
 	div.appendChild(change);
-	document.getElementById(id).appendChild(div);
-}
-
-function decimalPlaces(n, places) {
-	n = +n;
-	
-	n = Math.round(n * Math.pow(10, places)) / Math.pow(10, places);
-	
-	n = 'a' + n;
-	if(n.indexOf('.') == -1) {
-		n = n + '.';
-	}
-	
-	n = n.split('.');
-	
-	var diff = places - n[1].length;
-	
-	for(var i = 0; i < diff; i++) {
-		n[1] += '0';
-	}
-	
-	n[0] = n[0].substring(1);
-	n = n.join('.');
-	
-	return n;
-}
-
-function noLocationAvailable(error) {
-	logUpdate('Location issue: ' + error.message);
-	loadLocalWeather(DEFAULT_LOCATION);
-}
-	
-function applyWeather(data) {
-	
-	document.getElementById('condition').textContent = data.weather[0].description;
-	document.getElementById('temperature').innerHTML = Math.round((data.main.temp * 9 / 5) - 459.67, 0) + "&deg;";
-	document.getElementById('icon').setAttribute('class', 'wi wi-owm-' + data.weather[0].id);
-	document.getElementById('location').textContent = data.name;
-	
-	var image = getBackgroundImage(data.weather[0].id);
-	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
-}
-
-function getBackgroundImage(condition) {
-	var photo_id = 'clear';
-	
-	/* See https://openweathermap.org/weather-conditions
-	 * for the guide to Open Weather Map's conditions. */
-	
-	if(condition >= 200 && condition < 300) // Thunderstorms
-		photo_id = 'lightning';
-	if(condition >= 300 && condition < 400) // Drizzle
-		photo_id = 'rain';
-	if(condition >= 500 && condition < 600) // Rain
-		photo_id = 'rain';
-	if((condition > 501 && condition < 520) || (condition > 521 && condition < 531) || (condition >= 958 && condition <= 961)) // Heavy rain
-		photo_id = 'heavyrain';
-	if(condition >= 600 && condition < 700) // Snow
-		photo_id = 'snow';
-	if(condition == 600 || condition == 615 || condition == 620) // Light snow
-		photo_id = 'flurries';
-	if(condition == 711 || condition == 721 || condition == 731) // Smoke, haze, or sand
-		photo_id = 'haze';
-	if(condition == 701 || condition == 741) // Fog
-		photo_id = 'foggy';
-	if(condition == 801 || condition == 802) // Few clouds
-		photo_id = 'fewclouds';
-	if(condition == 803) // Some clouds
-		photo_id = 'partlycloudy';
-	if(condition == 804)
-		photo_id = 'cloudy';
-	
-	return 'day-' + photo_id + '-01.jpg';
-}
-
-function findGetParameter(parameterName) {
-    var result = null,
-        tmp = [];
-    location.search
-        .substr(1)
-        .split("&")
-        .forEach(function (item) {
-          tmp = item.split("=");
-          if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
-        });
-    return result;
-}
-
-function vertHoriz() {
-	var ratio = window.innerWidth / window.innerHeight;
-	console.log(ratio);
+	document.querySelector(wrapper).appendChild(div);
 }
 
 /* Function: setUpNews
  * -------------------
- *
+ * Sets up the news wrapper, click action, and loads the news.
  */
-function setUpNews() {
+function setUpNews(source = 'NYT') {
 	document.getElementById('news').style.opacity = 0;
 	document.getElementById('news-button').addEventListener('click', function() {
 		fadeToggle(document.getElementById('news'));
 		return false;
 	});
-	//updateGuardianHeadlines('us-news', '#us');
-	//updateGuardianHeadlines('world', '#world');
-	updateNYTHeadlines('#news');
-}
-
-function fadeToggle(el) {
-	if(el.style.opacity == 0 && el.style.opacity != "") {
-		fadeIn(el);
-	} else {
-		fadeOut(el);
+	if(source == 'Guardian') {
+		updateGuardianHeadlines('us-news', '#us');
+		updateGuardianHeadlines('world', '#world');
 	}
-	return false;
-}
-
-function fadeIn(el) {
-  el.style.opacity = 0;
-  el.style.display = 'block';
-
-  var tick = function() {
-    el.style.opacity = +el.style.opacity + 0.02;
-
-    if (+el.style.opacity < 1) {
-      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 10)
-    }
-  };
-
-  tick();
-}
-
-function fadeOut(el) {
-  el.style.opacity = 1;
-
-  var tick = function() {
-    el.style.opacity = +el.style.opacity - 0.02;
-
-    if (+el.style.opacity > 0) {
-      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 10)
-    } else {
-		el.style.display = 'none';
-	}
-  };
-
-  tick();
+	updateNYTHeadlines('#nyt');
 }
 
 /* Function: updateNYTHeadlines
@@ -281,7 +272,7 @@ function fadeOut(el) {
  * @param wrapper: The DOM element in which to place the
  * articles from this section.
  */
-function updateNYTHeadlines(wrapper, max_stories = 10) {
+function updateNYTHeadlines(wrapper, max_stories = 12) {
 	var url = "https://api.nytimes.com/svc/topstories/v2/home.json";
 	url += '?api-key=a300a0adf8fa418f903e7cbd2355a805';
 	
@@ -388,6 +379,104 @@ function updateNYTHeadlines(wrapper, max_stories = 10) {
    return true;
  }
  
+/* Function: fadeToggle
+ * --------------------
+ * Fades an element in if it is invisible, fades an element out
+ * if it's visible.
+ *
+ * @param el: the DOM element to fade in or out.
+ */
+function fadeToggle(el) {
+	if(el.style.opacity == 0 && el.style.opacity != "") {
+		fadeIn(el);
+	} else {
+		fadeOut(el);
+	}
+	return false;
+}
+
+/* Function: fadeIn
+ * ----------------
+ * Fades an element in.
+ *
+ * @param el: the DOM element to fade in.
+ * @param rate: how quickly to iterate the fade (in ms).
+ * @param amount: the amount to change the opacity each iteration (0-1)
+ */
+function fadeIn(el, rate = 10, amount = 0.05) {
+  el.style.opacity = 0;
+  el.style.display = 'block';
+
+  var tick = function() {
+    el.style.opacity = +el.style.opacity + amount;
+
+    if (+el.style.opacity < 1) {
+      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, rate)
+    }
+  };
+
+  tick();
+}
+
+/* Function: fadeOut
+ * -----------------
+ * Fades an element out.
+ *
+ * @param el: the DOM element to fade out.
+ * @param rate: how quickly to iterate the fade (in ms).
+ * @param amount: the amount to change the opacity each iteration (0-1)
+ */
+function fadeOut(el, rate = 10, amount = 0.05) {
+  el.style.opacity = 1;
+
+  var tick = function() {
+    el.style.opacity = +el.style.opacity - amount;
+
+    if (+el.style.opacity > 0) {
+      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, rate)
+    } else {
+		el.style.display = 'none';
+	}
+  };
+
+  tick();
+}
+
+/* Function: decimalPlaces
+ * -----------------------
+ * Rounds a number to a certain number of decimal places,
+ * always producing that number of decimals by adding zeroes
+ * if necessary.
+ *
+ * @param n: The number to round.
+ * @param places: The number of decimal places
+ *
+ * @return: The number with the specified number of decimal places.
+ */
+function decimalPlaces(n, places) {
+	n = +n;
+	
+	n = Math.round(n * Math.pow(10, places)) / Math.pow(10, places);
+	
+	n = 'a' + n;
+	if(n.indexOf('.') == -1) {
+		n = n + '.';
+	}
+	
+	n = n.split('.');
+	
+	var diff = places - n[1].length;
+	
+	for(var i = 0; i < diff; i++) {
+		n[1] += '0';
+	}
+	
+	n[0] = n[0].substring(1);
+	n = n.join('.');
+	
+	return n;
+}
+
  /* Function: logUpdate
  * -------------------
  * Passes an update message to the log. Currently uses console.log, but could
@@ -402,10 +491,14 @@ function logUpdate(msg) {
     + d.getMinutes() : d.getMinutes()) + ": " + msg);
 }
 
+/* Function: setUp
+ * ---------------
+ * Sets up the page by adding weather, stocks, and news.
+ */
 function setUp() {
-	getLocationAndUpdateWeather();
+	setUpWeather();
 	setUpStocks();
 	setUpNews();
 }
 
-ready(setUp);
+ready(setUp); // Run setUp when the DOM is ready
