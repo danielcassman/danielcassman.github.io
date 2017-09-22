@@ -34,7 +34,14 @@ div#weather-info {
 	top: 50px;
 	left: 100px;
 	z-index: 5;
-}	
+}
+
+@media screen and (max-width: 960px) {
+	div#weather-info {
+		top: 15px;
+		left: 15px;
+	}
+}
 
 div#weather-info span#location {
 	font-size: 1.25em;
