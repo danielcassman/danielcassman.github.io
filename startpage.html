@@ -3,9 +3,9 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Start Page</title>
+		<title>Weather</title>
 		<meta name="viewport" content="width=device-width">
-		<link href="https://fonts.googleapis.com/css?family=Asap+Condensed|Roboto|Open+Sans|Oswald:300,400" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="assets/css/weather-icons.min.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/weather.css">
 		<script type="text/javascript" src="assets/js/weather.js"></script>
@@ -15,18 +15,26 @@
 	<body>
 		<div id="main-wrap">
 			<div id="overlay"></div>
-			<div id="weather-info">
-				<p><span id="location">San Francisco</span></p>
-				<p><span id="temperature">76&deg;</span> <span id="icon-wrapper"><i id="icon" class="wi wi-day-sunny"></i></span></p>
-				<p><span id="condition">Clear</span></p>
-			</div>
+			<div id="content-wrap">
+				<div id="weather-info" class="panel topleft">
+					<p><span id="location">Location</span></p>
+					<p><span id="temperature">&deg;</span> <span id="icon-wrapper"><i id="icon" class="wi wi-day-sunny"></i></span></p>
+					<p><span id="condition">Conditions</span></p>
+				</div>
 
-			<div id="stocks"></div>
+				<div id="stocks" class="panel bottomright hidden"></div>
+				
+				<div id="news" class="panel bottomcenter hidden">
+					<div class="news-category" id="us"><h3 class="category-title">United States</h3></div>
+					<div class="news-category" id="world"><h3 class="category-title">World</h3></div>
+				</div>
+			</div>
 			
 			<div id="bottom-bar">
 				<ul>
-					<!--<li><span id="news-button"><i class="fa fa-newspaper-o" aria-hidden="true"></i></span></li>-->
-					<li><span id="stocks-button"><i class="fa fa-line-chart" aria-hidden="true"></i></span></li>
+					<li><span id="weather-button"><i class="fa fa-cloud"></i></span></li>
+					<li><span id="news-button"><i class="fa fa-newspaper-o"></i></span></li>
+					<li><span id="stocks-button"><i class="fa fa-line-chart"></i></span></li>
 				</ul>
 			</div>
 		</div>
