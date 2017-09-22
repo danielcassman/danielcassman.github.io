@@ -111,7 +111,7 @@ function createStockItem(stock, id) {
 	var change = document.createElement('span');
 	var c = stock.Change;
 	if(stock.Change == null)
-		c = Math.floor((stock.LastTradePriceOnly - stock.Open) * 100) / 100;
+		c = Math.floor((stock.LastTradePriceOnly - stock.PreviousClose) * 100) / 100;
 	change.setAttribute('class', 'stock-change ' + (c < 0 ? 'negative' : 'positive'));
 	change.textContent = '(' + (c < 0 ? c : '+' + c) + ')';
 	
