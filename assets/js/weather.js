@@ -229,8 +229,9 @@ function setUpNews() {
 		fadeToggle(document.getElementById('news'));
 		return false;
 	});
-	updateGuardianHeadlines('us-news', '#us');
-	updateGuardianHeadlines('world', '#world');
+	//updateGuardianHeadlines('us-news', '#us');
+	//updateGuardianHeadlines('world', '#world');
+	updateNYTHeadlines('#news');
 }
 
 function fadeToggle(el) {
@@ -273,12 +274,79 @@ function fadeOut(el) {
   tick();
 }
 
+/* Function: updateNYTHeadlines
+ * ----------------------------
+ * Updates news from the New York Times.
+ *
+ * @param wrapper: The DOM element in which to place the
+ * articles from this section.
+ */
+function updateNYTHeadlines(wrapper, max_stories = 10) {
+	var url = "https://api.nytimes.com/svc/topstories/v2/home.json";
+	url += '?api-key=a300a0adf8fa418f903e7cbd2355a805';
+	
+	var request = new XMLHttpRequest();
+	request.open('GET', url, true);
+	request.onload = function() {
+		if(request.status >= 200 && request.status < 400) {
+			var data = JSON.parse(request.responseText);
+			var headlines = data.results;
+
+			// Remove current articles from the DOM
+			var current_articles = document.querySelector(wrapper).querySelectorAll("a.article");
+			for(var i = 0; i < current_articles.length; i++) {
+				current_articles[i].parentNode.removeChild(current_articles[i]);
+			}
+
+			// Add new articles to the DOM
+			var added = 0;
+			for(var i = 0; (i < headlines.length && added < max_stories); i++) {
+				var article = headlines[i];
+				var link = document.createElement('a');
+				link.setAttribute('class', 'article');
+				link.innerHTML = article.title;
+				link.setAttribute('href', article.url);
+				link.setAttribute('target', '_blank');
+				document.querySelector(wrapper).appendChild(link);
+				added++;
+			}
+			
+			logUpdate("News updated from the New York Times.");
+		} else {
+			logUpdate("The New York Times API returned an error. News not updated.");
+		}
+	};
+
+	request.onerror = function() {
+		logUpdate("Unable to reach the New York Times website.");
+	}
+
+	request.send();
+	return true;
+}
+
 /* Function: updateGuardianHeadlines
  * ---------------------------------
  * Updates news from the Guardian.
  *
+ * @param section: The Guardian section to get
+ * news from. Options are:
+ *  - us-news
+ *  - world
+ *  - football
+ *  - sports
+ *  - politics
+ *  - commentisfree
+ *  - culture
+ *  - lifeandstyle
+ *  - fashion
+ *  - business
+ *  - travel
+ *  - environment
+ * @param wrapper: The DOM element in which to place the
+ * articles from this section.
  */
- function updateGuardianHeadlines(section, wrapper) {
+ function updateGuardianHeadlines(section, wrapper, max_headlines = 5) {
    var request = new XMLHttpRequest();
    request.open('GET', "https://content.guardianapis.com/search?section=" + section + "&api-key=5d33b608-c47b-4f64-99c3-59c8deb3c857", true);
    request.onload = function() {
@@ -294,7 +362,7 @@ function fadeOut(el) {
 
        // Add new articles to the DOM
        var added = 0;
-       for(var i = 0; (i < headlines.length && added < 5); i++) {
+       for(var i = 0; (i < headlines.length && added < max_headlines); i++) {
          var article = headlines[i];
          if(article.type == 'article') {
            var link = document.createElement('a');
