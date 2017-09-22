@@ -1,0 +1,126 @@
+body {
+	font:normal normal 16px Calibri,Helvetica,sans-serif;
+	color: #fff;
+}
+
+#main-wrap {
+	position:absolute;
+	top:0;
+	left:0;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	background: #fff url(../images/s2048/day-clear-01.jpg) no-repeat center center;
+	background-size: cover;
+	z-index: 0;
+}
+
+	#overlay {
+		position:absolute;
+		top:0;
+		left:0;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		background: #000;
+		opacity: .5;
+		z-index: 1;
+	}
+
+div#weather-info {
+	position:absolute;
+	top: 50px;
+	left: 100px;
+	z-index: 5;
+}	
+
+div#weather-info span#location {
+	font-size: 1.25em;
+	text-transform: lowercase;
+	font-variant: small-caps;
+	letter-spacing: 2px;
+	font-family: 'Open Sans',Helvetica,Calibri,sans-serif;
+}
+
+div#weather-info span#temperature {
+	font-size:5em;
+	font-family: 'Oswald','Open Sans',sans-serif;
+	font-weight: 300;
+}
+
+div#weather-info span#icon-wrapper {
+	font-size: 4em;
+	margin-left: 30px;
+}
+
+div#weather-info span#condition {
+	font-size: 1.5em;
+	text-transform: lowercase;
+	font-variant: small-caps;
+	letter-spacing: 2px;
+	font-family: 'Open Sans',Helvetica,Calibri,sans-serif;
+}
+
+div#stocks {
+	position: absolute;
+	z-index: 5;
+	bottom:50px;
+	right: 2em;
+	font: normal normal 1.25em 'Oswald',Helvetica,Calibri,sans-serif;
+	text-transform: uppercase;
+}
+
+	div#stocks span.stock-symbol {
+		margin-right: 8px;
+	}
+	
+	div#stocks span.stock-price {
+		margin-right: 2px;
+	}
+	
+		div#stocks span.stock-change.positive {
+			color: #0f0;
+		}
+		
+		div#stocks span.stock-change.negative {
+			color: #f00;
+		}
+
+div#bottom-bar {
+	z-index: 6;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	background-color: #222;
+}
+
+	div#bottom-bar ul {
+		float: right;
+		margin: 8px 2em 5px 0;
+	}
+
+	div#bottom-bar ul li {
+		list-style: none;
+		font-size: 1.5em;
+		float: left;
+	}
+	
+		div#bottom-bar ul li:not(:last-child) {
+			margin-right: 20px;
+		}
+	
+		div#bottom-bar li a {
+			display: block;
+		}
+	
+		div#bottom-bar li a:link, div#bottom-bar li a:visited {
+			color: #bbb;
+			text-decoration: none;
+		}
+		
+		div#bottom-bar li a:hover {
+			color: #fff;
+		}
