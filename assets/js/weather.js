@@ -33,7 +33,7 @@ function getLocationAndUpdateWeather() {
 
 function loadLocalWeather(position)	{
 	var request = new XMLHttpRequest();
-	request.open('GET', 'http://api.openweathermap.org/data/2.5/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&appid=' + API_KEYS.openweathermap, true);
+	request.open('GET', 'https://api.openweathermap.org/data/2.5/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&appid=' + API_KEYS.openweathermap, true);
 
 	request.onload = function() {
 	  if (request.status >= 200 && request.status < 400) {
