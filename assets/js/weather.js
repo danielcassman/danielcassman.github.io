@@ -10,27 +10,6 @@ var API_KEYS = {
 	openweathermap: 'b2f350cd6c8d249908dd100bba6c6e7c'
 };
 
-function getAPIKeys() {
-	var request = new XMLHttpRequest();
-	request.open('GET', 'http://danielcassman.com/api-keys.php', true);
-
-	request.onload = function() {
-	  if (request.status >= 200 && request.status < 400) {
-		var data = JSON.parse(request.responseText);
-		console.log(data);
-	  } else {
-		console.log(request.responseText);
-
-	  }
-	};
-
-	request.onerror = function() {
-	  // There was a connection error of some sort
-	};
-
-	request.send();
-}
-
 function ready(fn) {
 	if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
 		fn();
