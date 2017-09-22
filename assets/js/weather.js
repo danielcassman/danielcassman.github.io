@@ -331,7 +331,7 @@ function updateNYTHeadlines(wrapper, max_stories = 10, update = false) {
 	
 	if(update) {
 		setTimeout(function() {
-			loadStocks(wrapper, max_stories, update);
+			updateNYTHeadlines(wrapper, max_stories, update);
 		}, update);
 	}
 }
