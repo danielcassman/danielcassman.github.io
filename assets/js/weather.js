@@ -6,6 +6,9 @@ var DEFAULT_LOCATION = {
         longitude: -77.0295696
       }
 	}
+WEATHER_UPDATE = 1800000;
+STOCKS_UPDATE = 300000;
+NEWS_UPDATE = 600000;
 
 /* Function: ready
  * ---------------
@@ -58,7 +61,7 @@ function getLocationAndUpdateWeather() {
  * @param position: A position object, as defined by
  * navigator.geolocation.
  */
-function loadLocalWeather(position = DEFAULT_LOCATION)	{
+function loadLocalWeather(position = DEFAULT_LOCATION, update = WEATHER_UPDATE)	{
 	var request = new XMLHttpRequest();
 	url = 'https://api.openweathermap.org/data/2.5/weather?lat='
 	 + position.coords.latitude + '&lon=' + position.coords.longitude
@@ -80,6 +83,12 @@ function loadLocalWeather(position = DEFAULT_LOCATION)	{
 	};
 
 	request.send();
+	
+	if(update) {
+		setTimeout(function() {
+			loadLocalWeather(position);
+		}, update);
+	}
 }
 
 /* Function: noLocationAvailable
@@ -163,7 +172,7 @@ function setUpStocks() {
 		fadeToggle(document.getElementById('stocks'));
 		return false;
 	});
-	loadStocks();
+	loadStocks(STOCKS, '#stocks', STOCKS_UPDATE);
 }
 
 /* Function: loadStocks
@@ -175,7 +184,7 @@ function setUpStocks() {
  * @param wrapper: The DOM element to place the stock
  * information in.
  */
-function loadStocks(symbols = STOCKS, wrapper = '#stocks') {
+function loadStocks(symbols = STOCKS, wrapper = '#stocks', update = false) {
 	var request = new XMLHttpRequest();
 
 	var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22'
@@ -209,6 +218,12 @@ function loadStocks(symbols = STOCKS, wrapper = '#stocks') {
 	};
 
 	request.send();
+	
+	if(update) {
+		setTimeout(function() {
+			loadStocks(symbols, wrapper, update);
+		}, update);
+	}
 }
 
 /* Function: createStockItem
@@ -262,7 +277,7 @@ function setUpNews(source = 'NYT') {
 		updateGuardianHeadlines('us-news', '#us');
 		updateGuardianHeadlines('world', '#world');
 	}
-	updateNYTHeadlines('#nyt');
+	updateNYTHeadlines('#nyt', 12, NEWS_UPDATE);
 }
 
 /* Function: updateNYTHeadlines
@@ -272,7 +287,7 @@ function setUpNews(source = 'NYT') {
  * @param wrapper: The DOM element in which to place the
  * articles from this section.
  */
-function updateNYTHeadlines(wrapper, max_stories = 12) {
+function updateNYTHeadlines(wrapper, max_stories = 10, update = false) {
 	var url = "https://api.nytimes.com/svc/topstories/v2/home.json";
 	url += '?api-key=a300a0adf8fa418f903e7cbd2355a805';
 	
@@ -313,7 +328,12 @@ function updateNYTHeadlines(wrapper, max_stories = 12) {
 	}
 
 	request.send();
-	return true;
+	
+	if(update) {
+		setTimeout(function() {
+			loadStocks(wrapper, max_stories, update);
+		}, update);
+	}
 }
 
 /* Function: updateGuardianHeadlines
@@ -338,45 +358,44 @@ function updateNYTHeadlines(wrapper, max_stories = 12) {
  * articles from this section.
  */
  function updateGuardianHeadlines(section, wrapper, max_headlines = 5) {
-   var request = new XMLHttpRequest();
-   request.open('GET', "https://content.guardianapis.com/search?section=" + section + "&api-key=5d33b608-c47b-4f64-99c3-59c8deb3c857", true);
-   request.onload = function() {
-     if(request.status >= 200 && request.status < 400) {
-       var data = JSON.parse(request.responseText);
-       var headlines = data.response.results;
+	var request = new XMLHttpRequest();
+	request.open('GET', "https://content.guardianapis.com/search?section=" + section + "&api-key=5d33b608-c47b-4f64-99c3-59c8deb3c857", true);
+	request.onload = function() {
+	if(request.status >= 200 && request.status < 400) {
+		var data = JSON.parse(request.responseText);
+		var headlines = data.response.results;
 
-       // Remove current articles from the DOM
-       var current_articles = document.querySelector(wrapper).querySelectorAll("a.article");
-       for(var i = 0; i < current_articles.length; i++) {
-         current_articles[i].parentNode.removeChild(current_articles[i]);
-       }
+		// Remove current articles from the DOM
+		var current_articles = document.querySelector(wrapper).querySelectorAll("a.article");
+		for(var i = 0; i < current_articles.length; i++) {
+			current_articles[i].parentNode.removeChild(current_articles[i]);
+		}
 
-       // Add new articles to the DOM
-       var added = 0;
-       for(var i = 0; (i < headlines.length && added < max_headlines); i++) {
-         var article = headlines[i];
-         if(article.type == 'article') {
-           var link = document.createElement('a');
-           link.setAttribute('class', 'article');
-           link.innerHTML = article.webTitle;
-           link.setAttribute('href', article.webUrl);
-           link.setAttribute('target', '_blank');
-           document.querySelector(wrapper).appendChild(link);
-           added++;
-         }
-       }
-       logUpdate("News updated from The Guardian.");
-     } else {
-       logUpdate("The Guardian API returned an error. News not updated.");
-     }
-   };
+		// Add new articles to the DOM
+		var added = 0;
+		for(var i = 0; (i < headlines.length && added < max_headlines); i++) {
+			var article = headlines[i];
+			if(article.type == 'article') {
+				var link = document.createElement('a');
+				link.setAttribute('class', 'article');
+				link.innerHTML = article.webTitle;
+				link.setAttribute('href', article.webUrl);
+				link.setAttribute('target', '_blank');
+				document.querySelector(wrapper).appendChild(link);
+				added++;
+			}
+		}
+		logUpdate("News updated from The Guardian.");
+		} else {
+		logUpdate("The Guardian API returned an error. News not updated.");
+		}
+	};
 
-   request.onerror = function() {
-     logUpdate("Unable to reach The Guardian website.");
-   }
+	request.onerror = function() {
+		logUpdate("Unable to reach The Guardian website.");
+	}
 
-   request.send();
-   return true;
+	request.send();
  }
  
 /* Function: fadeToggle
@@ -392,7 +411,6 @@ function fadeToggle(el) {
 	} else {
 		fadeOut(el);
 	}
-	return false;
 }
 
 /* Function: fadeIn
@@ -404,18 +422,19 @@ function fadeToggle(el) {
  * @param amount: the amount to change the opacity each iteration (0-1)
  */
 function fadeIn(el, rate = 10, amount = 0.05) {
-  el.style.opacity = 0;
-  el.style.display = 'block';
+	el.style.opacity = 0;
+	el.style.display = 'block';
 
-  var tick = function() {
-    el.style.opacity = +el.style.opacity + amount;
+	var tick = function() {
+		el.style.opacity = +el.style.opacity + amount;
 
-    if (+el.style.opacity < 1) {
-      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, rate)
-    }
-  };
+		if (+el.style.opacity < 1) {
+			(window.requestAnimationFrame && requestAnimationFrame(tick))
+			 || setTimeout(tick, rate)
+		}
+	};
 
-  tick();
+	tick();
 }
 
 /* Function: fadeOut
@@ -433,7 +452,8 @@ function fadeOut(el, rate = 10, amount = 0.05) {
     el.style.opacity = +el.style.opacity - amount;
 
     if (+el.style.opacity > 0) {
-      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, rate)
+      (window.requestAnimationFrame && requestAnimationFrame(tick))
+	   || setTimeout(tick, rate)
     } else {
 		el.style.display = 'none';
 	}
