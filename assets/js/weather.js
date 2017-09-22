@@ -117,7 +117,7 @@ function applyWeather(data) {
 	document.getElementById('icon').setAttribute('class', 'wi wi-owm-' + data.weather[0].id);
 	document.getElementById('location').textContent = data.name;
 	
-	var image = getBackgroundImage(data.weather[0].id);
+	var image = getBackgroundImage(data.weather[0].id, data.sys);
 	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
 }
 
@@ -129,7 +129,7 @@ function applyWeather(data) {
  * @param condition: The OpenWeatherMap condition ID. For more,
  * see: https://openweathermap.org/weather-conditions
  */
-function getBackgroundImage(condition) {
+function getBackgroundImage(condition, sys) {
 	var photo_id = 'clear';
 	
 	if(condition >= 200 && condition < 300) // Thunderstorms
@@ -157,7 +157,12 @@ function getBackgroundImage(condition) {
 	if(condition == 804)
 		photo_id = 'cloudy';
 	
-	return 'day-' + photo_id + '-01.jpg';
+	var d = new Date();
+	var UTC_seconds = Math.floor(d.getTime() / 1000);
+	
+	return ((UTC_seconds > sys.sunrise && UTC_seconds < sys.sunset) ?
+	 'day' : 'night')
+	 + '-' + photo_id + '-01.jpg';
 }
 
 /* Function: setUpStocks
