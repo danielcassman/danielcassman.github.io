@@ -89,6 +89,7 @@ function setUpStocks() {
 		} else {
 			document.getElementById('stocks').style.display = 'none';
 		}
+		return false;
 	});
 }
 
