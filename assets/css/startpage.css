@@ -29,7 +29,7 @@ body {
 		opacity: .4;
 		z-index: 1;
 	}
-	
+
 	#content-wrap {
 		position:absolute;
 		top:0;
@@ -52,7 +52,7 @@ div.panel.hidden {
 	opacity: 0;
 	display: none;
 }
-	
+
 div.panel.topleft {
 	top: 50px;
 	left: 100px;
@@ -108,15 +108,15 @@ div.panel.bottomright {
 	div#stocks span.stock-symbol {
 		margin-right: 10px;
 	}
-	
+
 	div#stocks span.stock-price {
 		margin-right: 4px;
 	}
-	
+
 		div#stocks span.stock-change.positive {
 			color: #0f0;
 		}
-		
+
 		div#stocks span.stock-change.negative {
 			color: #f00;
 		}
@@ -137,7 +137,7 @@ div.panel.bottomcenter {
 			margin: 0;
 			padding: 15px;
 		}
-		
+
 		div.panel:last-child {
 			margin-bottom: 2.5em;
 		}
@@ -151,7 +151,7 @@ div.panel.bottomcenter {
 		margin-bottom: .15em;
 		margin-top: 1em;
 	}
-	
+
 	div#news h3.category-title:first-child {
 		margin-top: 0;
 	}
@@ -159,11 +159,11 @@ div.panel.bottomcenter {
 	div#news a:link, div#news a:visited {
 		color: #ccc;
 	}
-	
+
 	div#news a:hover {
 		color: #fff;
 	}
-	
+
 	div#news a.article {
 		display: block;
 		text-decoration: none;
@@ -191,22 +191,22 @@ div#bottom-bar {
 
 	div#bottom-bar ul li {
 		list-style: none;
-		font-size: 1.5em;
+		font-size: 2em;
 		float: left;
 	}
-	
+
 		div#bottom-bar ul li:not(:last-child) {
-			margin-right: 20px;
+			margin-right: 40px;
 		}
-	
+
 		div#bottom-bar li span {
 			display: block;
 		}
-	
+
 		div#bottom-bar li span {
 			color: #bbb;
 		}
-		
+
 		div#bottom-bar li span:hover {
 			color: #fff;
 			cursor: pointer;
