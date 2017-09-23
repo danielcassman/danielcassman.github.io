@@ -107,11 +107,20 @@ div.panel.bottomright {
 
 	div#stocks span.stock-symbol {
 		margin-right: 10px;
+		display: inline-block;
+		width: 50px;
 	}
 
 	div#stocks span.stock-price {
 		margin-right: 4px;
+		display: inline-block;
+		width: 60px;
 	}
+
+		div#stocks span.stock-change {
+			display: inline-block;
+			width: 50px;
+		}
 
 		div#stocks span.stock-change.positive {
 			color: #0f0;
