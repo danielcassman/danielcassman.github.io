@@ -1,17 +1,11 @@
 /* Global Variables */
 var STOCKS = ['IWD', 'IWF', '^IXIC', '^GSPC', 'ES=F'];
-/*var DEFAULT_LOCATION = {
-		coords: {
-        latitude: 38.8942345,
-        longitude: -77.0295696
-      }
-	}*/
 var DEFAULT_LOCATION = {
-		coords: {
-        latitude: 61.4333,
-        longitude: -142.9217
-      }
-	}
+	coords: {
+      latitude: 38.8942345,
+      longitude: -77.0295696
+    }
+}
 WEATHER_UPDATE = 900000;
 STOCKS_UPDATE = 300000;
 NEWS_UPDATE = 600000;
