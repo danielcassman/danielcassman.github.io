@@ -1,9 +1,15 @@
 /* Global Variables */
 var STOCKS = ['IWD', 'IWF', '^IXIC', '^GSPC', 'ES=F'];
-var DEFAULT_LOCATION = {
+/*var DEFAULT_LOCATION = {
 		coords: {
         latitude: 38.8942345,
         longitude: -77.0295696
+      }
+	}*/
+var DEFAULT_LOCATION = {
+		coords: {
+        latitude: 61.4333,
+        longitude: -142.9217
       }
 	}
 WEATHER_UPDATE = 900000;
@@ -46,10 +52,25 @@ function setUpWeather() {
  * OpenWeatherMap, then adds it to the DOM.
  */
 function getLocationAndUpdateWeather() {
-	if(navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(loadLocalWeather, noLocationAvailable);
-	} else {
+	var query = parse_query_string(window.location.search.substring(1));
+	if(query.location == 'default') {
+		console.log("Default location selected, using that.")
 		loadLocalWeather(DEFAULT_LOCATION);
+	} else if(query.latitude && query.longitude &&
+			(query.latitude >= -90 && query.latitude <= 90) &&
+		 	(query.longitude >= -180 && query.longitude <= 180)) {
+		loadLocalWeather({
+			coords: {
+				latitude: query.latitude,
+				longitude: query.longitude
+			}
+		});
+}	else {
+		if(navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(loadLocalWeather, noLocationAvailable);
+		} else {
+			loadLocalWeather(DEFAULT_LOCATION);
+		}
 	}
 }
 
@@ -64,7 +85,7 @@ function getLocationAndUpdateWeather() {
 function loadLocalWeather(position, update)	{
 	position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
 	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
-	
+
 	var request = new XMLHttpRequest();
 	url = 'https://api.openweathermap.org/data/2.5/weather?lat='
 	 + position.coords.latitude + '&lon=' + position.coords.longitude
@@ -86,7 +107,7 @@ function loadLocalWeather(position, update)	{
 	};
 
 	request.send();
-	
+
 	if(update) {
 		setTimeout(function() {
 			loadLocalWeather(position);
@@ -114,12 +135,12 @@ function noLocationAvailable(error) {
  * @param data: The data returned by the OpenWeatherMap API.
  */
 function applyWeather(data) {
-	
+
 	document.getElementById('condition').textContent = data.weather[0].description;
 	document.getElementById('temperature').innerHTML = Math.round((data.main.temp * 9 / 5) - 459.67, 0) + "&deg;";
 	document.getElementById('icon').setAttribute('class', 'wi wi-owm-' + data.weather[0].id);
 	document.getElementById('location').textContent = data.name;
-	
+
 	var image = getBackgroundImage(data.weather[0].id, data.sys);
 	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
 }
@@ -134,15 +155,15 @@ function applyWeather(data) {
  */
 function getBackgroundImage(condition, sys) {
 	var photo_id = 'clear';
-	
+
 	if(condition >= 200 && condition < 300) // Thunderstorms
 		photo_id = 'lightning';
 	if(condition >= 300 && condition < 400) // Drizzle
 		photo_id = 'rain';
 	if(condition >= 500 && condition < 600) // Rain
 		photo_id = 'rain';
-	if((condition > 501 && condition < 520) || 
-	 (condition > 521 && condition < 531) || 
+	if((condition > 501 && condition < 520) ||
+	 (condition > 521 && condition < 531) ||
 	 (condition >= 958 && condition <= 961)) // Heavy rain
 		photo_id = 'heavyrain';
 	if(condition >= 600 && condition < 700) // Snow
@@ -159,10 +180,10 @@ function getBackgroundImage(condition, sys) {
 		photo_id = 'partlycloudy';
 	if(condition == 804)
 		photo_id = 'cloudy';
-	
+
 	var d = new Date();
 	var UTC_seconds = Math.floor(d.getTime() / 1000);
-	
+
 	return ((UTC_seconds > sys.sunrise && UTC_seconds < sys.sunset) ?
 	 'day' : 'night')
 	 + '-' + photo_id + '-01.jpg';
@@ -196,7 +217,7 @@ function loadStocks(symbols, wrapper, update) {
 	stocks = (typeof stocks !== 'undefined') ?  stocks : STOCKS;
 	wrapper = (typeof update !== 'undefined') ?  wrapper : '#stocks';
 	update = (typeof update !== 'undefined') ?  update : false;
-	
+
 	var request = new XMLHttpRequest();
 
 	var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22'
@@ -214,7 +235,7 @@ function loadStocks(symbols, wrapper, update) {
 			for(var i = 0; i < current_stocks.length; i++) {
 				current_stocks[i].parentNode.removeChild(current_stocks[i]);
 			}
-			
+
 			for(var i = 0; i < stocks.length; i++) {
 				createStockItem(stocks[i], wrapper);
 			}
@@ -230,7 +251,7 @@ function loadStocks(symbols, wrapper, update) {
 	};
 
 	request.send();
-	
+
 	if(update) {
 		setTimeout(function() {
 			loadStocks(symbols, wrapper, update);
@@ -254,12 +275,12 @@ function createStockItem(stock, wrapper) {
 	var sym = document.createElement('span');
 	sym.setAttribute('class', 'stock-symbol');
 	sym.textContent = stock.symbol;
-	
+
 	// Price
 	var price = document.createElement('span');
 	price.setAttribute('class', 'stock-price');
 	price.textContent = decimalPlaces(stock.LastTradePriceOnly, 2);
-	
+
 	// Change
 	var change = document.createElement('span');
 	var c = stock.Change;
@@ -268,7 +289,7 @@ function createStockItem(stock, wrapper) {
 	c = decimalPlaces(c, 2);
 	change.setAttribute('class', 'stock-change ' + (c < 0 ? 'negative' : 'positive'));
 	change.textContent = '(' + (c < 0 ? '' : '+') + c + ')';
-	
+
 	div.appendChild(sym);
 	div.appendChild(price);
 	div.appendChild(change);
@@ -281,7 +302,7 @@ function createStockItem(stock, wrapper) {
  */
 function setUpNews(source) {
 	update = (typeof source !== 'undefined') ?  source : 'NYT';
-	
+
 	document.getElementById('news').style.opacity = 0;
 	document.getElementById('news-button').addEventListener('click', function() {
 		fadeToggle(document.getElementById('news'));
@@ -304,10 +325,10 @@ function setUpNews(source) {
 function updateNYTHeadlines(wrapper, max_stories, update) {
 	max_stories = (typeof max_stories !== 'undefined') ?  max_stories : 10;
 	update = (typeof update !== 'undefined') ?  update : false;
-	
+
 	var url = "https://api.nytimes.com/svc/topstories/v2/home.json";
 	url += '?api-key=a300a0adf8fa418f903e7cbd2355a805';
-	
+
 	var request = new XMLHttpRequest();
 	request.open('GET', url, true);
 	request.onload = function() {
@@ -333,7 +354,7 @@ function updateNYTHeadlines(wrapper, max_stories, update) {
 				document.querySelector(wrapper).appendChild(link);
 				added++;
 			}
-			
+
 			logUpdate("News updated from the New York Times.");
 		} else {
 			logUpdate("The New York Times API returned an error. News not updated.");
@@ -345,7 +366,7 @@ function updateNYTHeadlines(wrapper, max_stories, update) {
 	}
 
 	request.send();
-	
+
 	if(update) {
 		setTimeout(function() {
 			updateNYTHeadlines(wrapper, max_stories, update);
@@ -376,7 +397,7 @@ function updateNYTHeadlines(wrapper, max_stories, update) {
  */
  function updateGuardianHeadlines(section, wrapper, max_headlines) {
 	max_headlines = (typeof max_headlines !== 'undefined') ?  max_headlines : 5;
-	
+
 	var request = new XMLHttpRequest();
 	request.open('GET', "https://content.guardianapis.com/search?section=" + section + "&api-key=5d33b608-c47b-4f64-99c3-59c8deb3c857", true);
 	request.onload = function() {
@@ -416,7 +437,7 @@ function updateNYTHeadlines(wrapper, max_stories, update) {
 
 	request.send();
  }
- 
+
 /* Function: fadeToggle
  * --------------------
  * Fades an element in if it is invisible, fades an element out
@@ -443,7 +464,7 @@ function fadeToggle(el) {
 function fadeIn(el, rate, amount) {
 	rate = (typeof rate !== 'undefined') ?  rate : 16;
 	amount = (typeof amount !== 'undefined') ?  amount : 0.05;
-	
+
 	el.style.opacity = 0;
 	el.style.display = 'block';
 
@@ -500,25 +521,25 @@ function fadeOut(el, rate, amount) {
  */
 function decimalPlaces(n, places) {
 	n = +n;
-	
+
 	n = Math.round(n * Math.pow(10, places)) / Math.pow(10, places);
-	
+
 	n = 'a' + n;
 	if(n.indexOf('.') == -1) {
 		n = n + '.';
 	}
-	
+
 	n = n.split('.');
-	
+
 	var diff = places - n[1].length;
-	
+
 	for(var i = 0; i < diff; i++) {
 		n[1] += '0';
 	}
-	
+
 	n[0] = n[0].substring(1);
 	n = n.join('.');
-	
+
 	return n;
 }
 
@@ -534,6 +555,31 @@ function logUpdate(msg) {
   console.log(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " "
     + d.getHours() + ":" + (d.getMinutes() < 10 ? "0"
     + d.getMinutes() : d.getMinutes()) + ": " + msg);
+}
+
+/* Function parse_query_string
+ * ---------------------------
+ * Parses a string of GET queries--key/value pairs denoted by '=' and
+ * separated by '&'--into an object of key/value pairs.
+ */
+function parse_query_string(query) {
+  var vars = query.split("&");
+  var query_string = {};
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    // If first entry with this name
+    if (typeof query_string[pair[0]] === "undefined") {
+      query_string[pair[0]] = decodeURIComponent(pair[1]);
+      // If second entry with this name
+    } else if (typeof query_string[pair[0]] === "string") {
+      var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+      query_string[pair[0]] = arr;
+      // If third or later entry with this name
+    } else {
+      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+    }
+  }
+  return query_string;
 }
 
 /* Function: setUp
