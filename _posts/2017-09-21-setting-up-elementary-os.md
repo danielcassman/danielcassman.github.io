@@ -40,6 +40,14 @@ Finally, there are two more tools that are important to install. The first is th
 $ sudo apt install software-properties-common gksu
 ```
 
+[Lollypop](https://gnumdk.github.io/lollypop-web/) is one of my favorite music players for Linux. It's also really easy to install on any Debian- or Ubuntu-based distro. Simply use the following commands:
+
+```
+$ sudo add-apt-repository ppa:gnumdk/lollypop
+$ sudo apt-get update
+$ sudo apt install lollypop
+```
+
 Visual Tweaks
 -------------
 Elementary isn't designed to be highly modifiable or customizable. Its developers carefully craft the interface, and you aren't really supposed to mess with it. But some of us still like to change things that aren't exposed in the OS's default settings. The first tool I use to do that is GNOME Tweak Tools:
