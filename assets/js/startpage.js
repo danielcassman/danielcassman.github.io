@@ -10,6 +10,11 @@ WEATHER_UPDATE = 900000;
 STOCKS_UPDATE = 300000;
 NEWS_UPDATE = 600000;
 
+var URLS = {
+	weather: 'https://www.wunderground.com/',
+	stocks: 'https://finance.yahoo.com/portfolio/pf_1/view/v1?bypass=true'
+}
+
 /* Function: ready
  * ---------------
  * Launches function when the web page has loaded, so
@@ -37,6 +42,12 @@ function setUpWeather() {
 		fadeToggle(document.getElementById('weather-info'));
 		return false;
 	});
+	
+	document.getElementById('weather-info').addEventListener('click', function() {
+		window.open(URLS.weather);
+		return false;
+	});
+	
 	getLocationAndUpdateWeather();
 }
 
@@ -195,6 +206,12 @@ function setUpStocks() {
 		fadeToggle(document.getElementById('stocks'));
 		return false;
 	});
+	
+	document.getElementById('weather-info').addEventListener('click', function() {
+		window.open(URLS.stocks);
+		return false;
+	});
+	
 	loadStocks(STOCKS, '#stocks', STOCKS_UPDATE);
 }
 
