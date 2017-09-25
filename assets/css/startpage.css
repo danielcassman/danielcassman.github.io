@@ -176,11 +176,10 @@ div.panel.bottomcenter {
 	div#news a.article {
 		display: block;
 		text-decoration: none;
-		font-size: 1.15em;
-		text-transform: lowercase;
-		font-variant: small-caps;
+		font-size: 0.85em;
+		text-transform: uppercase;
 		font-family: 'Open Sans',Helvetica,Calibri,sans-serif;
-		line-height: 1;
+		line-height: 1.5;
 		margin-bottom: 8px;
 	}
 
