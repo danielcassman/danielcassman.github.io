@@ -59,7 +59,7 @@ div.panel.topleft {
 }
 
 div#weather-info, div#stocks {
-	cursor: default;
+	cursor: pointer;
 }
 
 div#weather-info p {
