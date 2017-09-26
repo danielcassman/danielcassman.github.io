@@ -42,12 +42,12 @@ function setUpWeather() {
 		fadeToggle(document.getElementById('weather-info'));
 		return false;
 	});
-	
+
 	document.getElementById('weather-info').addEventListener('click', function() {
 		window.open(URLS.weather);
 		return false;
 	});
-	
+
 	getLocationAndUpdateWeather();
 }
 
@@ -206,12 +206,12 @@ function setUpStocks() {
 		fadeToggle(document.getElementById('stocks'));
 		return false;
 	});
-	
-	document.getElementById('weather-info').addEventListener('click', function() {
+
+	document.getElementById('stocks').addEventListener('click', function() {
 		window.open(URLS.stocks);
 		return false;
 	});
-	
+
 	loadStocks(STOCKS, '#stocks', STOCKS_UPDATE);
 }
 
