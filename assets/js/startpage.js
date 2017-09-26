@@ -92,8 +92,8 @@ function loadLocalWeatherWunderground(position, update)	{
 	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
 
 	var request = new XMLHttpRequest();
-	url = 'http://danielcassman.com/start/api-wrappers/wunderground.php?lat='
-	 + position.coords.latitude + '&lng=' + position.coords.longitude;
+	url = 'http://api.wunderground.com/api/1efe8d448f60837d/conditions/forecast/astronomy/q/' + 
+	 + position.coords.latitude + ',' + position.coords.longitude + '.json';
 	request.open('GET', url, true);
 
 	request.onload = function() {
@@ -437,7 +437,8 @@ function updateNYTHeadlines(wrapper, max_stories, update) {
 	max_stories = (typeof max_stories !== 'undefined') ?  max_stories : 10;
 	update = (typeof update !== 'undefined') ?  update : false;
 
-	var url = "http://danielcassman.com/start/api-wrappers/nytimes.php";
+	var url = "https://api.nytimes.com/svc/topstories/v2/home.json";
+	url += '?api-key=a300a0adf8fa418f903e7cbd2355a805';
 
 	var request = new XMLHttpRequest();
 	request.open('GET', url, true);
