@@ -6,7 +6,7 @@ var DEFAULT_LOCATION = {
       longitude: -77.0295696
     }
 }
-WEATHER_UPDATE = 900000;
+WEATHER_UPDATE = 90000;
 STOCKS_UPDATE = 300000;
 NEWS_UPDATE = 600000;
 
@@ -60,11 +60,11 @@ function getLocationAndUpdateWeather() {
 	var query = parse_query_string(window.location.search.substring(1));
 	if(query.location == 'default') {
 		console.log("Default location selected, using that.")
-		loadLocalWeather(DEFAULT_LOCATION);
+		loadLocalWeatherWunderground(DEFAULT_LOCATION);
 	} else if(query.latitude && query.longitude &&
 			(query.latitude >= -90 && query.latitude <= 90) &&
 		 	(query.longitude >= -180 && query.longitude <= 180)) {
-		loadLocalWeather({
+		loadLocalWeatherWunderground({
 			coords: {
 				latitude: query.latitude,
 				longitude: query.longitude
@@ -72,11 +72,68 @@ function getLocationAndUpdateWeather() {
 		});
 }	else {
 		if(navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(loadLocalWeather, noLocationAvailable);
+			navigator.geolocation.getCurrentPosition(loadLocalWeatherWunderground, noLocationAvailable);
 		} else {
 			loadLocalWeather(DEFAULT_LOCATION);
 		}
 	}
+}
+
+/* Function: loadLocalWeatherWunderground
+ * --------------------------------------
+ * Gets the current weather from Weather Underground, then
+ * adds it to the DOM.
+ *
+ * @param position: A position object, as defined by
+ * navigator.geolocation.
+ */
+function loadLocalWeatherWunderground(position, update)	{
+	position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
+	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
+
+	var request = new XMLHttpRequest();
+	url = 'http://danielcassman.com/start/api-wrappers/wunderground.php?lat='
+	 + position.coords.latitude + '&lng=' + position.coords.longitude;
+	request.open('GET', url, true);
+
+	request.onload = function() {
+	  if (request.status >= 200 && request.status < 400) {
+		var data = JSON.parse(request.responseText);
+		applyWeatherWunderground(data);
+		logUpdate("Weather updated from Wunderground.");
+	  } else {
+		logUpdate("Unable to reach Wunderground API. " + responseText);
+	  }
+	};
+
+	request.onerror = function() {
+	  logUpdate("Unable to reach Wunderground API. " + responseText);
+	};
+
+	request.send();
+
+	if(update) {
+		setTimeout(function() {
+			loadLocalWeatherWunderground(position);
+		}, update);
+	}
+}
+
+/* Function: applyWeatherWunderground
+ * ----------------------------------
+ * Sets up the weather panel with the given conditions.
+ *
+ * @param data: The data returned by the OpenWeatherMap API.
+ */
+function applyWeatherWunderground(data) {
+
+	document.getElementById('condition').textContent = data.current_observation.weather;
+	document.getElementById('temperature').innerHTML = Math.round(data.current_observation.temp_f) + "&deg;";
+	document.getElementById('icon').setAttribute('class', 'wi wi-wu-' + data.current_observation.icon);
+	document.getElementById('location').textContent = data.current_observation.display_location.full;
+
+	var image = getBackgroundImageWunderground(data.current_observation.icon, data.sun_phase);
+	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
 }
 
 /* Function: loadLocalWeather
@@ -130,7 +187,7 @@ function loadLocalWeather(position, update)	{
  */
 function noLocationAvailable(error) {
 	logUpdate('Location issue: ' + error.message);
-	loadLocalWeather(DEFAULT_LOCATION);
+	loadLocalWeatherWunderground(DEFAULT_LOCATION);
 }
 
 /* Function: applyWeather
@@ -148,6 +205,49 @@ function applyWeather(data) {
 
 	var image = getBackgroundImage(data.weather[0].id, data.sys);
 	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
+}
+
+/* Function: getBackgroundImageWunderground
+ * ----------------------------------------
+ * Sets the page background image based on the current weather
+ * conditions.
+ *
+ * @param condition: The Weather Underground condition ID. For more,
+ * see: https://openweathermap.org/weather-conditions
+ */
+function getBackgroundImageWunderground(condition, sys) {
+	var photo_id = 'clear';
+
+	if(condition == 'tstorms' || condition == 'chancetstorms') // Thunderstorms
+		photo_id = 'lightning';
+	if(condition == 'chancerain' || condition == 'chancesleat') // Drizzle
+		photo_id = 'rain';
+	if(condition == 'rain' || condition == 'sleat') // Rain
+		photo_id = 'rain';
+	if(condition == 'snow') // Snow
+		photo_id = 'snow';
+	if(condition == 'chancesnow' || condition == 'flurries') // Light snow
+		photo_id = 'flurries';
+	if(condition == 'hazy') // Fog
+		photo_id = 'foggy';
+	if(condition == 'partlysunny' || 'mostlysunny') // Few clouds
+		photo_id = 'fewclouds';
+	if(condition == 'partlycloudy' || 'mostlycoudy') // Some clouds
+		photo_id = 'partlycloudy';
+	if(condition == 'cloudy')
+		photo_id = 'cloudy';
+
+	var d = new Date();
+	var hours = d.getHours();
+	var minutes = d.getMinutes();
+	
+	var dn = 'night';
+	
+	if((hours > sys.sunrise.hour || (hours == sys.sunrise.hour && minutes > sys.sunrise.hour)) &&
+	   (hours < sys.sunset.hour || (hours == sys.sunset.hour && minutes <= sys.sunset.hour)))
+	   dn = 'day';
+	
+	return (dn + '-' + photo_id + '-01.jpg');
 }
 
 /* Function: getBackgroundImage
@@ -337,8 +437,7 @@ function updateNYTHeadlines(wrapper, max_stories, update) {
 	max_stories = (typeof max_stories !== 'undefined') ?  max_stories : 10;
 	update = (typeof update !== 'undefined') ?  update : false;
 
-	var url = "https://api.nytimes.com/svc/topstories/v2/home.json";
-	url += '?api-key=a300a0adf8fa418f903e7cbd2355a805';
+	var url = "http://danielcassman.com/start/api-wrappers/nytimes.php";
 
 	var request = new XMLHttpRequest();
 	request.open('GET', url, true);
