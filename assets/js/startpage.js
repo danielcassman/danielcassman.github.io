@@ -92,7 +92,7 @@ function loadLocalWeatherWunderground(position, update)	{
 	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
 
 	var request = new XMLHttpRequest();
-	url = 'http://api.wunderground.com/api/1efe8d448f60837d/conditions/forecast/astronomy/q/' + 
+	url = 'https://api.wunderground.com/api/1efe8d448f60837d/conditions/forecast/astronomy/q/' + 
 	 + position.coords.latitude + ',' + position.coords.longitude + '.json';
 	request.open('GET', url, true);
 
