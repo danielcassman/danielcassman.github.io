@@ -92,7 +92,7 @@ function loadLocalWeatherWunderground(position, update)	{
 	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
 
 	var request = new XMLHttpRequest();
-	url = 'https://api.wunderground.com/api/1efe8d448f60837d/conditions/forecast/astronomy/q/' + 
+	url = 'https://api.wunderground.com/api/1efe8d448f60837d/conditions/forecast/astronomy/q/' +
 	 + position.coords.latitude + ',' + position.coords.longitude + '.json';
 	request.open('GET', url, true);
 
@@ -230,9 +230,9 @@ function getBackgroundImageWunderground(condition, sys) {
 		photo_id = 'flurries';
 	if(condition == 'hazy') // Fog
 		photo_id = 'foggy';
-	if(condition == 'partlysunny' || 'mostlysunny') // Few clouds
+	if(condition == 'partlysunny' || condition == 'mostlysunny') // Few clouds
 		photo_id = 'fewclouds';
-	if(condition == 'partlycloudy' || 'mostlycoudy') // Some clouds
+	if(condition == 'partlycloudy' || condition == 'mostlycoudy') // Some clouds
 		photo_id = 'partlycloudy';
 	if(condition == 'cloudy')
 		photo_id = 'cloudy';
@@ -240,13 +240,13 @@ function getBackgroundImageWunderground(condition, sys) {
 	var d = new Date();
 	var hours = d.getHours();
 	var minutes = d.getMinutes();
-	
+
 	var dn = 'night';
-	
+
 	if((hours > sys.sunrise.hour || (hours == sys.sunrise.hour && minutes > sys.sunrise.hour)) &&
 	   (hours < sys.sunset.hour || (hours == sys.sunset.hour && minutes <= sys.sunset.hour)))
 	   dn = 'day';
-	
+
 	return (dn + '-' + photo_id + '-01.jpg');
 }
 
