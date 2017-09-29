@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <project path="device/huawei/angler" name="fezzy102/android_device_huawei_angler" remote="github" revision="o" />
+  <project path="vendor/huawei/angler" name="nitrogen-os-devices/proprietary_vendor_huawei" remote="github" revision="o" />
+  <project path="kernel/huawei/angler" name="fezzy102/kernel_huawei_angler" remote="github" revision="o" />
+</manifest>
