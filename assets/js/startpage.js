@@ -100,7 +100,7 @@ function loadLocalWeatherWunderground(position, update)	{
 	  if (request.status >= 200 && request.status < 400) {
 		var data = JSON.parse(request.responseText);
 		applyWeatherWunderground(data);
-		logUpdate("Weather updated from Wunderground.");
+		// logUpdate("Weather updated from Wunderground.");
 	  } else {
 		logUpdate("Unable to reach Wunderground API. " + responseText);
 	  }
@@ -158,7 +158,7 @@ function loadLocalWeather(position, update)	{
 	  if (request.status >= 200 && request.status < 400) {
 		var data = JSON.parse(request.responseText);
 		applyWeather(data);
-		logUpdate("Weather updated from OpenWeatherMap.");
+		// logUpdate("Weather updated from OpenWeatherMap.");
 	  } else {
 		logUpdate("Unable to reach OpenWeatherMap API. " + responseText);
 	  }
@@ -351,7 +351,7 @@ function loadStocks(symbols, wrapper, update) {
 				createStockItem(stocks[i], wrapper);
 			}
 		}
-		logUpdate("Stocks updated from Yahoo.");
+		// logUpdate("Stocks updated from Yahoo.");
 	  } else {
 		logUpdate("Unable to reach Yahoo Stocks API. " + responseText);
 	  }
@@ -466,7 +466,7 @@ function updateNYTHeadlines(wrapper, max_stories, update) {
 				added++;
 			}
 
-			logUpdate("News updated from the New York Times.");
+			// logUpdate("News updated from the New York Times.");
 		} else {
 			logUpdate("The New York Times API returned an error. News not updated.");
 		}
