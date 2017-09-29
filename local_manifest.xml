@@ -3,6 +3,8 @@
   <project path="device/huawei/angler" name="fezzy102/android_device_huawei_angler" remote="github" revision="o" />
   <project path="vendor/huawei/angler" name="nitrogen-os-devices/proprietary_vendor_huawei" remote="github" revision="o" />
   <project path="kernel/huawei/angler" name="fezzy102/kernel_huawei_angler" remote="github" revision="o" />
+  <remove-project name="nitrogen-project/android_packages_apps_Settings" />
   <project path="packages/apps/Settings" name="fezzy102/android_packages_apps_Settings " remote="github" revision="o" />
+  <remove-project name="nitrogen-project/android_frameworks_base" />
   <project path="frameworks/base" name="fezzy102/android_frameworks_base" remote="github" revision="o" />
 </manifest>
