@@ -221,33 +221,37 @@ function getBackgroundImageWunderground(condition, sys) {
 	if(condition == 'tstorms' || condition == 'chancetstorms') // Thunderstorms
 		photo_id = 'lightning';
 	if(condition == 'chancerain' || condition == 'chancesleat') // Drizzle
-		photo_id = 'rain';
+		photo_id = 'lightrain';
 	if(condition == 'rain' || condition == 'sleat') // Rain
 		photo_id = 'rain';
 	if(condition == 'snow') // Snow
 		photo_id = 'snow';
 	if(condition == 'chancesnow' || condition == 'flurries') // Light snow
-		photo_id = 'flurries';
+		photo_id = 'lightsnow';
 	if(condition == 'hazy') // Fog
 		photo_id = 'foggy';
-	if(condition == 'partlysunny' || condition == 'mostlysunny') // Few clouds
+	if(condition == 'partlysunny') // Few clouds
 		photo_id = 'fewclouds';
-	if(condition == 'partlycloudy' || condition == 'mostlycoudy') // Some clouds
+	if(condition == 'partlysunny' || condition == 'partlycloudy') // Some clouds
 		photo_id = 'partlycloudy';
+	if(condition == 'mostlycoudy')
+		photo_id = 'mostlycoudy';
 	if(condition == 'cloudy')
 		photo_id = 'cloudy';
 
+	// Figure out whether it's day or night
 	var d = new Date();
 	var hours = d.getHours();
 	var minutes = d.getMinutes();
-
 	var dn = 'night';
-
 	if((hours > sys.sunrise.hour || (hours == sys.sunrise.hour && minutes > sys.sunrise.hour)) &&
 	   (hours < sys.sunset.hour || (hours == sys.sunset.hour && minutes <= sys.sunset.hour)))
 	   dn = 'day';
+	   
+	// Get a random number between 1 and 3
+	var image_index = Math.floor((Math.random() * 3) + 1);
 
-	return (dn + '-' + photo_id + '-01.jpg');
+	return (dn + '-' + photo_id + '-0' + image_index + '.jpg');
 }
 
 /* Function: getBackgroundImage
