@@ -1,5 +1,5 @@
 /* Global Variables */
-var STOCKS = ['IWD', 'IWF', '^IXIC', '^GSPC', 'ES=F'];
+var STOCKS = ['IWD', 'IWF', 'IEFA', '^IXIC', '^GSPC', 'ES=F'];
 var DEFAULT_LOCATION = {
 	coords: {
       latitude: 38.8942345,
@@ -247,7 +247,7 @@ function getBackgroundImageWunderground(condition, sys) {
 	if((hours > sys.sunrise.hour || (hours == sys.sunrise.hour && minutes > sys.sunrise.hour)) &&
 	   (hours < sys.sunset.hour || (hours == sys.sunset.hour && minutes <= sys.sunset.hour)))
 	   dn = 'day';
-	   
+
 	// Get a random number between 1 and 3
 	var image_index = Math.floor((Math.random() * 3) + 1);
 
