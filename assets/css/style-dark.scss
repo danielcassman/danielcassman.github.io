@@ -1,0 +1,250 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+$accent-color: #c61919;
+$title-color: #efefef;
+$text-color: #ccc;
+$background-color: #222;
+$link-color: #76a2c5;
+$focus-color: #97cef5;
+$accent-hover: #ea0f0f;
+$header-font: 'Asap Condensed','Helvetica Neue',sans-serif;
+$body-font: 'PT Sans','Helvetica Neue',sans-serif;
+
+body {
+	background: $background-color;
+	color: $text-color;
+	font-family: $body-font;
+}
+
+a:link, a:visited {
+	color: $link-color;
+}
+
+a:hover, a:focus {
+	color: $focus-color;
+	font-weight: normal;
+	text-decoration: none;
+	border-bottom: 1px solid $focus-color;
+}
+
+h1.page-title {
+	font-weight: normal;
+	font-size: 4em;
+	letter-spacing: 3px;
+	text-transform: lowercase;
+	color: $title-color;
+}
+
+h2, h3 {
+	clear: both;
+	color: $title-color;
+	font-weight: 300;
+	font-family: $header-font;
+	text-transform: uppercase;
+}
+
+h2 {
+	font-size: 2em;
+}
+
+h3 {
+	font-size: 1.2em;
+	margin: 1em 0 5px;
+}
+
+h1 a:hover, h1 a:focus,
+h2 a:hover, h3 a:focus,
+h2 a:hover, h3 a:focus {
+	border-bottom-width: 0;
+}
+
+/* Header */
+h1#site-title {
+	text-transform: uppercase;
+	font: normal 300 1.75em $header-font;
+}
+
+#profile-picture {
+	max-width: 70%;
+}
+
+#site-title a:link,
+#site-title a:visited {
+	color: $accent-color;
+}
+
+#site-title a:hover {
+	font-weight: 300;
+	color: $accent-hover;
+}
+
+#site-description {
+	text-transform: uppercase;
+	font-size: 1em;
+}
+
+#site-description a:link,
+#site-description a:visited {
+	color: $accent-color;
+}
+
+#site-description a:hover {
+	color: $accent-hover;
+	font-weight: normal;
+	text-decoration: none;
+	border-bottom: 1px solid $accent-hover;
+}
+
+@media screen and (max-width: 960px) {
+	h1#site-title {
+		font-size: 2.5em;
+	}
+	
+	#site-description {
+		font-size: 1.5em;
+	}
+}
+
+/* Content */
+section header {
+	width: auto;
+	float: none;
+	position: relative;
+	margin-bottom: 1em;
+}
+
+.highlight {
+	background: #111;
+	color: #ddd;
+	border-color: #333;
+}
+
+code, pre, strong {
+	color: #ddd;
+}
+
+/* Posts */
+div.post-preview:not(:last-child) {
+	border-bottom: 1px solid #999;
+	margin-bottom: 2.5em;
+	padding-bottom: 1em;
+}
+
+h2.post-title {
+	color: #ddd;
+	border-bottom: 1px solid #888;
+	margin-bottom: 5px;
+}
+
+	div.post-preview h2.post-title {
+		border-bottom-width: 0;
+	}
+
+	div.post-preview h2.post-title a:link,
+	div.post-preview h2.post-title a:visited {
+		color: #d0d0d0;
+	}
+
+	div.post-preview h2.post-title a:visited {
+		color: #fff;
+	}
+
+	h2.post-title a:hover {
+		font-weight: 300;
+	}
+
+p.post-meta {
+	color: #aaa;
+	margin-bottom: 1em;
+	font-family: $header-font;
+	text-transform: uppercase;
+}
+
+.post_content img.wrapped {
+	max-width: 250px;
+	max-height: 300px;
+	margin-bottom: 15px;
+}
+	.post_content img.wrapped.left {
+		float: left;
+		margin-right: 10px;
+	}
+
+	.post_content img.wrapped.right {
+		float: right;
+		margin-left: 10px;
+	}
+
+	.post_content p, .post-preview p {
+		line-height: 2;
+	}
+
+	.image.centered {
+		text-align: center;
+		margin: 2em 15px;
+		border: 1px solid #444;
+		padding: 10px;
+		border-radius: 5px;
+	}
+
+	.image .caption {
+		margin: 0;
+		text-transform: lowercase;
+		font-variant: small-caps;
+		font-size: 1.25em;
+	}
+
+/* Post List */
+h3.post-title {
+	margin-top: .5em;
+	margin-bottom: 5px;
+}
+
+/* Instagram Gallery */
+#instagram-gallery img {
+	float: left;
+	width: 33%;
+}
+
+/* Resume */
+span.resume-employer {
+	color: #eee;
+}
+
+span.resume-job-title:before,
+span.resume-location:before {
+	content: "\2014\00a0"
+}
+
+p.resume-meta {
+	font-family: $header-font;
+	font-weight: 300;
+	letter-spacing: 0.5px;
+}
+
+	span.resume-date {
+		text-transform: uppercase;
+	}
+
+	span.resume-location {
+		text-transform: lowercase;
+	}
+
+h4.resume-title {
+	font: normal 300 1.5em $header-font;
+	text-transform: uppercase;
+	margin: 1em 0 5px;
+	color: #eee;
+}
+
+/* Social Media Icons */
+p.social-icons {
+	font-size: 1.5em;
+}
+
+	p.social-icons a {
+		margin-right: 10px;
+	}
