@@ -128,14 +128,14 @@ code, pre, strong {
 
 /* Posts */
 div.post-preview:not(:last-child) {
-	border-bottom: 1px solid #999;
+	border-bottom: 1px solid #aaa;
 	margin-bottom: 2.5em;
 	padding-bottom: 1em;
 }
 
 h2.post-title {
-	color: #ddd;
-	border-bottom: 1px solid #888;
+	color: $title-color;
+	border-bottom: 1px solid #aaa;
 	margin-bottom: 5px;
 }
 
@@ -148,16 +148,12 @@ h2.post-title {
 		color: #494949;
 	}
 
-	div.post-preview h2.post-title a:visited {
-		color: #111;
-	}
-
 	h2.post-title a:hover {
 		font-weight: 300;
 	}
 
 p.post-meta {
-	color: #aaa;
+	color: #555;
 	margin-bottom: 1em;
 	font-family: $header-font;
 	text-transform: uppercase;
@@ -185,7 +181,7 @@ p.post-meta {
 	.image.centered {
 		text-align: center;
 		margin: 2em 15px;
-		border: 1px solid #444;
+		border: 1px solid #bbb;
 		padding: 10px;
 		border-radius: 5px;
 	}
