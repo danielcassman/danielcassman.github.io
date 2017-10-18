@@ -122,7 +122,11 @@ section header {
 	border-color: #333;
 }
 
-code, pre, strong {
+strong {
+	color: $title-color;
+}
+
+code, pre {
 	color: #ddd;
 }
 
