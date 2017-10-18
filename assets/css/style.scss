@@ -3,13 +3,13 @@
 
 @import "{{ site.theme }}";
 
-$accent-color: #c61919;
-$title-color: #efefef;
-$text-color: #ccc;
-$background-color: #222;
-$link-color: #76a2c5;
-$focus-color: #97cef5;
-$accent-hover: #ea0f0f;
+$accent-color: #d61919;
+$title-color: #111;
+$text-color: #333;
+$background-color: #fafafa;
+$link-color: #127bce;
+$focus-color: #499cdd;
+$accent-hover: #ff0f0f;
 $header-font: 'Asap Condensed','Helvetica Neue',sans-serif;
 $body-font: 'PT Sans','Helvetica Neue',sans-serif;
 
@@ -145,11 +145,11 @@ h2.post-title {
 
 	div.post-preview h2.post-title a:link,
 	div.post-preview h2.post-title a:visited {
-		color: #d0d0d0;
+		color: #494949;
 	}
 
 	div.post-preview h2.post-title a:visited {
-		color: #fff;
+		color: #111;
 	}
 
 	h2.post-title a:hover {
