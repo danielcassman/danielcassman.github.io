@@ -1,6 +1,6 @@
 ---
 title: All Our Wrong Todays by Elan Mastai
-date: 2017-10-19 18:40:23
+date: 2017-10-20 14:26:19
 category: culture
 tags: books,book-reviews
 ---
