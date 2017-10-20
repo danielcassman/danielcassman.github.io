@@ -1,6 +1,6 @@
-Tim---
+---
 title: "The Daily: Disappearing Factory Jobs"
-date: 2019-10-19 20:01:02
+date: 2017-10-19 20:01:02
 category: policy
 ---
 
