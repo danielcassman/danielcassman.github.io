@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Google Calendar for Web Gets Material Design
 date: 2017-10-17 15:54:00
 category: technology
