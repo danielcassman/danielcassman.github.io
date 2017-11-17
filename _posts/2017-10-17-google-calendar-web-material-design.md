@@ -3,7 +3,7 @@ layout: post
 title: Google Calendar for Web Gets Material Design
 date: 2017-10-17 15:54:00
 category: technology
-tags: design,web-design,google
+tags: [design,web-design,google]
 ---
 
 Today, Google launched a [major refresh](https://www.blog.google/products/g-suite/time-refresh-introducing-new-look-and-features-google-calendar-web/) to the design of Google Calendar for the web. The update is long overdue, but it's extremely well-executed and looks stunning. Sometimes you just look at a design and it feels right. This is one of those. After using the new design for a while, I'd imagine it'll be tough to go back to the old one.
