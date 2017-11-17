@@ -4,6 +4,7 @@ title: Setting Up Elementary OS
 author: Daniel Cassman
 date: 2017-09-21 11:00:01
 categories: [technology]
+tags: [technology,linux,ubuntu]
 ---
 
 Just a few days ago, I wrote about [setting up my GNOME desktop on Linux]({{ site.baseurl }}{% post_url 2017-09-18-making-gnome-look-good %}). Unfortunately, the current state of play in the GNOME world is that it's just really hard to make the desktop look _polished_. While there are a lot of themes that look nice, I've found a minor issues with almost all of them. I just couldn't settle on a combination that satisfied me. That may change when Ubuntu adopts GNOME as its default desktop environment; Ubuntu is one of the most-used Linux distros, and it has an active community that creates a lot of great stuff. For now, though, I've decided to try [Elementary OS](https://elementary.io/) for a while.
