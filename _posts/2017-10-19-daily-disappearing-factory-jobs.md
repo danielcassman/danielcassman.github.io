@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "The Daily: Disappearing Factory Jobs"
 date: 2017-10-19 20:01:02
 category: policy
