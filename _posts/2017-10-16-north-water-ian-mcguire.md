@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "The North Water by Ian McGuire"
 date: 2017-10-16 20:53:26
 category: culture
