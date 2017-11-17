@@ -2,7 +2,7 @@
 layout: post
 title: Infinity Born by Douglas E. Richards
 date: 2017-11-15 18:43:20
-tags: books,book-reviews
+tags: [books,book-reviews]
 category: [culture]
 ---
 I didn't like this book. It has some interesting and promising ideas, but none of them are well-executed. Ultimately it's a book with boring characters about computer science and espionage that seems to be written by someone with little understanding of either computer science or espionage.
