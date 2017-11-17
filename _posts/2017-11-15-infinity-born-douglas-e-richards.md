@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Infinity Born by Douglas E. Richards
 date: 2017-11-15 18:43:20
 tags: books,book-reviews
