@@ -3,7 +3,7 @@ layout: post
 title: "The North Water by Ian McGuire"
 date: 2017-10-16 20:53:26
 category: culture
-tags: books,book-reviews
+tags: [books,book-reviews]
 ---
 
 Ian McGuire's novel _The North Water_ is a story about whaling. That alone invites comparisons to _Moby Dick_, and, indeed, both are gritty, realistic stories about adventures on nineteenth century whalers. But the stories are very different. _The North Water_ is told in the third person and the present tense (which, combined with the graphic descriptions of violence and gore, has prompted comparisons to Cormac McCarthy).
