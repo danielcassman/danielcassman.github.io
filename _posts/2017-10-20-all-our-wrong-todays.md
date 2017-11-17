@@ -2,8 +2,8 @@
 layout: post
 title: All Our Wrong Todays by Elan Mastai
 date: 2017-10-20 14:26:19
-category: culture
-tags: books,book-reviews
+category: [culture]
+tags: [books,book-reviews]
 ---
 
 I loved this book. It's a really fun, fast-paced novel about a guy in a seemingly utopian future with an uhappy family who accidentally destroys the future utopia by using his father's time machine to derail the technological developments that made it possible. But in the much-less-utopian present, our present, he finds that he's a lot happier, his family's a lot happier, and he has a shot at a life with the woman he loves.
