@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Setting Up Elementary OS
 author: Daniel Cassman
 date: 2017-09-21 11:00:01
