@@ -1,4 +1,5 @@
 ---
+layout: post
 title: The Long Way to a Small, Angry Planet by Becky Chambers
 date: 2017-10-19 18:40:23
 category: culture
