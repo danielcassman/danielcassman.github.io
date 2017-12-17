@@ -1,4 +1,5 @@
 /* Global Variables */
+var STOCKS = ['IWD', 'IWF', 'IEFA', '^IXIC', '^GSPC', 'ES=F'];
 var DEFAULT_LOCATION = {
 	coords: {
       latitude: 38.8942345,
@@ -6,6 +7,7 @@ var DEFAULT_LOCATION = {
     }
 }
 WEATHER_UPDATE = 600000;
+STOCKS_UPDATE = 60000;
 NEWS_UPDATE = 600000;
 
 var URLS = {
@@ -303,10 +305,110 @@ function getBackgroundImage(condition, sys) {
  *
  */
 function setUpStocks() {
+	document.getElementById('stocks').style.opacity = 0;
 	document.getElementById('stocks-button').addEventListener('click', function() {
-		window.open('https://finance.yahoo.com/portfolio/pf_1/view/v1');
+		fadeToggle(document.getElementById('stocks'));
 		return false;
 	});
+
+	document.getElementById('stocks').addEventListener('click', function() {
+		window.open(URLS.stocks);
+		return false;
+	});
+
+	loadStocks(STOCKS, '#stocks', STOCKS_UPDATE);
+}
+
+/* Function: loadStocks
+ * --------------------
+ * Loads the stock market data and creates DOM elements
+ * in the stocks pane.
+ *
+ * @param symbols: An array of stock symbols to load.
+ * @param wrapper: The DOM element to place the stock
+ * information in.
+ */
+function loadStocks(symbols, wrapper, update) {
+	stocks = (typeof stocks !== 'undefined') ?  stocks : STOCKS;
+	wrapper = (typeof update !== 'undefined') ?  wrapper : '#stocks';
+	update = (typeof update !== 'undefined') ?  update : false;
+
+	var request = new XMLHttpRequest();
+
+	var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22'
+	 + symbols.join(',') + '%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback='
+
+	request.open('GET', url, true);
+
+	request.onload = function() {
+	  if (request.status >= 200 && request.status < 400) {
+		var data = JSON.parse(request.responseText);
+		var stocks = data.query.results.quote;
+		if(Array.isArray(stocks)) {
+			// Remove current stocks from the DOM
+			var current_stocks = document.querySelector(wrapper).querySelectorAll("div.stock");
+			for(var i = 0; i < current_stocks.length; i++) {
+				current_stocks[i].parentNode.removeChild(current_stocks[i]);
+			}
+
+			for(var i = 0; i < stocks.length; i++) {
+				createStockItem(stocks[i], wrapper);
+			}
+		}
+		// logUpdate("Stocks updated from Yahoo.");
+	  } else {
+		logUpdate("Unable to reach Yahoo Stocks API. " + responseText);
+	  }
+	};
+
+	request.onerror = function() {
+	  logUpdate("There was an error reaching the Yahoo Stocks API.");
+	};
+
+	request.send();
+
+	if(update) {
+		setTimeout(function() {
+			loadStocks(symbols, wrapper, update);
+		}, update);
+	}
+}
+
+/* Function: createStockItem
+ * -------------------------
+ * Handles an error situation when no location information is
+ * available by loading weather information from the default
+ * location.
+ *
+ * @param error: The error message to display.
+ */
+function createStockItem(stock, wrapper) {
+	var div = document.createElement('div');
+	div.setAttribute('class', 'stock');
+
+	// Symbol
+	var sym = document.createElement('span');
+	sym.setAttribute('class', 'stock-symbol');
+	sym.textContent = stock.symbol;
+
+	// Price
+	var price = document.createElement('span');
+	price.setAttribute('class', 'stock-price');
+	price.textContent = decimalPlaces(stock.LastTradePriceOnly, 2);
+
+	// Change
+	var change = document.createElement('span');
+	var c = stock.Change;
+	if(stock.Change == null)
+		c = (stock.LastTradePriceOnly - stock.PreviousClose);
+	c = decimalPlaces(c, 2);
+	change.setAttribute('class', 'stock-change ' + (c < 0 ? 'negative' : 'positive'));
+	change.textContent = '(' + (c < 0 ? '' : '+') + c + ')';
+
+	div.appendChild(sym);
+	div.appendChild(price);
+	div.appendChild(change);
+	document.querySelector(wrapper).appendChild(div);
 }
 
 /* Function: setUpNews
