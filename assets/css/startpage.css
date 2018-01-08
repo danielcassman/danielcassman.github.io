@@ -120,6 +120,14 @@ div.panel.bottomright {
 		div#opmstatus span.opm-current-status.open {
 			color: #91ffa5;
 		}
+		
+		div#opmstatus span.opm-current-status.delayed {
+			color: #ffc760;
+		}
+		
+		div#opmstatus span.opm-current-status.closed {
+			color: #ff6060;
+		}
 	
 	div#opmstatus span.opm-status-summary {
 		font: normal normal .85em 'Open Sans',Helvetica,Calibri,sans-serif;
