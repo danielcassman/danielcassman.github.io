@@ -96,7 +96,36 @@ div#weather-info span#condition {
 div.panel.bottomright {
 	bottom: 75px;
 	right: 10px;
+	width: 20%;
 }
+
+	div#opmstatus {
+		cursor: pointer;
+	}
+
+	div#opmstatus span.opm-status-date {
+		font: normal normal .8em 'Open Sans',Helvetica,Calibri,sans-serif;
+		text-transform: uppercase;
+		color: #ccc;
+		display: block;
+	}
+	
+	div#opmstatus span.opm-current-status {
+		font: normal normal 1em 'Open Sans',Helvetica,Calibri,sans-serif;
+		color: #efefef;
+		text-transform: uppercase;
+		display: block;
+	}
+	
+		div#opmstatus span.opm-current-status.open {
+			color: #91ffa5;
+		}
+	
+	div#opmstatus span.opm-status-summary {
+		font: normal normal .85em 'Open Sans',Helvetica,Calibri,sans-serif;
+		color: #eee;
+		display: block;
+	}
 
 	div#stocks div.stock {
 		font: normal normal .85em 'Open Sans',Helvetica,Calibri,sans-serif;
