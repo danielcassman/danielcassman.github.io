@@ -7,10 +7,12 @@ var DEFAULT_LOCATION = {
 }
 WEATHER_UPDATE = 600000;
 NEWS_UPDATE = 600000;
+OPM_UPDATE = 600000;
 
 var URLS = {
 	weather: 'https://www.wunderground.com/',
-	stocks: 'https://finance.yahoo.com/portfolio/pf_1/view/v1?bypass=true'
+	stocks: 'https://finance.yahoo.com/portfolio/pf_1/view/v1?bypass=true',
+	opm: 'https://www.opm.gov/policy-data-oversight/snow-dismissal-procedures/current-status/'
 }
 
 /* Function: ready
@@ -450,6 +452,83 @@ function updateNYTHeadlines(wrapper, max_stories, update) {
 
 	request.send();
  }
+ 
+ /* Function: setUpOPM
+ * -------------------
+ * Sets up the OPM wrapper, click action, and loads the status.
+ */
+function setUpOPM() {
+	document.getElementById('opmstatus').style.opacity = 0;
+	document.getElementById('opmstatus').addEventListener('click', function() {
+		window.open(URLS.opm);
+		return false;
+	});
+	document.getElementById('opm-button').addEventListener('click', function() {
+		fadeToggle(document.getElementById('opmstatus'));
+		return false;
+	});
+	updateOPMStatus(OPM_UPDATE);
+}
+
+function updateOPMStatus(interval) {
+	max_stories = (typeof max_stories !== 'undefined') ?  max_stories : 10;
+	update = (typeof update !== 'undefined') ?  update : false;
+
+	var url = "https://www.opm.gov/xml/operatingstatus.json";
+
+	var request = new XMLHttpRequest();
+	request.open('GET', url, true);
+	request.onload = function() {
+		if(request.status >= 200 && request.status < 400) {
+			var data = JSON.parse(request.responseText);
+			
+			// Remove current status
+			document.getElementById('opm-wrapper').innerHTML = '';
+			
+			// Add new status the DOM
+			var opm_status_date = document.createElement('span');
+			opm_status_date.setAttribute('class', 'opm-status-date');
+			opm_status_date.textContent = data.AppliesTo;
+			
+			var current_status = document.createElement('span');
+			current_status.setAttribute('class', 'opm-current-status');
+			current_status.textContent = data.StatusSummary;
+			if(data.StatusSummary == "Open") {
+				current_status.setAttribute('class', 'opm-current-status open');
+			} else if (data.StatusSummary.indexOf('Closed' != -1)) {
+				current_status.setAttribute('class', 'opm-current-status closed');
+			} else if (data.StatusSummary.indexOf('Delayed' != -1)) {
+				current_status.setAttribute('class', 'opm-current-status delayed');
+			}
+			
+			var status_summary = document.createElement('span');
+			status_summary.setAttribute('class', 'opm-status-summary');
+			status_summary.textContent = data.ShortStatusMessage;
+			
+			document.getElementById('opm-wrapper').appendChild(opm_status_date);
+			document.getElementById('opm-wrapper').appendChild(current_status);
+			document.getElementById('opm-wrapper').appendChild(status_summary)
+			
+			URLS.opm = data.Url;
+			
+			//logUpdate("OPM data successfully updated.");
+		} else {
+			logUpdate("The OPM tool returned an error. OPM status not updated.");
+		}
+	};
+
+	request.onerror = function() {
+		logUpdate("Unable to reach the New York Times website.");
+	}
+
+	request.send();
+
+	if(interval) {
+		setTimeout(function() {
+			updateOPMStatus(interval);
+		}, interval);
+	}
+}
 
 /* Function: fadeToggle
  * --------------------
@@ -603,6 +682,7 @@ function setUp() {
 	setUpWeather();
 	setUpStocks();
 	setUpNews();
+	setUpOPM();
 }
 
 ready(setUp); // Run setUp when the DOM is ready
