@@ -228,7 +228,7 @@ function getBackgroundImageWunderground(condition, sys) {
 		photo_id = 'snow';
 	if(condition == 'chancesnow' || condition == 'flurries') // Light snow
 		photo_id = 'lightsnow';
-	if(condition == 'hazy') // Fog
+	if(condition == 'hazy' || condition == 'fog') // Fog
 		photo_id = 'foggy';
 	if(condition == 'mostlysunny') // Few clouds
 		photo_id = 'fewclouds';
