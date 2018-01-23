@@ -474,7 +474,7 @@ function updateOPMStatus(interval) {
 	max_stories = (typeof max_stories !== 'undefined') ?  max_stories : 10;
 	update = (typeof update !== 'undefined') ?  update : false;
 
-	var url = "https://www.opm.gov/xml/operatingstatus.json";
+	var url = "https://www.opm.gov/json/operatingstatus.json";
 
 	var request = new XMLHttpRequest();
 	request.open('GET', url, true);
