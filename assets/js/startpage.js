@@ -495,9 +495,9 @@ function updateOPMStatus(interval) {
 			current_status.textContent = data.StatusSummary;
 			if(data.StatusSummary == "Open") {
 				current_status.setAttribute('class', 'opm-current-status open');
-			} else if (data.StatusSummary.indexOf('Closed' != -1)) {
+			} else if (data.StatusSummary.indexOf('Closed') != -1) {
 				current_status.setAttribute('class', 'opm-current-status closed');
-			} else if (data.StatusSummary.indexOf('Delayed' != -1)) {
+			} else if (data.StatusSummary.indexOf('Delayed') != -1) {
 				current_status.setAttribute('class', 'opm-current-status delayed');
 			}
 			
