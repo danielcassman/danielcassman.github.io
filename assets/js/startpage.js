@@ -222,7 +222,7 @@ function getBackgroundImageWunderground(condition, sys) {
 		photo_id = 'lightning';
 	if(condition == 'chancerain' || condition == 'chancesleat') // Drizzle
 		photo_id = 'lightrain';
-	if(condition == 'rain' || condition == 'sleat') // Rain
+	if(condition == 'rain' || condition == 'sleat' || condition == 'sleet') // Rain
 		photo_id = 'rain';
 	if(condition == 'snow') // Snow
 		photo_id = 'snow';
