@@ -1,5 +1,6 @@
 /* Global Variables */
-var STOCKS = ['IWD', 'IWF', 'IEFA', '^IXIC', '^GSPC', 'ES=F'];
+var STOCKS = ['INX','DJI','IXIC'];
+var STOCKSIEX = ["DIA","QQQ","SPY",'IWD','IWF','IEFA'];
 var DEFAULT_LOCATION = {
 	coords: {
       latitude: 38.8942345,
@@ -9,6 +10,7 @@ var DEFAULT_LOCATION = {
 WEATHER_UPDATE = 600000;
 STOCKS_UPDATE = 60000;
 NEWS_UPDATE = 600000;
+OPM_UPDATE = 600000;
 
 var URLS = {
 	weather: 'https://www.wunderground.com/',
@@ -59,7 +61,7 @@ function setUpWeather() {
 function getLocationAndUpdateWeather() {
 	var query = parse_query_string(window.location.search.substring(1));
 	if(query.location == 'default') {
-		console.log("Default location selected, using that.")
+		console.log("Default location selected, using that.");
 		loadLocalWeatherWunderground(DEFAULT_LOCATION);
 	} else if(query.latitude && query.longitude &&
 			(query.latitude >= -90 && query.latitude <= 90) &&
@@ -316,11 +318,11 @@ function setUpStocks() {
 		return false;
 	});
 
-	loadStocks(STOCKS, '#stocks', STOCKS_UPDATE);
+	loadStocksIEX(STOCKSIEX, 'stocks', STOCKS_UPDATE);
 }
 
-/* Function: loadStocks
- * --------------------
+/* Function: loadStocksIEX
+ * -----------------------
  * Loads the stock market data and creates DOM elements
  * in the stocks pane.
  *
@@ -328,63 +330,67 @@ function setUpStocks() {
  * @param wrapper: The DOM element to place the stock
  * information in.
  */
-function loadStocks(symbols, wrapper, update) {
-	stocks = (typeof stocks !== 'undefined') ?  stocks : STOCKS;
-	wrapper = (typeof update !== 'undefined') ?  wrapper : '#stocks';
+function loadStocksIEX(stocks, wrapper, update) {
+	stocks = (typeof stocks !== 'undefined') ?  stocks : STOCKSIEX;
+	wrapper = (typeof update !== 'undefined') ?  wrapper : 'stocks';
 	update = (typeof update !== 'undefined') ?  update : false;
+	
+	var xhr = [], i;
 
-	var request = new XMLHttpRequest();
+	var url = 'https://api.iextrading.com/1.0/stock/';
+	var url_postfix = '/quote';
 
-	var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22'
-	 + symbols.join(',') + '%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback='
+	for( i = 0; i < stocks.length; i++) {
+		(function(i) {
+			xhr[i] = new XMLHttpRequest();
+			xhr[i].open('GET', url + stocks[i] + url_postfix, true);
 
-	request.open('GET', url, true);
+			xhr[i].onload = function() {
+			  if (xhr[i].status >= 200 && xhr[i].status < 400) {
+				
+				var data = JSON.parse(xhr[i].responseText);
 
-	request.onload = function() {
-	  if (request.status >= 200 && request.status < 400) {
-		var data = JSON.parse(request.responseText);
-		var stocks = data.query.results.quote;
-		if(Array.isArray(stocks)) {
-			// Remove current stocks from the DOM
-			var current_stocks = document.querySelector(wrapper).querySelectorAll("div.stock");
-			for(var i = 0; i < current_stocks.length; i++) {
-				current_stocks[i].parentNode.removeChild(current_stocks[i]);
-			}
+				var current_stock = document.getElementById('stock-' + data.symbol);
+				if(!current_stock) {
+					current_stock = document.createElement('div');
+					current_stock.setAttribute('class', 'stock');
+					current_stock.setAttribute('id', 'stock-' + data.symbol);
+					document.getElementById(wrapper).appendChild(current_stock);
+				}
+				updateStockItemIEX(data, current_stock);
+				
+				// logUpdate("Stocks updated from Yahoo.");
+			  } else {
+				logUpdate("Unable to reach IEX API. " + responseText);
+			  }
+			};
 
-			for(var i = 0; i < stocks.length; i++) {
-				createStockItem(stocks[i], wrapper);
-			}
-		}
-		// logUpdate("Stocks updated from Yahoo.");
-	  } else {
-		logUpdate("Unable to reach Yahoo Stocks API. " + responseText);
-	  }
-	};
+			xhr[i].onerror = function() {
+			  logUpdate("There was an error reaching the IEX API.");
+			};
 
-	request.onerror = function() {
-	  logUpdate("There was an error reaching the Yahoo Stocks API.");
-	};
-
-	request.send();
+			xhr[i].send();
+		})(i);
+	}
 
 	if(update) {
 		setTimeout(function() {
-			loadStocks(symbols, wrapper, update);
+			loadStocksIEX(stocks, wrapper, update);
 		}, update);
 	}
 }
 
-/* Function: createStockItem
- * -------------------------
- * Handles an error situation when no location information is
- * available by loading weather information from the default
- * location.
+/* Function: updateStockItemIEX
+ * ----------------------------
+ * Updates a stock item in the DOM.
  *
- * @param error: The error message to display.
+ * @param stock: The stock data to display.
+ * @param wrapper: The DOM element in which to place the data.
  */
-function createStockItem(stock, wrapper) {
-	var div = document.createElement('div');
-	div.setAttribute('class', 'stock');
+function updateStockItemIEX(stock, wrapper) {
+	while (wrapper.firstChild) {
+		wrapper.removeChild(wrapper.firstChild);
+	}
 
 	// Symbol
 	var sym = document.createElement('span');
@@ -394,21 +400,17 @@ function createStockItem(stock, wrapper) {
 	// Price
 	var price = document.createElement('span');
 	price.setAttribute('class', 'stock-price');
-	price.textContent = decimalPlaces(stock.LastTradePriceOnly, 2);
+	price.textContent = decimalPlaces(stock.latestPrice, 2);
 
 	// Change
 	var change = document.createElement('span');
-	var c = stock.Change;
-	if(stock.Change == null)
-		c = (stock.LastTradePriceOnly - stock.PreviousClose);
-	c = decimalPlaces(c, 2);
+	var c = decimalPlaces(stock.changePercent * 100, 2);
 	change.setAttribute('class', 'stock-change ' + (c < 0 ? 'negative' : 'positive'));
-	change.textContent = '(' + (c < 0 ? '' : '+') + c + ')';
+	change.textContent = '(' + (c < 0 ? '' : '+') + c + '%)';
 
-	div.appendChild(sym);
-	div.appendChild(price);
-	div.appendChild(change);
-	document.querySelector(wrapper).appendChild(div);
+	wrapper.appendChild(sym);
+	wrapper.appendChild(price);
+	wrapper.appendChild(change);
 }
 
 /* Function: setUpNews
@@ -552,6 +554,83 @@ function updateNYTHeadlines(wrapper, max_stories, update) {
 
 	request.send();
  }
+ 
+ /* Function: setUpOPM
+ * -------------------
+ * Sets up the OPM wrapper, click action, and loads the status.
+ */
+function setUpOPM() {
+	document.getElementById('opmstatus').style.opacity = 0;
+	document.getElementById('opmstatus').addEventListener('click', function() {
+		window.open(URLS.opm);
+		return false;
+	});
+	document.getElementById('opm-button').addEventListener('click', function() {
+		fadeToggle(document.getElementById('opmstatus'));
+		return false;
+	});
+	updateOPMStatus(OPM_UPDATE);
+}
+
+function updateOPMStatus(interval) {
+	max_stories = (typeof max_stories !== 'undefined') ?  max_stories : 10;
+	update = (typeof update !== 'undefined') ?  update : false;
+
+	var url = "https://www.opm.gov/json/operatingstatus.json";
+
+	var request = new XMLHttpRequest();
+	request.open('GET', url, true);
+	request.onload = function() {
+		if(request.status >= 200 && request.status < 400) {
+			var data = JSON.parse(request.responseText);
+			
+			// Remove current status
+			document.getElementById('opm-wrapper').innerHTML = '';
+			
+			// Add new status the DOM
+			var opm_status_date = document.createElement('span');
+			opm_status_date.setAttribute('class', 'opm-status-date');
+			opm_status_date.textContent = data.AppliesTo;
+			
+			var current_status = document.createElement('span');
+			current_status.setAttribute('class', 'opm-current-status');
+			current_status.textContent = data.StatusSummary;
+			if(data.StatusSummary == "Open") {
+				current_status.setAttribute('class', 'opm-current-status open');
+			} else if (data.StatusSummary.indexOf('Closed') != -1) {
+				current_status.setAttribute('class', 'opm-current-status closed');
+			} else if (data.StatusSummary.indexOf('Delayed') != -1) {
+				current_status.setAttribute('class', 'opm-current-status delayed');
+			}
+			
+			var status_summary = document.createElement('span');
+			status_summary.setAttribute('class', 'opm-status-summary');
+			status_summary.textContent = data.ShortStatusMessage;
+			
+			document.getElementById('opm-wrapper').appendChild(opm_status_date);
+			document.getElementById('opm-wrapper').appendChild(current_status);
+			document.getElementById('opm-wrapper').appendChild(status_summary)
+			
+			URLS.opm = data.Url;
+			
+			//logUpdate("OPM data successfully updated.");
+		} else {
+			logUpdate("The OPM tool returned an error. OPM status not updated.");
+		}
+	};
+
+	request.onerror = function() {
+		logUpdate("Unable to reach the New York Times website.");
+	}
+
+	request.send();
+
+	if(interval) {
+		setTimeout(function() {
+			updateOPMStatus(interval);
+		}, interval);
+	}
+}
 
 /* Function: fadeToggle
  * --------------------
@@ -705,6 +784,7 @@ function setUp() {
 	setUpWeather();
 	setUpStocks();
 	setUpNews();
+	setUpOPM();
 }
 
 ready(setUp); // Run setUp when the DOM is ready
