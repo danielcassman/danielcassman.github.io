@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Start</title>
+		<meta name="viewport" content="width=device-width">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="assets/css/weather-icons.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/startpage.css">
+		<script type="text/javascript" src="assets/js/startpage-video.js"></script>
+	   <script src="https://use.fontawesome.com/1fb9cf8d52.js"></script>
+	   <style type="text/css">
+			.fullscreen-bg {
+			  position: fixed;
+			  top: 0;
+			  right: 0;
+			  bottom: 0;
+			  left: 0;
+			  overflow: hidden;
+			  z-index: -100;
+			}
+
+			.fullscreen-bg__video {
+			  position: absolute;
+			  top: 0;
+			  left: 0;
+			  width: 100%;
+			  height: 100%;
+			}
+
+			@media (min-aspect-ratio: 16/9) {
+			  .fullscreen-bg__video {
+				height: 300%;
+				top: -100%;
+			  }
+			}
+
+			@media (max-aspect-ratio: 16/9) {
+			  .fullscreen-bg__video {
+				width: 300%;
+				left: -100%;
+			  }
+			}
+
+			@media (max-width: 767px) {
+			  .fullscreen-bg {
+				background: url('../img/videoframe.jpg') center center / cover no-repeat;
+			  }
+
+			  .fullscreen-bg__video {
+				display: none;
+			  }
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="video-bg" class="fullscreen-bg">
+			<video id='background-video' loop muted autoplay poster="assets/images/videoframe.jpg" class="fullscreen-bg__video">
+				<source id="background-video-source" src="#" type="video/mp4">
+			</video>
+		</div>
+		<div id="main-wrap">
+			<div id="overlay"></div>
+			<div id="content-wrap">
+				<div id="weather-info" class="panel topleft">
+					<p><span id="location">Location</span></p>
+					<p><span id="temperature">&deg;</span> <span id="icon-wrapper"><i id="icon" class="wi wi-day-sunny"></i></span></p>
+					<p><span id="condition">Conditions</span></p>
+				</div>
+
+				<div class="panel bottomright">
+					<div id="opmstatus" class="subpanel hidden">
+						<h3 class="category-title">OPM Status</h3>
+						<div id="opm-wrapper">
+						</div>
+					</div>
+
+					<div id="stocks" class="subpanel hidden">
+						<h3 class="category-title">Finance</h3>
+					</div>
+				</div>
+
+				<div id="news" class="panel bottomcenter hidden">
+					<div class="news-category" id="nyt"><h3 class="category-title">New York Times</h3></div>
+					<!--<div class="news-category" id="us"><h3 class="category-title">United States</h3></div>
+					<div class="news-category" id="world"><h3 class="category-title">World</h3></div>-->
+				</div>
+			</div>
+
+			<div id="bottom-bar">
+				<ul>
+					<li><span id="weather-button"><i class="fa fa-cloud"></i></span></li>
+					<li><span id="news-button"><i class="fa fa-newspaper-o"></i></span></li>
+					<li><span id="stocks-button"><i class="fa fa-line-chart"></i></span></li>
+					<li><span id="opm-button"><i class="fa fa-briefcase"></i></span></li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>
