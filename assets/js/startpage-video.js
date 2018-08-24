@@ -276,7 +276,6 @@ function getBackgroundVideoWunderground(condition, sys) {
 		video_id = 'mostlycloudy';
 	if(condition == 'cloudy')
 		video_id = 'cloudy';
-	console.log(video_id);
 
 	// Figure out whether it's day or night
 	var d = new Date();
@@ -288,11 +287,9 @@ function getBackgroundVideoWunderground(condition, sys) {
 	   dn = 'day';
 
 	var videos = VIDEOS[dn][video_id];
-	console.log(videos);
 	
 	// Get a random number between 0 and video_index.length - 1
 	var video_index = Math.floor((Math.random() * videos.length));
-	console.log(video_index);
 
 	return videos[video_index];
 }
