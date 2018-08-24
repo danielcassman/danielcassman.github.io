@@ -217,7 +217,7 @@ function applyWeatherWunderground(data) {
 		v.setAttribute('muted', 'true');
 		v.setAttribute('autoplay', 'true');
 		v.setAttribute('loop', 'true');
-		var img = 'url(assets/images/s2048/' + getBackgroundImageWunderground(data.current_observation.icon, data.sun_phase) + ')';
+		var img = 'assets/images/s2048/' + getBackgroundImageWunderground(data.current_observation.icon, data.sun_phase);
 		v.setAttribute('poster', img);
 		v.setAttribute('class', 'fullscreen-bg__video');
 		var s = document.createElement('source');
@@ -228,7 +228,6 @@ function applyWeatherWunderground(data) {
 		document.getElementById('video-bg').appendChild(v);
 		document.getElementById('main-wrap').style.background = 'transparent none';
 	} else {
-	
 		document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + getBackgroundImageWunderground(data.current_observation.icon, data.sun_phase) + ')';
 	}
 }
