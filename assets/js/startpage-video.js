@@ -21,7 +21,6 @@ var VIDEOS = {
 	day: {
 		partlycloudy: [
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b3-2.mov', //New York
-			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/comp_C007_C011_08244D_001_v01_6M_HB_tag0.mov', //China
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/comp_HK_H004_C010_4k_v01_6Mbps.mov', //Hong Kong
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b1-1.mov', //Hawaii
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b1-3.mov', //New York
@@ -41,24 +40,20 @@ var VIDEOS = {
 		],
 		clear: [
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/plate_G002_C002_BG_t9_6M_HB_tag0.mov', //Greenland
-			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/comp_DB_D001_C001_v03_6Mbps.mov', //Dubai (down)
-			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/comp_LA_A008_C004_ALT_v33_6Mbps.mov', //Los Angeles (Beach)
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/comp_C007_C004_0824AJ_001_v01_6M_HB_tag0.mov', //China
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/comp_DB_D001_C005_t9_6M_HB_tag0.mov', //Dubai
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/comp_HK_H004_C013_t9_6M_HB_tag0.mov', //Hong Kong
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b3-3.mov', //San Francisco
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b6-3.mov', //London
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b8-2.mov', //San Francisco
+			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b4-3.mov', //San Francisco (clear)
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b8-3.mov' //San Francisco
 		],
 		haze: [
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/comp_DB_D002_C003_t9_6M_HB_tag0.mov', //Dubai
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b2-1.mov', //China
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b5-1.mov', //China
-			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b7-3.mov' //San Francisco
-		],
-		fog: [
-			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b4-3.mov', //San Francisco (clear)
+			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b7-3.mov', //San Francisco
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b10-3.mov' //San Francisco
 		]
 	},
@@ -67,15 +62,13 @@ var VIDEOS = {
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b1-4.mov', //San Francisco
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b3-1.mov', //London
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/comp_GL_G010_C006_v08_6Mbps.mov', //Greenland
-			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b3-1.mov', //London
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b6-2.mov' //Hawaii
 		],
 		mostlycloudy: [
-			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b5-1.mov' //San Francisco
+			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b5-3.mov' //San Francisco
 		],
 		clear: [
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/comp_DB_D011_D009_SIGNCMP_v15_6Mbps.mov', //Dubai
-			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b2-3.mov', //New York (down)
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b4-2.mov', //New York
 			'http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/b6-4.mov' //San Francisco
 		],
