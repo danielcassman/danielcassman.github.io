@@ -90,11 +90,12 @@ function getLocationAndUpdateWeather() {
  * navigator.geolocation.
  */
 function loadLocalWeatherWunderground(position, update)	{
-	position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
+	return false;
+	/*position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
 	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
 
 	var request = new XMLHttpRequest();
-	url = 'https://api.wunderground.com/api/1efe8d448f60837d/conditions/forecast/astronomy/q/' +
+	url = 'https://api.wunderground.com/api/[API KEY HERE]/conditions/forecast/astronomy/q/' +
 	 + position.coords.latitude + ',' + position.coords.longitude + '.json';
 	request.open('GET', url, true);
 
@@ -118,7 +119,7 @@ function loadLocalWeatherWunderground(position, update)	{
 		setTimeout(function() {
 			loadLocalWeatherWunderground(position);
 		}, update);
-	}
+	}*/
 }
 
 /* Function: applyWeatherWunderground
