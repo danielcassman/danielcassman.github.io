@@ -101,9 +101,7 @@ function loadLocalWeatherOpenWeatherMap(position, update)	{
 	request.onload = function() {
 	  if (request.status >= 200 && request.status < 400) {
 		var data = JSON.parse(request.responseText);
-    console.log(data);
 		applyWeatherOpenWeatherMap(data);
-		// logUpdate("Weather updated from Wunderground.");
 	  } else {
 		logUpdate("Unable to reach Wunderground API. " + responseText);
 	  }
@@ -136,7 +134,6 @@ function applyWeatherOpenWeatherMap(data) {
 	document.getElementById('location').textContent = data.name;
 
 	var indicator = data.weather[0].id;
-	console.log(indicator);
 	var img = 'clear';
   switch(Math.round(indicator/100)) {
 		case 2:
