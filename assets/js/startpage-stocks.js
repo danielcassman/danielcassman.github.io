@@ -290,7 +290,7 @@ function loadLocalWeather(position, update)	{
  */
 function noLocationAvailable(error) {
 	logUpdate('Location issue: ' + error.message);
-	loadLocalWeatherWunderground(DEFAULT_LOCATION);
+	loadLocalWeatherOpenWeatherMap(DEFAULT_LOCATION);
 }
 
 /* Function: applyWeather
