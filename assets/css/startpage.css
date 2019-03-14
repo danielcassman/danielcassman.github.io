@@ -48,7 +48,8 @@ div.panel {
 	opacity: 1;
 }
 
-div.panel.hidden {
+div.panel.hidden,
+div.subpanel.hidden {
 	opacity: 0;
 	display: none;
 }
