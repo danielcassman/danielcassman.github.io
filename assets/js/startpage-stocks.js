@@ -66,7 +66,7 @@ function getLocationAndUpdateWeather() {
 	} else if(query.latitude && query.longitude &&
 			(query.latitude >= -90 && query.latitude <= 90) &&
 		 	(query.longitude >= -180 && query.longitude <= 180)) {
-		loadLocalWeatherWunderground({
+		loadLocalWeatherOpenWeatherMap({
 			coords: {
 				latitude: query.latitude,
 				longitude: query.longitude
