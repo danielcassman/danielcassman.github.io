@@ -81,9 +81,9 @@ function getLocationAndUpdateWeather() {
 	}
 }
 
-/* Function: loadLocalWeatherWunderground
- * --------------------------------------
- * Gets the current weather from Weather Underground, then
+/* Function: loadLocalWeatherOpenWeatherMap
+ * ----------------------------------------
+ * Gets the current weather from OpenWeatherMap, then
  * adds it to the DOM.
  *
  * @param position: A position object, as defined by
@@ -103,12 +103,12 @@ function loadLocalWeatherOpenWeatherMap(position, update)	{
 		var data = JSON.parse(request.responseText);
 		applyWeatherOpenWeatherMap(data);
 	  } else {
-		logUpdate("Unable to reach Wunderground API. " + responseText);
+		logUpdate("Unable to reach OpenWeatherMap API. " + responseText);
 	  }
 	};
 
 	request.onerror = function() {
-	  logUpdate("Unable to reach Wunderground API. " + responseText);
+	  logUpdate("Unable to reach OpenWeatherMap API. " + responseText);
 	};
 
 	request.send();
@@ -129,152 +129,12 @@ function loadLocalWeatherOpenWeatherMap(position, update)	{
 function applyWeatherOpenWeatherMap(data) {
 
 	document.getElementById('condition').textContent = data.weather[0].description;
-	document.getElementById('temperature').innerHTML = Math.round((data.main.temp - 273.15) * (9/5) +32) + "&deg;";
+	document.getElementById('temperature').innerHTML = Math.round((data.main.temp * 9 / 5) - 459.67) + "&deg;";
 	document.getElementById('icon').setAttribute('class', 'wi wi-owm-' + data.weather[0].id);
 	document.getElementById('location').textContent = data.name;
 
-	var indicator = data.weather[0].id;
-	var img = 'clear';
-  switch(Math.round(indicator/100)) {
-		case 2:
-			img = 'lightning';
-			break;
-		case 3:
-			img = 'drizzle';
-			break;
-		case 5:
-			if(indicator == 500 || indicator == 501 || indicator == 511 || indicator == 520 || indicator == 521)
-				img = 'rain';
-			if(indicator == 502 || indicator == 503 || indicator == 504 || indicator == 522 || indicator == 531)
-			  img = 'heavyrain';
-			break;
-		case 6:
-			if(indicator == 600 || indicator == 615 || indicator == 620)
-				img = 'lightsnow';
-			if(indicator == 601 || indicator == 611 || indicator == 612 || indicator == 616 || indicator == 621)
-				img = 'snow';
-			if(indicator == 602 || indicator == 622)
-				img = 'heavysnow';
-			break;
-		case 7:
-			if(indicator == 701 || indicator == 741 || indicator == 771)
-				img = 'foggy';
-			else
-				img = 'haze';
-			break;
-		case 8:
-			if(indicator == 801)
-				img = 'partlysunny';
-			if(indicator == 802)
-				img = 'partlycloudy';
-			if(indicator == 803)
-				img = 'mostlycloudy';
-			if(indicator == 804)
-				img = 'cloudy';
-			break;
-	}
-
-	var image = getBackgroundImageOpenWeatherMap(img, data.sys.sunrise, data.sys.sunset);
+	var image = getBackgroundImageOpenWeatherMap(data.weather[0].id, data.sys);
 	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
-}
-
-/* Function: loadLocalWeatherWunderground
- * --------------------------------------
- * Gets the current weather from Weather Underground, then
- * adds it to the DOM.
- *
- * @param position: A position object, as defined by
- * navigator.geolocation.
- */
-function loadLocalWeatherWunderground(position, update)	{
-	return false;
-	position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
-	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
-
-	var request = new XMLHttpRequest();
-	url = 'https://api.wunderground.com/api/[API KEY HERE]/conditions/forecast/astronomy/q/' +
-	 + position.coords.latitude + ',' + position.coords.longitude + '.json';
-	request.open('GET', url, true);
-
-	request.onload = function() {
-	  if (request.status >= 200 && request.status < 400) {
-		var data = JSON.parse(request.responseText);
-		applyWeatherWunderground(data);
-		// logUpdate("Weather updated from Wunderground.");
-	  } else {
-		logUpdate("Unable to reach Wunderground API. " + responseText);
-	  }
-	};
-
-	request.onerror = function() {
-	  logUpdate("Unable to reach Wunderground API. " + responseText);
-	};
-
-	request.send();
-
-	if(update) {
-		setTimeout(function() {
-			loadLocalWeatherWunderground(position);
-		}, update);
-	}
-}
-
-/* Function: applyWeatherWunderground
- * ----------------------------------
- * Sets up the weather panel with the given conditions.
- *
- * @param data: The data returned by the OpenWeatherMap API.
- */
-function applyWeatherWunderground(data) {
-
-	document.getElementById('condition').textContent = data.current_observation.weather;
-	document.getElementById('temperature').innerHTML = Math.round(data.current_observation.temp_f) + "&deg;";
-	document.getElementById('icon').setAttribute('class', 'wi wi-wu-' + data.current_observation.icon);
-	document.getElementById('location').textContent = data.current_observation.display_location.full;
-
-	var image = getBackgroundImageWunderground(data.current_observation.icon, data.sun_phase);
-	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
-}
-
-/* Function: loadLocalWeather
- * --------------------------
- * Gets the current weather from OpenWeatherMap, then
- * adds it to the DOM.
- *
- * @param position: A position object, as defined by
- * navigator.geolocation.
- */
-function loadLocalWeather(position, update)	{
-	position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
-	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
-
-	var request = new XMLHttpRequest();
-	url = 'https://api.openweathermap.org/data/2.5/weather?lat='
-	 + position.coords.latitude + '&lon=' + position.coords.longitude
-	 + '&appid=b2f350cd6c8d249908dd100bba6c6e7c';
-	request.open('GET', url, true);
-
-	request.onload = function() {
-	  if (request.status >= 200 && request.status < 400) {
-		var data = JSON.parse(request.responseText);
-		applyWeather(data);
-		// logUpdate("Weather updated from OpenWeatherMap.");
-	  } else {
-		logUpdate("Unable to reach OpenWeatherMap API. " + responseText);
-	  }
-	};
-
-	request.onerror = function() {
-	  logUpdate("Unable to reach OpenWeatherMap API. " + responseText);
-	};
-
-	request.send();
-
-	if(update) {
-		setTimeout(function() {
-			loadLocalWeather(position);
-		}, update);
-	}
 }
 
 /* Function: noLocationAvailable
@@ -290,134 +150,67 @@ function noLocationAvailable(error) {
 	loadLocalWeatherOpenWeatherMap(DEFAULT_LOCATION);
 }
 
-/* Function: applyWeather
- * ----------------------
- * Sets up the weather panel with the given conditions.
- *
- * @param data: The data returned by the OpenWeatherMap API.
- */
-function applyWeather(data) {
-
-	document.getElementById('condition').textContent = data.weather[0].description;
-	document.getElementById('temperature').innerHTML = Math.round((data.main.temp * 9 / 5) - 459.67, 0) + "&deg;";
-	document.getElementById('icon').setAttribute('class', 'wi wi-owm-' + data.weather[0].id);
-	document.getElementById('location').textContent = data.name;
-
-	var image = getBackgroundImage(data.weather[0].id, data.sys);
-	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
-}
-
 /* Function: getBackgroundImageOpenWeatherMap
  * ------------------------------------------
  * Sets the page background image based on the current weather
  * conditions.
  *
- * @param condition: The Weather Underground condition ID. For more,
+ * @param condition: The OpenWeatherMap condition ID. For more,
  * see: https://openweathermap.org/weather-conditions
+ * @param sys: The OpenWeatherMap sys object
  */
-function getBackgroundImageOpenWeatherMap(img, sunrise, sunset) {
-	// Figure out whether it's day or night
+function getBackgroundImageOpenWeatherMap(condition, sys) {
+	var img = 'clear';
+  switch(Math.round(condition/100)) {
+		case 2:
+			img = 'lightning';
+			break;
+		case 3:
+			img = 'drizzle';
+			break;
+		case 5:
+			if(condition == 500 || condition == 501 || condition == 511 || condition == 520 || condition == 521)
+				img = 'rain';
+			if(condition == 502 || condition == 503 || condition == 504 || condition == 522 || condition == 531)
+			  img = 'heavyrain';
+			break;
+		case 6:
+			if(condition == 600 || condition == 615 || condition == 620)
+				img = 'lightsnow';
+			if(condition == 601 || condition == 611 || condition == 612 || condition == 616 || condition == 621)
+				img = 'snow';
+			if(condition == 602 || condition == 622)
+				img = 'heavysnow';
+			break;
+		case 7:
+			if(condition == 701 || condition == 741 || condition == 771)
+				img = 'foggy';
+			else
+				img = 'haze';
+			break;
+		case 8:
+			if(condition == 801)
+				img = 'partlysunny';
+			if(condition == 802)
+				img = 'partlycloudy';
+			if(condition == 803)
+				img = 'mostlycloudy';
+			if(condition == 804)
+				img = 'cloudy';
+			break;
+	}
+  
+  // Figure out whether it's day or night
 	var d = new Date();
 	var time = Math.floor(d.getTime() / 1000);
 	var dn = 'night';
-	if(time >= sunrise && time <= sunset)
+	if(time >= sys.sunrise && time <= sys.sunset)
 	   dn = 'day';
 
 	// Get a random number between 1 and 3
 	var image_index = Math.floor((Math.random() * 3) + 1);
 
 	return (dn + '-' + img + '-0' + image_index + '.jpg');
-}
-
-/* Function: getBackgroundImageWunderground
- * ----------------------------------------
- * Sets the page background image based on the current weather
- * conditions.
- *
- * @param condition: The Weather Underground condition ID. For more,
- * see: https://openweathermap.org/weather-conditions
- */
-function getBackgroundImageWunderground(condition, sys) {
-	var photo_id = 'clear';
-
-	if(condition == 'tstorms' || condition == 'chancetstorms') // Thunderstorms
-		photo_id = 'lightning';
-	if(condition == 'chancerain' || condition == 'chancesleat') // Drizzle
-		photo_id = 'lightrain';
-	if(condition == 'rain' || condition == 'sleat') // Rain
-		photo_id = 'rain';
-	if(condition == 'snow') // Snow
-		photo_id = 'snow';
-	if(condition == 'chancesnow' || condition == 'flurries') // Light snow
-		photo_id = 'lightsnow';
-	if(condition == 'hazy') // Fog
-		photo_id = 'foggy';
-	if(condition == 'mostlysunny') // Few clouds
-		photo_id = 'fewclouds';
-	if(condition == 'partlysunny' || condition == 'partlycloudy') // Some clouds
-		photo_id = 'partlycloudy';
-	if(condition == 'mostlycloudy')
-		photo_id = 'mostlycloudy';
-	if(condition == 'cloudy')
-		photo_id = 'cloudy';
-
-	// Figure out whether it's day or night
-	var d = new Date();
-	var hours = d.getHours();
-	var minutes = d.getMinutes();
-	var dn = 'night';
-	if((hours > sys.sunrise.hour || (hours == sys.sunrise.hour && minutes > sys.sunrise.hour)) &&
-	   (hours < sys.sunset.hour || (hours == sys.sunset.hour && minutes <= sys.sunset.hour)))
-	   dn = 'day';
-
-	// Get a random number between 1 and 3
-	var image_index = Math.floor((Math.random() * 3) + 1);
-
-	return (dn + '-' + photo_id + '-0' + image_index + '.jpg');
-}
-
-/* Function: getBackgroundImage
- * ----------------------------
- * Sets the page background image based on the current weather
- * conditions.
- *
- * @param condition: The OpenWeatherMap condition ID. For more,
- * see: https://openweathermap.org/weather-conditions
- */
-function getBackgroundImage(condition, sys) {
-	var photo_id = 'clear';
-
-	if(condition >= 200 && condition < 300) // Thunderstorms
-		photo_id = 'lightning';
-	if(condition >= 300 && condition < 400) // Drizzle
-		photo_id = 'rain';
-	if(condition >= 500 && condition < 600) // Rain
-		photo_id = 'rain';
-	if((condition > 501 && condition < 520) ||
-	 (condition > 521 && condition < 531) ||
-	 (condition >= 958 && condition <= 961)) // Heavy rain
-		photo_id = 'heavyrain';
-	if(condition >= 600 && condition < 700) // Snow
-		photo_id = 'snow';
-	if(condition == 600 || condition == 615 || condition == 620) // Light snow
-		photo_id = 'flurries';
-	if(condition == 711 || condition == 721 || condition == 731) // Smoke, haze, or sand
-		photo_id = 'haze';
-	if(condition == 701 || condition == 741) // Fog
-		photo_id = 'foggy';
-	if(condition == 801 || condition == 802) // Few clouds
-		photo_id = 'fewclouds';
-	if(condition == 803) // Some clouds
-		photo_id = 'partlycloudy';
-	if(condition == 804)
-		photo_id = 'cloudy';
-
-	var d = new Date();
-	var UTC_seconds = Math.floor(d.getTime() / 1000);
-
-	return ((UTC_seconds > sys.sunrise && UTC_seconds < sys.sunset) ?
-	 'day' : 'night')
-	 + '-' + photo_id + '-01.jpg';
 }
 
 /* Function: setUpStocks
