@@ -321,7 +321,7 @@ function applyWeather(data) {
 function getBackgroundImageOpenWeatherMap(img, sunrise, sunset) {
 	// Figure out whether it's day or night
 	var d = new Date();
-	var time = d.getTime();
+	var time = Math.floor(d.getTime() / 1000);
 	var dn = 'night';
 	if(time >= sunrise && time <= sunset)
 	   dn = 'day';
