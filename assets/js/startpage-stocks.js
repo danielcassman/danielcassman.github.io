@@ -62,7 +62,7 @@ function getLocationAndUpdateWeather() {
 	var query = parse_query_string(window.location.search.substring(1));
 	if(query.location == 'default') {
 		console.log("Default location selected, using that.");
-		loadLocalWeatherWunderground(DEFAULT_LOCATION);
+		loadLocalWeatherOpenWeatherMap(DEFAULT_LOCATION);
 	} else if(query.latitude && query.longitude &&
 			(query.latitude >= -90 && query.latitude <= 90) &&
 		 	(query.longitude >= -180 && query.longitude <= 180)) {
@@ -74,7 +74,7 @@ function getLocationAndUpdateWeather() {
 		});
 }	else {
 		if(navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(loadLocalWeatherWunderground, noLocationAvailable);
+			navigator.geolocation.getCurrentPosition(loadLocalWeatherOpenWeatherMap, noLocationAvailable);
 		} else {
 			loadLocalWeather(DEFAULT_LOCATION);
 		}
@@ -89,9 +89,109 @@ function getLocationAndUpdateWeather() {
  * @param position: A position object, as defined by
  * navigator.geolocation.
  */
+function loadLocalWeatherOpenWeatherMap(position, update)	{
+	position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
+	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
+
+	var request = new XMLHttpRequest();
+	url = 'https://api.openweathermap.org/data/2.5/weather?lat=' +
+	 + position.coords.latitude + '&lon=' + position.coords.longitude + '&appid=28a3dfeb56dc6ea450c7e494fb061503';
+	request.open('GET', url, true);
+
+	request.onload = function() {
+	  if (request.status >= 200 && request.status < 400) {
+		var data = JSON.parse(request.responseText);
+    console.log(data);
+		applyWeatherOpenWeatherMap(data);
+		// logUpdate("Weather updated from Wunderground.");
+	  } else {
+		logUpdate("Unable to reach Wunderground API. " + responseText);
+	  }
+	};
+
+	request.onerror = function() {
+	  logUpdate("Unable to reach Wunderground API. " + responseText);
+	};
+
+	request.send();
+
+	if(update) {
+		setTimeout(function() {
+			loadLocalWeatherOpenWeatherMap(position);
+		}, update);
+	}
+}
+
+/* Function: applyWeatherOpenWeatherMap
+ * ------------------------------------
+ * Sets up the weather panel with the given conditions.
+ *
+ * @param data: The data returned by the OpenWeatherMap API.
+ */
+function applyWeatherOpenWeatherMap(data) {
+
+	document.getElementById('condition').textContent = data.weather[0].description;
+	document.getElementById('temperature').innerHTML = Math.round((data.main.temp - 273.15) * (9/5) +32) + "&deg;";
+	document.getElementById('icon').setAttribute('class', 'wi wi-owm-' + data.weather[0].id);
+	document.getElementById('location').textContent = data.name;
+
+	var indicator = data.weather[0].id;
+	console.log(indicator);
+	var img = 'clear';
+  switch(Math.round(indicator/100)) {
+		case 2:
+			img = 'lightning';
+			break;
+		case 3:
+			img = 'drizzle';
+			break;
+		case 5:
+			if(indicator == 500 || indicator == 501 || indicator == 511 || indicator == 520 || indicator == 521)
+				img = 'rain';
+			if(indicator == 502 || indicator == 503 || indicator == 504 || indicator == 522 || indicator == 531)
+			  img = 'heavyrain';
+			break;
+		case 6:
+			if(indicator == 600 || indicator == 615 || indicator == 620)
+				img = 'lightsnow';
+			if(indicator == 601 || indicator == 611 || indicator == 612 || indicator == 616 || indicator == 621)
+				img = 'snow';
+			if(indicator == 602 || indicator == 622)
+				img = 'heavysnow';
+			break;
+		case 7:
+			if(indicator == 701 || indicator == 741 || indicator == 771)
+				img = 'foggy';
+			else
+				img = 'haze';
+			break;
+		case 8:
+			if(indicator == 801)
+				img = 'partlysunny';
+			if(indicator == 802)
+				img = 'partlycloudy';
+			if(indicator == 803)
+				img = 'mostlycloudy';
+			if(indicator == 804)
+				img = 'cloudy';
+			break;
+	}
+
+	var image = getBackgroundImageOpenWeatherMap(img, data.sys.sunrise, data.sys.sunset);
+	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
+}
+
+/* Function: loadLocalWeatherWunderground
+ * --------------------------------------
+ * Gets the current weather from Weather Underground, then
+ * adds it to the DOM.
+ *
+ * @param position: A position object, as defined by
+ * navigator.geolocation.
+ */
 function loadLocalWeatherWunderground(position, update)	{
 	return false;
-	/*position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
+	position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
 	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
 
 	var request = new XMLHttpRequest();
@@ -119,7 +219,7 @@ function loadLocalWeatherWunderground(position, update)	{
 		setTimeout(function() {
 			loadLocalWeatherWunderground(position);
 		}, update);
-	}*/
+	}
 }
 
 /* Function: applyWeatherWunderground
@@ -208,6 +308,28 @@ function applyWeather(data) {
 
 	var image = getBackgroundImage(data.weather[0].id, data.sys);
 	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
+}
+
+/* Function: getBackgroundImageOpenWeatherMap
+ * ------------------------------------------
+ * Sets the page background image based on the current weather
+ * conditions.
+ *
+ * @param condition: The Weather Underground condition ID. For more,
+ * see: https://openweathermap.org/weather-conditions
+ */
+function getBackgroundImageOpenWeatherMap(img, sunrise, sunset) {
+	// Figure out whether it's day or night
+	var d = new Date();
+	var time = d.getTime();
+	var dn = 'night';
+	if(time >= sunrise && time <= sunset)
+	   dn = 'day';
+
+	// Get a random number between 1 and 3
+	var image_index = Math.floor((Math.random() * 3) + 1);
+
+	return (dn + '-' + img + '-0' + image_index + '.jpg');
 }
 
 /* Function: getBackgroundImageWunderground
@@ -335,7 +457,7 @@ function loadStocksIEX(stocks, wrapper, update) {
 	stocks = (typeof stocks !== 'undefined') ?  stocks : STOCKSIEX;
 	wrapper = (typeof update !== 'undefined') ?  wrapper : 'stocks';
 	update = (typeof update !== 'undefined') ?  update : false;
-	
+
 	var xhr = [], i;
 
 	var url = 'https://api.iextrading.com/1.0/stock/';
@@ -348,7 +470,7 @@ function loadStocksIEX(stocks, wrapper, update) {
 
 			xhr[i].onload = function() {
 			  if (xhr[i].status >= 200 && xhr[i].status < 400) {
-				
+
 				var data = JSON.parse(xhr[i].responseText);
 
 				var current_stock = document.getElementById('stock-' + data.symbol);
@@ -359,7 +481,7 @@ function loadStocksIEX(stocks, wrapper, update) {
 					document.getElementById(wrapper).appendChild(current_stock);
 				}
 				updateStockItemIEX(data, current_stock);
-				
+
 				// logUpdate("Stocks updated from Yahoo.");
 			  } else {
 				logUpdate("Unable to reach IEX API. " + responseText);
@@ -555,7 +677,7 @@ function updateNYTHeadlines(wrapper, max_stories, update) {
 
 	request.send();
  }
- 
+
  /* Function: setUpOPM
  * -------------------
  * Sets up the OPM wrapper, click action, and loads the status.
@@ -584,15 +706,15 @@ function updateOPMStatus(interval) {
 	request.onload = function() {
 		if(request.status >= 200 && request.status < 400) {
 			var data = JSON.parse(request.responseText);
-			
+
 			// Remove current status
 			document.getElementById('opm-wrapper').innerHTML = '';
-			
+
 			// Add new status the DOM
 			var opm_status_date = document.createElement('span');
 			opm_status_date.setAttribute('class', 'opm-status-date');
 			opm_status_date.textContent = data.AppliesTo;
-			
+
 			var current_status = document.createElement('span');
 			current_status.setAttribute('class', 'opm-current-status');
 			current_status.textContent = data.StatusSummary;
@@ -603,17 +725,17 @@ function updateOPMStatus(interval) {
 			} else if (data.StatusSummary.indexOf('Delayed') != -1) {
 				current_status.setAttribute('class', 'opm-current-status delayed');
 			}
-			
+
 			var status_summary = document.createElement('span');
 			status_summary.setAttribute('class', 'opm-status-summary');
 			status_summary.textContent = data.ShortStatusMessage;
-			
+
 			document.getElementById('opm-wrapper').appendChild(opm_status_date);
 			document.getElementById('opm-wrapper').appendChild(current_status);
 			document.getElementById('opm-wrapper').appendChild(status_summary)
-			
+
 			URLS.opm = data.Url;
-			
+
 			//logUpdate("OPM data successfully updated.");
 		} else {
 			logUpdate("The OPM tool returned an error. OPM status not updated.");
