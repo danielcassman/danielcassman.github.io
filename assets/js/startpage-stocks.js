@@ -208,7 +208,7 @@ function getBackgroundImageOpenWeatherMap(condition, sys) {
 	   dn = 'day';
 
 	// Get a random number between 1 and 3
-	var image_index = Math.floor((Math.random() * 3) + 1);
+	var image_index = Math.floor((Math.random() * 4) + 1);
 
 	return (dn + '-' + img + '-0' + image_index + '.jpg');
 }
