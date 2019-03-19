@@ -190,7 +190,7 @@ function getBackgroundImageOpenWeatherMap(condition, sys) {
 			break;
 		case 8:
 			if(condition == 801)
-				img = 'partlysunny';
+				img = 'fewclouds';
 			if(condition == 802)
 				img = 'partlycloudy';
 			if(condition == 803)
