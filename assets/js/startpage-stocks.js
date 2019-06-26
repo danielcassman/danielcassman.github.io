@@ -199,7 +199,7 @@ function getBackgroundImageOpenWeatherMap(condition, sys) {
 				img = 'cloudy';
 			break;
 	}
-  
+
   // Figure out whether it's day or night
 	var d = new Date();
 	var time = Math.floor(d.getTime() / 1000);
