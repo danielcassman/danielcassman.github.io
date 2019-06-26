@@ -250,8 +250,8 @@ function loadStocksIEX(stocks, wrapper, update) {
 
 	var xhr = [], i;
 
-	var url = 'https://api.iextrading.com/1.0/stock/';
-	var url_postfix = '/quote';
+	var url = 'https://cloud.iexapis.com/stable/stock/';
+	var url_postfix = '/quote?token=pk_8a95cecc22c84f7d916780e90098afbc';
 
 	for( i = 0; i < stocks.length; i++) {
 		(function(i) {
