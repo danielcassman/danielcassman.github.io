@@ -1,6 +1,31 @@
 /* Global Variables */
-var STOCKS = ['INX','DJI','IXIC'];
-var STOCKSIEX = ["DIA","QQQ","SPY",'IWD','IWF','IEFA'];
+var STOCKSIEX = [
+	{
+		"name": "Dow Jones",
+		"symbol": "DIA",
+		"factor": 100.056
+	},
+	{
+		"name": "NASDAQ",
+		"symbol": "QQQ",
+		"factor": 42.87
+	},
+	{
+		"name":  "S&P 500",
+		"symbol": "SPY",
+		"factor": 10.04
+	},
+	{
+		"symbol": "IWD"
+	},
+	{
+		"symbol": "IWF"
+	},
+	{
+		"symbol": "IEFA"
+	}
+];
+
 var DEFAULT_LOCATION = {
 	coords: {
       latitude: 38.8942345,
@@ -256,9 +281,10 @@ function loadStocksIEX(stocks, wrapper, update) {
 	for( i = 0; i < stocks.length; i++) {
 		(function(i) {
 			xhr[i] = new XMLHttpRequest();
-			xhr[i].open('GET', url + stocks[i] + url_postfix, true);
+			xhr[i].open('GET', url + stocks[i].symbol + url_postfix, true);
+			xhr[i].obj = stocks[i];
 
-			xhr[i].onload = function() {
+			xhr[i].onload = (e) => {
 			  if (xhr[i].status >= 200 && xhr[i].status < 400) {
 
 				var data = JSON.parse(xhr[i].responseText);
@@ -270,11 +296,11 @@ function loadStocksIEX(stocks, wrapper, update) {
 					current_stock.setAttribute('id', 'stock-' + data.symbol);
 					document.getElementById(wrapper).appendChild(current_stock);
 				}
-				updateStockItemIEX(data, current_stock);
+				updateStockItemIEX(data, current_stock, xhr[i].obj);
 
 				// logUpdate("Stocks updated from Yahoo.");
 			  } else {
-				logUpdate("Unable to reach IEX API. " + responseText);
+					logUpdate("Unable to reach IEX API:" + xhr[i].responseText);
 			  }
 			};
 
@@ -300,31 +326,32 @@ function loadStocksIEX(stocks, wrapper, update) {
  * @param stock: The stock data to display.
  * @param wrapper: The DOM element in which to place the data.
  */
-function updateStockItemIEX(stock, wrapper) {
-	while (wrapper.firstChild) {
-		wrapper.removeChild(wrapper.firstChild);
-	}
+ function updateStockItemIEX(stock, wrapper, obj) {
+ 	while (wrapper.firstChild) {
+ 		wrapper.removeChild(wrapper.firstChild);
+ 	}
 
-	// Symbol
-	var sym = document.createElement('span');
-	sym.setAttribute('class', 'stock-symbol');
-	sym.textContent = stock.symbol;
+ 	// Symbol
+ 	var sym = document.createElement('span');
+ 	sym.setAttribute('class', 'stock-symbol');
+ 	sym.textContent = (obj.name ? obj.name : stock.symbol);
 
-	// Price
-	var price = document.createElement('span');
-	price.setAttribute('class', 'stock-price');
-	price.textContent = decimalPlaces(stock.latestPrice, 2);
+ 	// Price
+ 	var price = document.createElement('span');
+ 	price.setAttribute('class', 'stock-price');
+ 	price.textContent = decimalPlaces((obj.factor ? stock.latestPrice * obj.factor :
+ 		stock.latestPrice), 2);
 
-	// Change
-	var change = document.createElement('span');
-	var c = decimalPlaces(stock.changePercent * 100, 2);
-	change.setAttribute('class', 'stock-change ' + (c < 0 ? 'negative' : 'positive'));
-	change.textContent = '(' + (c < 0 ? '' : '+') + c + '%)';
+ 	// Change
+ 	var change = document.createElement('span');
+ 	var c = decimalPlaces(stock.changePercent * 100, 2);
+ 	change.setAttribute('class', 'stock-change ' + (c < 0 ? 'negative' : 'positive'));
+ 	change.textContent = '(' + (c < 0 ? '' : '+') + c + '%)';
 
-	wrapper.appendChild(sym);
-	wrapper.appendChild(price);
-	wrapper.appendChild(change);
-}
+ 	wrapper.appendChild(sym);
+ 	wrapper.appendChild(price);
+ 	wrapper.appendChild(change);
+ }
 
 /* Function: setUpNews
  * -------------------
