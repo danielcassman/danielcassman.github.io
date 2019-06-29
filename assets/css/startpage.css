@@ -175,7 +175,7 @@ div.panel.bottomcenter {
 	margin: 0 20%;
 }
 
-	@media screen and (max-width: 960px) {
+	@media screen and (max-width: 1300px) {
 		div.panel, div.panel.topleft,
 		div.panel.bottomcenter, div.panel.bottomright {
 			position: relative;
