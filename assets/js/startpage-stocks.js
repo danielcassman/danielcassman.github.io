@@ -3,17 +3,17 @@ var STOCKSIEX = [
 	{
 		"name": "Dow Jones",
 		"symbol": "DIA",
-		"factor": 100.056
+		"factor": 99.99
 	},
 	{
 		"name": "NASDAQ",
 		"symbol": "QQQ",
-		"factor": 42.87
+		"factor": 42.70287
 	},
 	{
 		"name":  "S&P 500",
 		"symbol": "SPY",
-		"factor": 10.04
+		"factor": 10.026
 	},
 	{
 		"symbol": "IWD"
