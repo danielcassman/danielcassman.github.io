@@ -672,6 +672,11 @@ function decimalPlaces(n, places) {
 	}
 
 	n[0] = n[0].substring(1);
+	if(n[0] > 999) {
+		for(i = 3; i < n[0].length; i += 4) {
+			n[0] = n[0].substring(0, n[0].length - i) + ',' + n[0].substring(n[0].length - i);
+		}
+	}
 	n = n.join('.');
 
 	return n;
