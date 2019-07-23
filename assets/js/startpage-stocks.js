@@ -1,6 +1,31 @@
 /* Global Variables */
-var STOCKS = ['INX','DJI','IXIC'];
-var STOCKSIEX = ["DIA","QQQ","SPY",'IWD','IWF','IEFA'];
+var STOCKSIEX = [
+	{
+		"name": "Dow Jones",
+		"symbol": "DIA",
+		"factor": 99.99
+	},
+	{
+		"name": "NASDAQ",
+		"symbol": "QQQ",
+		"factor": 42.70287
+	},
+	{
+		"name":  "S&P 500",
+		"symbol": "SPY",
+		"factor": 10.026
+	},
+	{
+		"symbol": "IWD"
+	},
+	{
+		"symbol": "IWF"
+	},
+	{
+		"symbol": "IEFA"
+	}
+];
+
 var DEFAULT_LOCATION = {
 	coords: {
       latitude: 38.8942345,
@@ -8,7 +33,7 @@ var DEFAULT_LOCATION = {
     }
 }
 WEATHER_UPDATE = 600000;
-STOCKS_UPDATE = 60000;
+STOCKS_UPDATE = 900000;
 NEWS_UPDATE = 600000;
 OPM_UPDATE = 600000;
 
@@ -66,7 +91,7 @@ function getLocationAndUpdateWeather() {
 	} else if(query.latitude && query.longitude &&
 			(query.latitude >= -90 && query.latitude <= 90) &&
 		 	(query.longitude >= -180 && query.longitude <= 180)) {
-		loadLocalWeatherWunderground({
+		loadLocalWeatherOpenWeatherMap({
 			coords: {
 				latitude: query.latitude,
 				longitude: query.longitude
@@ -81,9 +106,9 @@ function getLocationAndUpdateWeather() {
 	}
 }
 
-/* Function: loadLocalWeatherWunderground
- * --------------------------------------
- * Gets the current weather from Weather Underground, then
+/* Function: loadLocalWeatherOpenWeatherMap
+ * ----------------------------------------
+ * Gets the current weather from OpenWeatherMap, then
  * adds it to the DOM.
  *
  * @param position: A position object, as defined by
@@ -102,14 +127,13 @@ function loadLocalWeatherOpenWeatherMap(position, update)	{
 	  if (request.status >= 200 && request.status < 400) {
 		var data = JSON.parse(request.responseText);
 		applyWeatherOpenWeatherMap(data);
-		// logUpdate("Weather updated from Wunderground.");
 	  } else {
-		logUpdate("Unable to reach Wunderground API. " + responseText);
+		logUpdate("Unable to reach OpenWeatherMap API. " + responseText);
 	  }
 	};
 
 	request.onerror = function() {
-	  logUpdate("Unable to reach Wunderground API. " + responseText);
+	  logUpdate("Unable to reach OpenWeatherMap API. " + responseText);
 	};
 
 	request.send();
@@ -130,152 +154,12 @@ function loadLocalWeatherOpenWeatherMap(position, update)	{
 function applyWeatherOpenWeatherMap(data) {
 
 	document.getElementById('condition').textContent = data.weather[0].description;
-	document.getElementById('temperature').innerHTML = Math.round((data.main.temp - 273.15) * (9/5) +32) + "&deg;";
+	document.getElementById('temperature').innerHTML = Math.round((data.main.temp * 9 / 5) - 459.67) + "&deg;";
 	document.getElementById('icon').setAttribute('class', 'wi wi-owm-' + data.weather[0].id);
 	document.getElementById('location').textContent = data.name;
 
-	var indicator = data.weather[0].id;
-	var img = 'clear';
-  switch(Math.round(indicator/100)) {
-		case 2:
-			img = 'lightning';
-			break;
-		case 3:
-			img = 'drizzle';
-			break;
-		case 5:
-			if(indicator == 500 || indicator == 501 || indicator == 511 || indicator == 520 || indicator == 521)
-				img = 'rain';
-			if(indicator == 502 || indicator == 503 || indicator == 504 || indicator == 522 || indicator == 531)
-			  img = 'heavyrain';
-			break;
-		case 6:
-			if(indicator == 600 || indicator == 615 || indicator == 620)
-				img = 'lightsnow';
-			if(indicator == 601 || indicator == 611 || indicator == 612 || indicator == 616 || indicator == 621)
-				img = 'snow';
-			if(indicator == 602 || indicator == 622)
-				img = 'heavysnow';
-			break;
-		case 7:
-			if(indicator == 701 || indicator == 741 || indicator == 771)
-				img = 'foggy';
-			else
-				img = 'haze';
-			break;
-		case 8:
-			if(indicator == 801)
-				img = 'partlysunny';
-			if(indicator == 802)
-				img = 'partlycloudy';
-			if(indicator == 803)
-				img = 'mostlycloudy';
-			if(indicator == 804)
-				img = 'cloudy';
-			break;
-	}
-
-	var image = getBackgroundImageOpenWeatherMap(img, data.sys.sunrise, data.sys.sunset);
+	var image = getBackgroundImageOpenWeatherMap(data.weather[0].id, data.sys);
 	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
-}
-
-/* Function: loadLocalWeatherWunderground
- * --------------------------------------
- * Gets the current weather from Weather Underground, then
- * adds it to the DOM.
- *
- * @param position: A position object, as defined by
- * navigator.geolocation.
- */
-function loadLocalWeatherWunderground(position, update)	{
-	return false;
-	position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
-	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
-
-	var request = new XMLHttpRequest();
-	url = 'https://api.wunderground.com/api/[API KEY HERE]/conditions/forecast/astronomy/q/' +
-	 + position.coords.latitude + ',' + position.coords.longitude + '.json';
-	request.open('GET', url, true);
-
-	request.onload = function() {
-	  if (request.status >= 200 && request.status < 400) {
-		var data = JSON.parse(request.responseText);
-		applyWeatherWunderground(data);
-		// logUpdate("Weather updated from Wunderground.");
-	  } else {
-		logUpdate("Unable to reach Wunderground API. " + responseText);
-	  }
-	};
-
-	request.onerror = function() {
-	  logUpdate("Unable to reach Wunderground API. " + responseText);
-	};
-
-	request.send();
-
-	if(update) {
-		setTimeout(function() {
-			loadLocalWeatherWunderground(position);
-		}, update);
-	}
-}
-
-/* Function: applyWeatherWunderground
- * ----------------------------------
- * Sets up the weather panel with the given conditions.
- *
- * @param data: The data returned by the OpenWeatherMap API.
- */
-function applyWeatherWunderground(data) {
-
-	document.getElementById('condition').textContent = data.current_observation.weather;
-	document.getElementById('temperature').innerHTML = Math.round(data.current_observation.temp_f) + "&deg;";
-	document.getElementById('icon').setAttribute('class', 'wi wi-wu-' + data.current_observation.icon);
-	document.getElementById('location').textContent = data.current_observation.display_location.full;
-
-	var image = getBackgroundImageWunderground(data.current_observation.icon, data.sun_phase);
-	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
-}
-
-/* Function: loadLocalWeather
- * --------------------------
- * Gets the current weather from OpenWeatherMap, then
- * adds it to the DOM.
- *
- * @param position: A position object, as defined by
- * navigator.geolocation.
- */
-function loadLocalWeather(position, update)	{
-	position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
-	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
-
-	var request = new XMLHttpRequest();
-	url = 'https://api.openweathermap.org/data/2.5/weather?lat='
-	 + position.coords.latitude + '&lon=' + position.coords.longitude
-	 + '&appid=b2f350cd6c8d249908dd100bba6c6e7c';
-	request.open('GET', url, true);
-
-	request.onload = function() {
-	  if (request.status >= 200 && request.status < 400) {
-		var data = JSON.parse(request.responseText);
-		applyWeather(data);
-		// logUpdate("Weather updated from OpenWeatherMap.");
-	  } else {
-		logUpdate("Unable to reach OpenWeatherMap API. " + responseText);
-	  }
-	};
-
-	request.onerror = function() {
-	  logUpdate("Unable to reach OpenWeatherMap API. " + responseText);
-	};
-
-	request.send();
-
-	if(update) {
-		setTimeout(function() {
-			loadLocalWeather(position);
-		}, update);
-	}
 }
 
 /* Function: noLocationAvailable
@@ -288,24 +172,7 @@ function loadLocalWeather(position, update)	{
  */
 function noLocationAvailable(error) {
 	logUpdate('Location issue: ' + error.message);
-	loadLocalWeatherWunderground(DEFAULT_LOCATION);
-}
-
-/* Function: applyWeather
- * ----------------------
- * Sets up the weather panel with the given conditions.
- *
- * @param data: The data returned by the OpenWeatherMap API.
- */
-function applyWeather(data) {
-
-	document.getElementById('condition').textContent = data.weather[0].description;
-	document.getElementById('temperature').innerHTML = Math.round((data.main.temp * 9 / 5) - 459.67, 0) + "&deg;";
-	document.getElementById('icon').setAttribute('class', 'wi wi-owm-' + data.weather[0].id);
-	document.getElementById('location').textContent = data.name;
-
-	var image = getBackgroundImage(data.weather[0].id, data.sys);
-	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
+	loadLocalWeatherOpenWeatherMap(DEFAULT_LOCATION);
 }
 
 /* Function: getBackgroundImageOpenWeatherMap
@@ -313,112 +180,62 @@ function applyWeather(data) {
  * Sets the page background image based on the current weather
  * conditions.
  *
- * @param condition: The Weather Underground condition ID. For more,
- * see: https://openweathermap.org/weather-conditions
- */
-function getBackgroundImageOpenWeatherMap(img, sunrise, sunset) {
-	// Figure out whether it's day or night
-	var d = new Date();
-	var time = d.getTime();
-	var dn = 'night';
-	if(time >= sunrise && time <= sunset)
-	   dn = 'day';
-
-	// Get a random number between 1 and 3
-	var image_index = Math.floor((Math.random() * 3) + 1);
-
-	return (dn + '-' + img + '-0' + image_index + '.jpg');
-}
-
-/* Function: getBackgroundImageWunderground
- * ----------------------------------------
- * Sets the page background image based on the current weather
- * conditions.
- *
- * @param condition: The Weather Underground condition ID. For more,
- * see: https://openweathermap.org/weather-conditions
- */
-function getBackgroundImageWunderground(condition, sys) {
-	var photo_id = 'clear';
-
-	if(condition == 'tstorms' || condition == 'chancetstorms') // Thunderstorms
-		photo_id = 'lightning';
-	if(condition == 'chancerain' || condition == 'chancesleat') // Drizzle
-		photo_id = 'lightrain';
-	if(condition == 'rain' || condition == 'sleat') // Rain
-		photo_id = 'rain';
-	if(condition == 'snow') // Snow
-		photo_id = 'snow';
-	if(condition == 'chancesnow' || condition == 'flurries') // Light snow
-		photo_id = 'lightsnow';
-	if(condition == 'hazy') // Fog
-		photo_id = 'foggy';
-	if(condition == 'mostlysunny') // Few clouds
-		photo_id = 'fewclouds';
-	if(condition == 'partlysunny' || condition == 'partlycloudy') // Some clouds
-		photo_id = 'partlycloudy';
-	if(condition == 'mostlycloudy')
-		photo_id = 'mostlycloudy';
-	if(condition == 'cloudy')
-		photo_id = 'cloudy';
-
-	// Figure out whether it's day or night
-	var d = new Date();
-	var hours = d.getHours();
-	var minutes = d.getMinutes();
-	var dn = 'night';
-	if((hours > sys.sunrise.hour || (hours == sys.sunrise.hour && minutes > sys.sunrise.hour)) &&
-	   (hours < sys.sunset.hour || (hours == sys.sunset.hour && minutes <= sys.sunset.hour)))
-	   dn = 'day';
-
-	// Get a random number between 1 and 3
-	var image_index = Math.floor((Math.random() * 3) + 1);
-
-	return (dn + '-' + photo_id + '-0' + image_index + '.jpg');
-}
-
-/* Function: getBackgroundImage
- * ----------------------------
- * Sets the page background image based on the current weather
- * conditions.
- *
  * @param condition: The OpenWeatherMap condition ID. For more,
  * see: https://openweathermap.org/weather-conditions
+ * @param sys: The OpenWeatherMap sys object
  */
-function getBackgroundImage(condition, sys) {
-	var photo_id = 'clear';
+function getBackgroundImageOpenWeatherMap(condition, sys) {
+	var img = 'clear';
+  switch(Math.round(condition/100)) {
+		case 2:
+			img = 'lightning';
+			break;
+		case 3:
+			img = 'drizzle';
+			break;
+		case 5:
+			if(condition == 500 || condition == 501 || condition == 511 || condition == 520 || condition == 521)
+				img = 'rain';
+			if(condition == 502 || condition == 503 || condition == 504 || condition == 522 || condition == 531)
+			  img = 'heavyrain';
+			break;
+		case 6:
+			if(condition == 600 || condition == 615 || condition == 620)
+				img = 'lightsnow';
+			if(condition == 601 || condition == 611 || condition == 612 || condition == 616 || condition == 621)
+				img = 'snow';
+			if(condition == 602 || condition == 622)
+				img = 'heavysnow';
+			break;
+		case 7:
+			if(condition == 701 || condition == 741 || condition == 771)
+				img = 'foggy';
+			else
+				img = 'haze';
+			break;
+		case 8:
+			if(condition == 801)
+				img = 'fewclouds';
+			if(condition == 802)
+				img = 'partlycloudy';
+			if(condition == 803)
+				img = 'mostlycloudy';
+			if(condition == 804)
+				img = 'cloudy';
+			break;
+	}
 
-	if(condition >= 200 && condition < 300) // Thunderstorms
-		photo_id = 'lightning';
-	if(condition >= 300 && condition < 400) // Drizzle
-		photo_id = 'rain';
-	if(condition >= 500 && condition < 600) // Rain
-		photo_id = 'rain';
-	if((condition > 501 && condition < 520) ||
-	 (condition > 521 && condition < 531) ||
-	 (condition >= 958 && condition <= 961)) // Heavy rain
-		photo_id = 'heavyrain';
-	if(condition >= 600 && condition < 700) // Snow
-		photo_id = 'snow';
-	if(condition == 600 || condition == 615 || condition == 620) // Light snow
-		photo_id = 'flurries';
-	if(condition == 711 || condition == 721 || condition == 731) // Smoke, haze, or sand
-		photo_id = 'haze';
-	if(condition == 701 || condition == 741) // Fog
-		photo_id = 'foggy';
-	if(condition == 801 || condition == 802) // Few clouds
-		photo_id = 'fewclouds';
-	if(condition == 803) // Some clouds
-		photo_id = 'partlycloudy';
-	if(condition == 804)
-		photo_id = 'cloudy';
-
+  // Figure out whether it's day or night
 	var d = new Date();
-	var UTC_seconds = Math.floor(d.getTime() / 1000);
+	var time = Math.floor(d.getTime() / 1000);
+	var dn = 'night';
+	if(time >= sys.sunrise && time <= sys.sunset)
+	   dn = 'day';
 
-	return ((UTC_seconds > sys.sunrise && UTC_seconds < sys.sunset) ?
-	 'day' : 'night')
-	 + '-' + photo_id + '-01.jpg';
+	// Get a random number between 1 and 3
+	var image_index = Math.floor((Math.random() * 4) + 1);
+
+	return (dn + '-' + img + '-0' + image_index + '.jpg');
 }
 
 /* Function: setUpStocks
@@ -458,15 +275,16 @@ function loadStocksIEX(stocks, wrapper, update) {
 
 	var xhr = [], i;
 
-	var url = 'https://api.iextrading.com/1.0/stock/';
-	var url_postfix = '/quote';
+	var url = 'https://cloud.iexapis.com/stable/stock/';
+	var url_postfix = '/quote?token=pk_8a95cecc22c84f7d916780e90098afbc';
 
 	for( i = 0; i < stocks.length; i++) {
 		(function(i) {
 			xhr[i] = new XMLHttpRequest();
-			xhr[i].open('GET', url + stocks[i] + url_postfix, true);
+			xhr[i].open('GET', url + stocks[i].symbol + url_postfix, true);
+			xhr[i].obj = stocks[i];
 
-			xhr[i].onload = function() {
+			xhr[i].onload = (e) => {
 			  if (xhr[i].status >= 200 && xhr[i].status < 400) {
 
 				var data = JSON.parse(xhr[i].responseText);
@@ -478,11 +296,11 @@ function loadStocksIEX(stocks, wrapper, update) {
 					current_stock.setAttribute('id', 'stock-' + data.symbol);
 					document.getElementById(wrapper).appendChild(current_stock);
 				}
-				updateStockItemIEX(data, current_stock);
+				updateStockItemIEX(data, current_stock, xhr[i].obj);
 
 				// logUpdate("Stocks updated from Yahoo.");
 			  } else {
-				logUpdate("Unable to reach IEX API. " + responseText);
+					logUpdate("Unable to reach IEX API:" + xhr[i].responseText);
 			  }
 			};
 
@@ -508,31 +326,32 @@ function loadStocksIEX(stocks, wrapper, update) {
  * @param stock: The stock data to display.
  * @param wrapper: The DOM element in which to place the data.
  */
-function updateStockItemIEX(stock, wrapper) {
-	while (wrapper.firstChild) {
-		wrapper.removeChild(wrapper.firstChild);
-	}
+ function updateStockItemIEX(stock, wrapper, obj) {
+ 	while (wrapper.firstChild) {
+ 		wrapper.removeChild(wrapper.firstChild);
+ 	}
 
-	// Symbol
-	var sym = document.createElement('span');
-	sym.setAttribute('class', 'stock-symbol');
-	sym.textContent = stock.symbol;
+ 	// Symbol
+ 	var sym = document.createElement('span');
+ 	sym.setAttribute('class', 'stock-symbol');
+ 	sym.textContent = (obj.name ? obj.name : stock.symbol);
 
-	// Price
-	var price = document.createElement('span');
-	price.setAttribute('class', 'stock-price');
-	price.textContent = decimalPlaces(stock.latestPrice, 2);
+ 	// Price
+ 	var price = document.createElement('span');
+ 	price.setAttribute('class', 'stock-price');
+ 	price.textContent = decimalPlaces((obj.factor ? stock.latestPrice * obj.factor :
+ 		stock.latestPrice), 2);
 
-	// Change
-	var change = document.createElement('span');
-	var c = decimalPlaces(stock.changePercent * 100, 2);
-	change.setAttribute('class', 'stock-change ' + (c < 0 ? 'negative' : 'positive'));
-	change.textContent = '(' + (c < 0 ? '' : '+') + c + '%)';
+ 	// Change
+ 	var change = document.createElement('span');
+ 	var c = decimalPlaces(stock.changePercent * 100, 2);
+ 	change.setAttribute('class', 'stock-change ' + (c < 0 ? 'negative' : 'positive'));
+ 	change.textContent = '(' + (c < 0 ? '' : '+') + c + '%)';
 
-	wrapper.appendChild(sym);
-	wrapper.appendChild(price);
-	wrapper.appendChild(change);
-}
+ 	wrapper.appendChild(sym);
+ 	wrapper.appendChild(price);
+ 	wrapper.appendChild(change);
+ }
 
 /* Function: setUpNews
  * -------------------
@@ -853,12 +672,6 @@ function decimalPlaces(n, places) {
 	}
 
 	n[0] = n[0].substring(1);
-	if(n[0] > 999) {
-		for(i = 3; i < n[0].length; i += 4) {
-			n[0] = n[0].substring(0, n[0].length - i) + ',' + n[0].substring(n[0].length - i);
-		}
-	}
-
 	n = n.join('.');
 
 	return n;
