@@ -28,8 +28,8 @@ var STOCKSIEX = [
 
 var DEFAULT_LOCATION = {
 	coords: {
-      latitude: 38.8942345,
-      longitude: -77.0295696
+      latitude: 37.7837702,
+      longitude: -122.3908478
     }
 }
 WEATHER_UPDATE = 600000;
