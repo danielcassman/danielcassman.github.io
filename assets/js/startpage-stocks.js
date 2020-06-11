@@ -39,7 +39,7 @@ OPM_UPDATE = 600000;
 
 var URLS = {
 	weather: 'https://www.wunderground.com/',
-	stocks: 'https://finance.yahoo.com/portfolio/pf_1/view/v1?bypass=true'
+	stocks: 'https://finance.yahoo.com/portfolios'
 }
 
 /* Function: ready
