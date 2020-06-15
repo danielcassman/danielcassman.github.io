@@ -51,7 +51,7 @@ h2 {
 }
 
 h3 {
-	font-size: 1.2em;
+	font-size: 1.4em;
 	margin: 1em 0 5px;
 }
 
@@ -64,7 +64,7 @@ h2 a:hover, h3 a:focus {
 /* Header */
 h1#site-title {
 	text-transform: uppercase;
-	font: normal 300 1.75em $header-font;
+	font: normal 300 2em $header-font;
 }
 
 #profile-picture {
@@ -81,17 +81,17 @@ h1#site-title {
 	color: $accent-hover;
 }
 
-#site-description {
+.site-description {
 	text-transform: uppercase;
-	font-size: 1em;
+	font-size: 1.1em;
 }
 
-#site-description a:link,
-#site-description a:visited {
+.site-description a:link,
+.site-description a:visited {
 	color: $accent-color;
 }
 
-#site-description a:hover {
+.site-description a:hover {
 	color: $accent-hover;
 	font-weight: normal;
 	text-decoration: none;
@@ -103,7 +103,7 @@ h1#site-title {
 		font-size: 2.5em;
 	}
 	
-	#site-description {
+	.site-description {
 		font-size: 1.5em;
 	}
 }

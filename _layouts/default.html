@@ -27,7 +27,12 @@
     <div class="wrapper">
       <header>
         <h1 id="site-title"><a href="{{ site.url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
-        <p id="site-description">
+        <p class="site-description">
+          <a href="{{ site.baseurl }}/hello">Hello</a> |
+          <a href="{{ site.baseurl }}/resume">Resum&eacute;</a>
+        </p>
+        <h3>Categories</h3>
+        <p class="site-description">
           <a href="{{ site.baseurl }}{% link category/technology.html %}">Tech</a> |
           Policy |
           <a href="{{ site.baseurl }}{% link category/culture.html %}">Culture</a></p>

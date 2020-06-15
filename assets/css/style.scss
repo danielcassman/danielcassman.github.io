@@ -81,17 +81,17 @@ h1#site-title {
 	color: $accent-hover;
 }
 
-#site-description {
+.site-description {
 	text-transform: uppercase;
 	font-size: 1em;
 }
 
-#site-description a:link,
-#site-description a:visited {
+.site-description a:link,
+.site-description a:visited {
 	color: $accent-color;
 }
 
-#site-description a:hover {
+.site-description a:hover {
 	color: $accent-hover;
 	font-weight: normal;
 	text-decoration: none;
@@ -103,7 +103,7 @@ h1#site-title {
 		font-size: 2.5em;
 	}
 	
-	#site-description {
+	.site-description {
 		font-size: 1.5em;
 	}
 }
