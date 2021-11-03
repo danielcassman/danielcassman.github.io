@@ -1,5 +1,5 @@
 /* Global Variables */
-var STOCKSIEX = [
+const STOCKSIEX = [
 	{
 		"name": "Dow Jones",
 		"symbol": "DIA",
@@ -26,18 +26,18 @@ var STOCKSIEX = [
 	}
 ];
 
-var DEFAULT_LOCATION = {
+const DEFAULT_LOCATION = {
 	coords: {
       latitude: 37.7837702,
       longitude: -122.3908478
     }
 }
-WEATHER_UPDATE = 600000;
-STOCKS_UPDATE = 900000;
-NEWS_UPDATE = 600000;
-OPM_UPDATE = 600000;
+const WEATHER_UPDATE = 600000;
+const STOCKS_UPDATE = 900000;
+const NEWS_UPDATE = 600000;
+const OPM_UPDATE = 600000;
 
-var URLS = {
+const URLS = {
 	weather: 'https://www.wunderground.com/',
 	stocks: 'https://finance.yahoo.com/portfolios'
 }
@@ -84,7 +84,7 @@ function setUpWeather() {
  * OpenWeatherMap, then adds it to the DOM.
  */
 function getLocationAndUpdateWeather() {
-	var query = parse_query_string(window.location.search.substring(1));
+	const query = parse_query_string(window.location.search.substring(1));
 	if(query.location == 'default') {
 		console.log("Default location selected, using that.");
 		loadLocalWeatherOpenWeatherMap(DEFAULT_LOCATION);
@@ -114,18 +114,15 @@ function getLocationAndUpdateWeather() {
  * @param position: A position object, as defined by
  * navigator.geolocation.
  */
-function loadLocalWeatherOpenWeatherMap(position, update)	{
-	position = (typeof position !== 'undefined') ?  position : DEFAULT_LOCATION;
-	update = (typeof update !== 'undefined') ?  update : WEATHER_UPDATE;
-
-	var request = new XMLHttpRequest();
-	url = 'https://api.openweathermap.org/data/2.5/weather?lat=' +
+function loadLocalWeatherOpenWeatherMap(position = DEFAULT_LOCATION, update = WEATHER_UPDATE)	{
+	const request = new XMLHttpRequest();
+	const url = 'https://api.openweathermap.org/data/2.5/weather?lat=' +
 	 + position.coords.latitude + '&lon=' + position.coords.longitude + '&appid=28a3dfeb56dc6ea450c7e494fb061503';
 	request.open('GET', url, true);
 
 	request.onload = function() {
 	  if (request.status >= 200 && request.status < 400) {
-		var data = JSON.parse(request.responseText);
+		const data = JSON.parse(request.responseText);
 		applyWeatherOpenWeatherMap(data);
 	  } else {
 		logUpdate("Unable to reach OpenWeatherMap API. " + responseText);
@@ -158,7 +155,7 @@ function applyWeatherOpenWeatherMap(data) {
 	document.getElementById('icon').setAttribute('class', 'wi wi-owm-' + data.weather[0].id);
 	document.getElementById('location').textContent = data.name;
 
-	var image = getBackgroundImageOpenWeatherMap(data.weather[0].id, data.sys);
+	const image = getBackgroundImageOpenWeatherMap(data.weather[0].id, data.sys);
 	document.getElementById('main-wrap').style.backgroundImage = 'url(assets/images/s2048/' + image + ')';
 }
 
@@ -185,8 +182,8 @@ function noLocationAvailable(error) {
  * @param sys: The OpenWeatherMap sys object
  */
 function getBackgroundImageOpenWeatherMap(condition, sys) {
-	var img = 'clear';
-  switch(Math.round(condition/100)) {
+	let img = 'clear';
+	switch(Math.round(condition/100)) {
 		case 2:
 			img = 'lightning';
 			break;
@@ -226,9 +223,9 @@ function getBackgroundImageOpenWeatherMap(condition, sys) {
 	}
 
   // Figure out whether it's day or night
-	var d = new Date();
-	var time = Math.floor(d.getTime() / 1000);
-	var dn = 'night';
+	const d = new Date();
+	const time = Math.floor(d.getTime() / 1000);
+	let dn = 'night';
 	if(time >= sys.sunrise && time <= sys.sunset)
 	   dn = 'day';
 
